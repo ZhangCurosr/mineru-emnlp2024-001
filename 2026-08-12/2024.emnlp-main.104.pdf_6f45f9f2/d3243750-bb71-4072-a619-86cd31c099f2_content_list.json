@@ -1,0 +1,3673 @@
+[
+    {
+        "type": "text",
+        "text": "Retrieved Sequence Augmentation for Protein Representation Learning",
+        "text_level": 1,
+        "bbox": [
+            129,
+            89,
+            870,
+            111
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Chang Ma <sup>1</sup> Haiteng Zhao <sup>2</sup> Lin Zheng <sup>1</sup> Jiayi Xin <sup>1</sup> Qintong Li <sup>1</sup> Lijun Wu 3 Zhihong Deng <sup>2</sup> Yang Lu <sup>4</sup> Qi Liu <sup>1</sup> Sheng Wang <sup>5</sup> Lingpeng Kong <sup>1</sup> <sup>1</sup>The University of Hong Kong <sup>2</sup>Peking University <sup>3</sup>Shanghai Artificial Intelligence Laboratory <sup>4</sup>University of Waterloo <sup>5</sup>University of Washington {cma, lpk}@cs.hku.hk",
+        "bbox": [
+            124,
+            133,
+            873,
+            218
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Abstract",
+        "text_level": 2,
+        "bbox": [
+            262,
+            260,
+            341,
+            275
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Protein Language Models traditionally depend on Multiple Sequence Alignments (MSA) to incorporate evolutionary knowledge. However, MSA-based approaches suffer from substantial computational overhead and generally underperform in generalizing to de novo proteins. This study reevaluates the role of MSA, proposing it as a retrieval augmentation method and questioning the necessity of sequence alignment. We show that a simple alternative, Retrieved Sequence Augmentation (RSA), can enhance protein representation learning without the need for alignment and cumbersome preprocessing. RSA surpasses MSA Transformer by an average of 5% in both structural and property prediction tasks while being 373 times faster. Additionally, RSA demonstrates enhanced transferability for predicting de novo proteins. This methodology addresses a critical need for efficiency in protein prediction and can be rapidly employed to identify homologous sequences, improve representation learning, and enhance the capacity of Large Language Models to interpret protein structures.<sup>1</sup>",
+        "bbox": [
+            141,
+            290,
+            462,
+            633
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "1 Introduction",
+        "text_level": 2,
+        "bbox": [
+            115,
+            645,
+            260,
+            662
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Proteins are fundamental yet complex components of life. They exhibit a diverse range of functions within organisms. The enigmatic characteristic of these macromolecules originates from the intricate interplay between their sequences, structures, and functions, which is influenced jointly by physics and evolution (Sadowski and Jones, 2009). Protein language models (Elnaggar et al., 2020; Jumper et al., 2021; Lin et al., 2022) capture the co-occurrence probability of amino acids observed in nature, thus encapsulating structural and evolutionary information within the resulting representations. While this approach has demonstrated its effectiveness (Elnaggar et al., 2021; Jumper et al.,",
+        "bbox": [
+            112,
+            673,
+            490,
+            898
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "chart",
+        "img_path": "images/6dae818780e493ed74ecb80db3e4086321145aa1237dda949c4061e2c94ef826.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 1: (Upper) Illustration of inference speed up by RSA compared to MSA on secondary structure prediction dataset with 8678 sequences. Accelerated MSA (Acc-MSA) refers to MSA built from sequences retrieved by our RSA retriever. (Lower) Illustration of speed up by RSA retrieval compared to MSA on database construction of 10000 protein sequences."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            515,
+            246,
+            878,
+            376
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "2021; Lin et al., 2022; Nijkamp et al., 2022; Rives et al., 2019), the evolutionary knowledge that can be extracted from a single sequence remains insufficient (Hu et al., 2022; Lin et al., 2022).",
+        "bbox": [
+            507,
+            500,
+            885,
+            565
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "In order to compensate for this limitation, multiple sequence alignments (MSA)Yanofsky et al. 1964; Altschuh et al. 1988; De Juan et al. 2013; Jumper et al. 2021) have been extensively used as a foundational protein feature engineering technique to extract protein evolutionary information in protein models (Rao et al., 2021; Jumper et al., 2021; Abramson et al., 2024). MSA draws on the evolutionary principle that functional constraints of species govern the mutation rate, which in turn drives the convergence of sequences. Therefore, key residues at functional sites tend to be conserved across protein families. MSA primarily aligns these conserved regions across homologous proteins to identify critical functional residues, such as substrate binding sites (Kunji and Robinson, 2006). Traditional approaches (Yanofsky et al., 1964; Altschuh et al., 1988) such as Potts Model (Balakrishnan et al., 2011), directly extracts statistical features from MSA for structural prediction. In recent studies (Jumper et al., 2021; Rao et al., 2021; Yang et al., 2020; Ju et al., 2021), models like MSA Transformer (Rao et al., 2021) and AlphaFold (Jumper et al., 2021; Abramson et al., 2024) employ language models for predictions using MSAs as input feature. Despite being a vital component for state-of-the-art models, MSA carries a NP-Complete computational cost that scales with O(L<sup>N</sup> ) (Wang and Jiang, 1994), where L represents the length of each sequence and N denotes the number of sequences examined. Even with acceleration techniques, MSA remains computationally intensive. For example, HHblits (Remmert et al., 2012) requires 10 seconds for a single iteration search on Pfam using 64 CPUs.",
+        "bbox": [
+            507,
+            568,
+            887,
+            922
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "page_footnote",
+        "text": "<sup>1</sup>Code and data are available at this repo.",
+        "bbox": [
+            136,
+            907,
+            388,
+            921
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "page_number",
+        "text": "1738",
+        "bbox": [
+            480,
+            928,
+            521,
+            942
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "footer",
+        "text": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 1738–1767 November 12-16, 2024 ©2024 Association for Computational Linguistics",
+        "bbox": [
+            159,
+            945,
+            836,
+            973
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "image",
+        "img_path": "images/96a6e058e20569cc2a3128f852112ddaf19f487055e83b0b871b8b34ca8507b5.jpg",
+        "image_caption": [
+            "Figure 2: Comparison between MSA Transformer and RSA. MSA Transformer aligns query to the protein database and use axial attention to encode MSA feature. RSA could enhance protein language models by encoding both retrieved and original sequences. RSA could enhance LLM as a tool. Both MSA Transformer and RSA fall within the retrieval framework; however, RSA doesn’t require the alignment process."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            115,
+            80,
+            880,
+            223
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            304,
+            490,
+            514
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "This motivates us to investigate alternatives to traditional alignment by addressing two research questions: (1) Is alignment truly necessary for protein language models, and (2) is there a costefficient substitute for MSA?",
+        "bbox": [
+            112,
+            517,
+            489,
+            598
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "To answer these questions, we revisit MSA from a data-centric point of view and prove through theoretical analysis that it can be viewed as a retrievalaugmentation method (Goyal et al., 2022; Guu et al., 2020a; Khandelwal et al., 2019; Wang et al., 2022). We argue that MSA is retrieval through alignment. Retrieval-augmentation employs a large-scale memory of sequences as the knowledge base and utilizes multiple related input sequences instead of the single input to connect to the required knowledge. This approach offers the potential for more interpretable and modular knowledge capture (Guu et al., 2020b). It also enables rapid generalization to new domains (Khandelwal et al., 2019; Basu et al., 2022). Furthermore, we show that alignment is not essential as long as we have a strong sequence encoder, i.e. a transformer-based protein language model. This finding echoes previous research (Bhattacharya et al., 2020) that co-evolution patterns found through alignment could be captured with a single layer of attention without shared parameters across sequences. Since MSA is not indispensable and works mainly by enhancing protein language models as a retrieval-augmentation method, more efficient alignment-free retrievers can naturally serve as a substitute for MSA.",
+        "bbox": [
+            112,
+            600,
+            492,
+            923
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            304,
+            885,
+            400
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "To this end, we explore Retrieved Sequence Augmentation (RSA) methods as a general framework to enhance protein representations. Specifically, RSA employs a pre-trained dense sequence retriever in search for protein sequences that are similar to the query sequence both in terms of homology as well as structure. By encoding retrieved sequences alongside the original protein, the model incorporates external knowledge and transfers it to new domains. Our assessment of this method consists of comprehensive experiments conducted across seven distinct tasks, including protein structure, function, evolution, and engineering, which require diverse knowledge. Using a vast database of approximately 40 million protein sequences, we show that a retrieval-based approach leveraging this data consistently outperforms state-of-the-art methods. Moreover, RSA employs retrieved sequences from dense retrievers without requiring an alignment process, thus resulting in a 373-fold speed-up and on-the-fly processing, as shown in Figure 1. Additionally, RSA without additional pretraining outperforms a pre-trained MSA Transformer in the downstream tasks, particularly for denovo proteins with few or no MSAs. It can be easily incorporated to augment any pre-trained protein language model, and be used as an efficient tool to boost the ability of large language model (LLM), e.g. GPT-4 (Achiam et al., 2023) to understand protein sequence. Consequently, we conclude that retrieval augmentation for proteins as a general framework can be a sound replacement for MSA in terms of expressiveness, speed, and augmentation performance. Our contributions include:",
+        "bbox": [
+            507,
+            407,
+            887,
+            923
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "page_number",
+        "text": "1739",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            85,
+            487,
+            117
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "• The investigation of retrieval-augmented protein language models and the proposal of the first alignment-free, efficient framework, RSA, for enhancing any protein representation model as well as LLM.",
+        "bbox": [
+            136,
+            122,
+            490,
+            203
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "• The theoretical establishment of a unified framework reveal two insights: (1) MSA-augmented methods can be viewed as retrieval-augmented language models. Their performance can be explained by the injection of evolutionary knowledge. (2) The complex alignment process is not essential for deep protein language models.",
+        "bbox": [
+            134,
+            206,
+            489,
+            337
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "• The demonstration that pre-trained dense retrievers offer greater efficiency and competitive efficacy in extracting homologous sequences and structurally similar sequences.",
+        "bbox": [
+            136,
+            340,
+            490,
+            406
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "2 Augmenting Protein Representations with Retrieved Sequences – Is MSA necessary?",
+        "text_level": 2,
+        "bbox": [
+            114,
+            414,
+            468,
+            464
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "In this section, we rethink MSA-based models under a unified retrieval augmentation framework. We show that MSA sequences enhance representations in a similar way retrieved-augmentations do. Furthermore, we emphasize design elements that inspire our methodology for achieving increased efficiency and flexibility.",
+        "bbox": [
+            110,
+            473,
+            490,
+            587
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "2.1 Background and Problem Statement",
+        "text_level": 2,
+        "bbox": [
+            114,
+            595,
+            448,
+            611
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Given a protein $x = [ o _ { 1 } , o _ { 2 } , . . . o _ { L } ]$ comprising of L amino acids, the objective of a protein language model is to learn an embedding transferable to subsequent tasks, e.g. predicting properties of the sequence $p ( y | x )$ . The embedding is represented as Embed $( x ) = [ h _ { 1 } , h _ { 2 } , . . . h _ { L } ]$ , where $h _ { i } \\in \\mathbb { R } ^ { d }$",
+        "bbox": [
+            112,
+            617,
+            489,
+            713
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "One approach to building an evolution-informed representation is to encode the input from a Multiple Sequence Alignment (MSA). An MSA includes several protein sequences, each a homolog of the query protein sequence—typically homologous proteins from species that are evolutionarily close. These proteins are aligned together such that each column in the alignment represents the evolutionary changes of an amino acid. In functionally important regions, amino acids tend to remain more stable, whereas in other regions, amino acids may undergo deletions, mutations, or insertions as evolution progresses. Figure 3 provides an illustration for MSA. In our analyses, we consider MSA as N aligned protein homologs $r _ { 1 } , \\ldots , r _ { N }$ . Prior studies (Yang et al., 2020; Ju et al., 2021) encode MSA as co-evolution statistics features $R _ { 1 \\ldots N }$ and aggregate these features to derive the representation, while MSA Transformer (Rao et al., 2021; Jumper et al., 2021) perceives MSA as a matrix, employing axial attention to extract salient evolutionary traits. Here we also denote retrieved sequences as $r _ { 1 } , \\ldots , r _ { N }$ and their features as $R _ { 1 \\ldots N }$ , though no alignment is performed on these sequences.",
+        "bbox": [
+            112,
+            713,
+            490,
+            923
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "image",
+        "img_path": "images/648d40b8748e4b7434bd76ca0ce34e62403afff4e21b907838d3923c5b39b2fc.jpg",
+        "image_caption": [
+            "Figure 3: Illustrated difference of aligned and unaligned protein sequences. The white colour stands for the empty space in alignment \"-\"."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            514,
+            79,
+            882,
+            231
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            297,
+            887,
+            476
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "2.2 MSA is Retrieval through Alignment",
+        "text_level": 2,
+        "bbox": [
+            509,
+            487,
+            847,
+            504
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Inspired by Guu et al. (2020b), we rethink stateof-the-art evolution augmentation methods under a new framework: protein retrieval augmentation. Specifically, we consider these methods as learning a downstream predictor $p ( y | x )$ based on an aggregation of homologous protein representations $R _ { 1 \\ldots N }$ . From the view of retrieval, $p ( y | x )$ is decomposed into two steps: retrieve and predict. For a given input x, the retrieve step first finds possibly helpful protein sequence r from a sequence corpus and then predict the output y conditioning on this retrieved sequence:",
+        "bbox": [
+            507,
+            508,
+            887,
+            702
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "equation",
+        "img_path": "images/046e4079a3326c795201fb8bfbde17219d7f4a25ea7028dc79d37921faee9b54.jpg",
+        "text": "$$\np ( \\boldsymbol { y } | \\boldsymbol { x } ) = \\sum _ { r \\in \\mathcal { R } } p ( \\boldsymbol { y } | \\boldsymbol { x } , r ) p ( r | \\boldsymbol { x } ) \\approx \\sum _ { n = 1 } ^ { N } p ( \\boldsymbol { y } | \\boldsymbol { x } , r _ { n } ) p ( r _ { n } | \\boldsymbol { x } ) .\\tag{1}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            522,
+            715,
+            852,
+            749
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "The probability $p ( r | x )$ denotes the possibility that r is sampled from the retriever given x. Intuitively it measures the similarity between the two sequences r and x. This framework also applies to the MSAbased augmentation methods. We explain in detail using a state-of-the-art MSA-augmentation model MSA Transformer (Rao et al., 2021) as an example. In MSA Transformer, the axial attention layers calculate self-attention both row-wise and columnwise. Column-wise attention is defined as follows, given $W _ { Q } , W _ { K } , W _ { V }$ $W _ { O }$ as the parameters in a typical attention function:",
+        "bbox": [
+            507,
+            760,
+            887,
+            922
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "page_number",
+        "text": "1740",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "table",
+        "img_path": "images/1f41ee1a06fa29f1995a4bec104d0350b62fe3ab9fafb12d057fcbe9a3788e36.jpg",
+        "table_caption": [
+            "Table 1: Protein Retrieval Augmentation methods decomposed along a different axis. We formulate the aggregation function in the sequence classification setting and use a feed-forward neural network FFN( ) to map representations to logits. The proposed variants vary in design axis from the existing methods. †Note that MSA Transformer performs the aggregation in each layer of axial attention, which differs from other variants."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Method</td><td>Retriever Form</td><td>Alignment Form</td><td>Weight  $\\lambda _ { n }$ </td><td>Aggregation Function</td></tr><tr><td colspan=\"5\">Existing Methods</td></tr><tr><td>Potts Model</td><td>MSA</td><td>Aligned</td><td></td><td></td></tr><tr><td>Co-evolution Aggregator</td><td>MSA</td><td>Aligned</td><td>N</td><td> $\\begin{array} { r } { \\mathrm { F F N } ( \\sum _ { i = 1 } ^ { N } R _ { n } ( i ) \\lambda _ { n } ) } \\end{array}$ </td></tr><tr><td>MSA Transformer</td><td>MSA</td><td>Aligned</td><td> $\\sigma ( \\frac { X W _ { Q } ( R _ { n } W _ { K } ) ^ { T } } { N \\sqrt { d } } )$ </td><td> $\\begin{array} { r } { \\mathrm { F F N } ( \\sum _ { i = 1 } ^ { N } R _ { n } ( i ) \\lambda _ { n } ) ^ { \\dagger } } \\end{array}$ </td></tr><tr><td colspan=\"5\">Proposed Variants</td></tr><tr><td>Unaligned MSA Augmentation</td><td>MSA</td><td>Not Aligned</td><td> $\\sigma ( - | | X - R _ { L } | | _ { 2 } )$ </td><td> $\\begin{array} { r } { \\sum _ { i = 1 } ^ { N } \\mathrm { F N N } ( R _ { n } ( i ) ) \\lambda _ { n } } \\end{array}$ </td></tr><tr><td>Accelerated MSA Transformer</td><td>Dense Retrieval</td><td>Aligned</td><td> $\\begin{array} { r } { \\sigma ( \\frac { X W _ { Q } ( R _ { n } W _ { K } ) ^ { T } } { \\lambda ( N , d ) } ) } \\end{array}$ </td><td> $\\begin{array} { r } { \\mathrm { F F N } ( \\sum _ { i = 1 } ^ { N } R _ { n } ( i ) \\lambda _ { n } ) } \\end{array}$ </td></tr><tr><td>Retrieval Sequence Augmentation</td><td>Dense Retrieval</td><td>Not Aligned</td><td> $\\sigma ( - | | X - R _ { n } | | _ { 2 } )$ </td><td> $\\begin{array} { r } { \\sum _ { i = 1 } ^ { N } \\mathrm { F N N } ( \\mathrm { E m b e d } ( x ; r _ { n } ) ) \\lambda _ { n } } \\end{array}$ </td></tr></table>",
+        "bbox": [
+            119,
+            80,
+            882,
+            231
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            313,
+            487,
+            346
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "equation",
+        "img_path": "images/2f550ea21a15c1265e24de4ac763d89f3c96cc91aa669a36bf2f582405d642af.jpg",
+        "text": "$$\nR _ { s } ( i ) = \\sum _ { n = 1 } ^ { N } \\sigma ( \\frac { R _ { s } ( i ) W _ { Q } ( R _ { n } ( i ) W _ { K } ) ^ { T } } { N \\sqrt { d } } ) R _ { n } ( i ) W _ { V } W _ { O } ,\\tag{2}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            126,
+            355,
+            460,
+            387
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "where $R _ { n } ( i )$ denotes the i-th token representation of the n-th MSA sequence after performing the rowwise attention. Note that in MSA input, the first sequence $r _ { 1 }$ is defined as the original sequence x. Then for a token prediction task, we define the i-th position output as y and the predicted distribution $p ( y | x )$ can be expressed as:",
+        "bbox": [
+            112,
+            397,
+            489,
+            511
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "equation",
+        "img_path": "images/1a33969b7b97ba12a21c6c0235294ff565a0a8a4e9d2776e8e2956380d8b698c.jpg",
+        "text": "$$\n\\begin{array} { c l c r } { { \\displaystyle p ( y | x ) = \\sum _ { n = 1 } ^ { N } \\sigma ( \\frac { R _ { 1 } W _ { Q } ( R _ { n } W _ { K } ) ^ { T } } { N \\sqrt { d } } ) ( R _ { n } W _ { V } W _ { O } W _ { y } ) } } \\\\ { { \\displaystyle \\qquad = \\sum _ { n = 1 } ^ { N } p ( y | x , r _ { n } ) \\lambda _ { n } = \\sum _ { n = 1 } ^ { N } p ( y | x , r _ { n } ) p ( r _ { n } | x ) , } } \\end{array}\\tag{3}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            132,
+            532,
+            453,
+            601
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "where $\\begin{array} { r l r } { \\lambda _ { n } } & { = } & { \\sigma ( \\frac { R _ { 1 } ( i ) W _ { Q } ( R _ { n } ( i ) W _ { K } ) ^ { T } } { N \\sqrt { d } } ) } \\end{array}$ is the weighting norm that represents the similarity of retrieved sequence $r _ { n }$ and original sequence $x ; p ( y | x , r _ { n } )$ is a predictor that maps the rowattention representation of $r _ { n }$ and x to label. Eq.3 gives a retrieval-augmentation view of MSA Transformer that essentially retrieves homologous sequences with multiple sequence alignment and aggregates representations of homologous sequences with regard to their sequence similarity. Taking one step further, we define a set of design dimensions to characterize the retrieving and aggregation processes. We introduce how popular models (Appendix E) and our proposed methods (§3) fall along them in Table 1. A detailed introduction of design details is available in Appendix D.",
+        "bbox": [
+            110,
+            611,
+            490,
+            873
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Our discussion and formulation so far reach the conclusion that retrieval augmentation serves as a comprehensive framework capable of extracting evolutionary knowledge, akin to multiple sequence alignment (MSA) augmentation methods. This underlines the prospects of retrieval sequence alignment (RSA) superseding MSA augmentations as an efficient and generalizable approach.",
+        "bbox": [
+            112,
+            873,
+            489,
+            923
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "chart",
+        "img_path": "images/51ad95ea6eadd26d19d3ca9d589a344183f91d93df4fef4f3cb3100381af5445.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 4: Comparison of variants on the retrieval form and the alignment form on property prediction tasks."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            515,
+            312,
+            877,
+            419
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            472,
+            885,
+            552
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "However, MSA-based methods claim a few advantages: the alignment process can help the model capture column-wise residue evolution; and the MSA Retriever uses a discrete, token-wise search criterion that ensures all retrieved sequences are homology. We introduce two variants to help challenge these claims: 1) Unaligned MSA Augmentation (- Alignment), illustrated in Figure 8, uses the homologous sequences from MSA to augment representations without alignment and 2) Accelerated MSA Transformer (+ Dense Retriever) explores substituting the discrete retrieval process in MSA with a dense retriever. An empirical study on these models can be found in §2.3.",
+        "bbox": [
+            507,
+            552,
+            887,
+            778
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "2.3 Do we still need alignment for proteins? An Empirical Analysis",
+        "text_level": 2,
+        "bbox": [
+            509,
+            788,
+            870,
+            820
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "It is commonly believed eliminating alignment could reduce expressiveness of proteins, as it highlights residue-wise mutations and compares across a protein family (Altschuh et al., 1988; De Juan et al., 2013). Bhattacharya et al. (2020) instead show that a single layer of attention suffices to predict MSA-based statistics like pairwise residue co-evolution without shared parameters across the family. Truong Jr and Bepler (2023) also proposed using Transformers to represent co-evolution without alignment. Here we compare variants against MSA Transformer to further discuss the necessity of aligned feature when we have a strong protein language model as encoder. As shown in Figure 4, alignment does not consistently improve performance and unaligned variants achieve comparable performances on both homology and stability prediction. Additionally, a dense retriever competitively substitute aligner to find related sequences for retrieval augmentation. As alignment does not additionally improves performance when we have a strong protein language model, we could safely substitute MSA for dense retrieval augmentation methods.",
+        "bbox": [
+            507,
+            825,
+            887,
+            922
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "page_number",
+        "text": "1741",
+        "bbox": [
+            480,
+            928,
+            519,
+            942
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            110,
+            84,
+            490,
+            375
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "3 RSA",
+        "text_level": 2,
+        "bbox": [
+            114,
+            390,
+            191,
+            406
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Motivated by the potential of pre-trained retrievers to identify proteins that are homologous or geometric similar, we propose a pipeline, RSA (Retrieval Sequence Augmentation), to directly augment protein models on-the-fly. RSA follows the retrievethen-predict framework in Eq. 1. It comprises of a neural sequence retriever $p ( r | x )$ , and a protein model that combines both original input and retrieved sequence to obtain prediction $p ( \\boldsymbol { y } | \\boldsymbol { x } , \\boldsymbol { r } )$",
+        "bbox": [
+            110,
+            418,
+            490,
+            565
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "RSA Retriever is used for finding the sequences that are semantically close to the query. The similarity score $f ( x , r )$ is defined as the negative L2 distance between the embedding $G$ of the two sequences.",
+        "bbox": [
+            112,
+            576,
+            489,
+            658
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/73610c869b34a965712701ecbaa367125ede697bc5bf80ee04837d21abcdd085.jpg",
+        "text": "$$\n\\begin{array} { l } { \\displaystyle { p ( r | x ) = \\frac { \\exp { f ( x , r ) } } { \\sum _ { r ^ { \\prime } \\in \\mathcal { R } } \\exp { f ( x , r ^ { \\prime } ) } } , } } \\\\ { \\displaystyle { f ( x , r ) = - | | G ( x ) - G ( r ) | | _ { 2 } } } \\end{array}\\tag{4}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            198,
+            673,
+            403,
+            720
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "For protein retrieval, we aim to retrieve protein sequences that have similar structures or are homologous to the query sequence. Motivated by the high accuracy of k-nearest neighbor retrieval with ESM-1b (Rives et al., 2019) pre-trained embeddings (as shown in Table 2), we implement the embedding functions using a 34-layer ESM-1b encoder. We obtain sequence embeddings by performing average pooling over token embeddings. Note that finding the most similar proteins from a large-scale sequence database is computationally heavy. To accelerate retrieval, we use Faiss indexing (Johnson et al., 2019a), which uses clustering and quantization to allow efficient similarity search.",
+        "bbox": [
+            110,
+            728,
+            490,
+            923
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "table",
+        "img_path": "images/160b51954f3d0b5b62d34e4f958f6715406c75c6a59b7c9dee4dbd2f57c2d079.jpg",
+        "table_caption": [
+            "Table 2: Accuracy for retrieving top 100 protein sequences with ESM1b embeddings. In dataset Pfam and SCOPe, we test whether retrieved proteins are of the same Family, Superfamily, or Fold as query protein."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Retrieval Task</td><td>Type</td><td>Recall</td><td>Precision</td></tr><tr><td>Pfam - Family</td><td>Homology</td><td>100</td><td>90.42</td></tr><tr><td>SCOPe - Fold</td><td>Structural</td><td>100</td><td>65.98</td></tr><tr><td>SCOPe - Superfamily</td><td>Structural</td><td>100</td><td>46.00</td></tr><tr><td>SCOPe - Family</td><td>Structural</td><td>100</td><td>24.71</td></tr></table>",
+        "bbox": [
+            552,
+            82,
+            845,
+            147
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            230,
+            885,
+            263
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Retrieval Augmented Protein Encoder Given a sequence x and a retrieved sequence r with length L and M respectively, the protein encoder combines x and r for prediction $p ( y | x , r )$ . To make our model applicable to any protein learning task, we need to augment both sequence-level representation and token-level representation (essential for structure prediction tasks). We concatenate the two sequences before input into the transformer encoder, which uses self-attention to aggregate global information from the retrieved sequence r into each token representation.",
+        "bbox": [
+            507,
+            272,
+            887,
+            466
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/1be45aa325e9785db6b11d8deb1557be1e45b5be261626af43d75146059a11fa.jpg",
+        "text": "$$\n\\begin{array} { r l } & { A = \\sigma ( \\frac { ( H _ { [ x ; r ] } W ^ { Q } ) ( H _ { [ x ; r ] } W ^ { K } ) ^ { T } } { \\sqrt { d } } ) , A = [ A _ { x } ; A _ { r } ] } \\\\ & { { \\mathrm { A t t n } } ( H _ { [ x ; r ] } ) = ( A _ { x } H _ { x } W ^ { V } + A _ { r } H _ { r } W ^ { V } ) W ^ { O } } \\end{array}\\tag{5}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            526,
+            488,
+            848,
+            538
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "where $H _ { [ x ; r ] } = [ h _ { 1 } ^ { x } , h _ { 2 } ^ { x } , . . . , h _ { L } ^ { x } , h _ { 1 } ^ { r } . . . h _ { M } ^ { r } ]$ denotes the input embedding of original and retrieved sequences. The output token representation $h _ { i }$ end-toend learns to select and combine the representation of retrieved tokens. This can also be considered a soft version of MSA alignment. After computing for each pair of $( x , r )$ , we aggregate them by weight $p ( r | x )$ defined in Eq. 4.",
+        "bbox": [
+            507,
+            549,
+            885,
+            680
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Training For downstream finetuning, we maximize $p ( y | x )$ by training on the retrieval augmented protein encoder. We freeze the retriever parameters during training. For a query sequence of length L with N retrieved proteins, suppose the length of retrieved proteins $L ^ { \\prime } \\leq L$ the computation cost is N times the original model, $O ( N L ^ { 2 } )$ for a transformer encoder layer, which is as efficient as MSA Transformer with $O ( N L ^ { 2 } ) + O ( N ^ { 2 } L )$ complexity.",
+        "bbox": [
+            507,
+            687,
+            887,
+            834
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "4 Experiments",
+        "text_level": 2,
+        "bbox": [
+            509,
+            843,
+            658,
+            860
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "4.1 General Setup",
+        "text_level": 2,
+        "bbox": [
+            509,
+            869,
+            670,
+            885
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Downstream Task We evaluate RSA on seven downstream tasks: secondary structure prediction (Klausen et al., 2019), contact prediction (AlQuraishi, 2019), remote homology prediction (Hou et al., 2018), subcellular localization prediction (Almagro Armenteros et al., 2017), stability prediction (Rocklin et al., 2017), protein-protein interaction (Pan et al., 2010) and structure prediction on CASP14 (Kryshtafovych et al., 2021). Please refer to Appendix Table 8 for more statistics of the datasets. The train-eval-test splits follow TAPE benchmark (Rao et al., 2019) for the first four tasks and PEER benchmark (Xu et al., 2022) for subcellular localization and protein-protein interaction.",
+        "bbox": [
+            507,
+            890,
+            885,
+            922
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "page_number",
+        "text": "1742",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            84,
+            490,
+            279
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Retriever and MSA Setup Limited by available computation resources, we build a database on Pfam (El-Gebali et al., 2018) sequences, which covers 77.2% of the UniProtKB (Apweiler et al., 2004) database and reaches the evolutionary scale. We generate ESM-1b pre-trained representations of 44 million sequences from Pfam-A and use Faiss (Johnson et al., 2019b) to build the retrieval index. For a fair comparison, the MSA datasets are also built on the Pfam database. We use HHblits (Remmert et al., 2012) to extract MSA, searching for 3 rounds with e-value threshold 1e-3.",
+        "bbox": [
+            112,
+            288,
+            490,
+            483
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Baselines We apply our retrieval method to both pre-trained and from-scratch language models. Following Rao et al. (2019) and Rao et al. (2021), we compare our model with vanilla protein representation models, including LSTM (Liu, 2017), Transformers (Vaswani et al., 2017) and pre-trained models ESM-1b (Rives et al., 2019), ProtBERT (Elnaggar et al., 2020). We also compare with state-of-the-art knowledge-augmentation models: Potts Model (Balakrishnan et al., 2011); MSA Transformer (Rao et al., 2021) injects evolutionary knowledge through MSA; OntoProtein (Zhang et al., 2022)uses gene ontology knowledge graph to augment protein representations and PMLM (He et al., 2021b) uses pair-wise pretraining to enhance co-evolution awareness.",
+        "bbox": [
+            112,
+            493,
+            490,
+            751
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Training and Evaluation To demonstrate RSA as a general method, we perform experiments both with a shallow transformer encoder, and a large pretrained ProtBERT encoder. The Transformer model has 512 dimensions and 6 layers. Also, we combined our method with popular pre-trained protein folding architectures ESMFold and AlphaFold2. All self-reported models use the same truncation strategy and perform parameter searches on the learning rate, warm-up rate, and batch size.",
+        "bbox": [
+            112,
+            760,
+            490,
+            923
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "4.2 Main Results",
+        "text_level": 2,
+        "bbox": [
+            509,
+            84,
+            660,
+            99
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "We show the result for downstream tasks in Table 3, including models with/without pretraining, and with/without knowledge augmentations. We form the following conclusion: Retrieval Sequence Augmentations perform on par with or even better than other knowledge-augmented methods without additional pre-training. Our method outperforms MSA Transformer on average by 5% and performs on par with PMLM on structure and evolution prediction tasks. Notably, both MSA Transformer and PMLM perform additional pre-training with augmentations, while our method uses no additional pre-training. From the results, we can see that RSA combined transformer model also improves by 10% than other shallow models. We also study retrieval sequence augmentations on pre-trained protein folding models in Table 4. Despite RSA was implemented without additional fine-tuning on folding models, we achieve a 2% improvement both on ESMFold and AlphaFold2.",
+        "bbox": [
+            507,
+            121,
+            887,
+            445
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "4.3 Retrieval Augmentation for De Novo Proteins with Few Homologs",
+        "text_level": 2,
+        "bbox": [
+            509,
+            482,
+            843,
+            516
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "We test our model on a challenging problem in protein prediction, the prediction for proteins with few homologs, i.e. de novo (synthesized) proteins and orphan proteins (Fang et al., 2022; Wu et al., 2022). This task is especially difficult for MSAbased methods as alignment-based method often fails to generate MSA for these proteins, resulting in degraded performance. We test our model on 108 De Novo proteins from PDB (Berman et al., 2000) for the contact prediction task. It can be seen in Figure 5 that, RSA exceeds MSA transformer on 63.8% of data, demonstrating that RSA is more capable of locating augmentations for outof-distribution proteins. We also test our model on the structure prediction task with 16 targets from CASP14-FM. CASP14-FM are considered more difficult because the absence of related templates requires the prediction methods to rely on de novo modeling techniques. We compare RSA augmented ESMFold and AlphaFold2 model with baselines in Figure 5, showing improved or competitive prediction on the majority of the targets. This results also show that our model surpasses MSAbased methods in transferring to unseen domains.",
+        "bbox": [
+            507,
+            536,
+            887,
+            923
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "page_number",
+        "text": "1743",
+        "bbox": [
+            480,
+            928,
+            521,
+            942
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "table",
+        "img_path": "images/d55fee6aa4a7267c2182eefa0bfd35da5c36c3f30fd4da2449434b9159d431ef.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Method</td><td>Pretrain Knowledge</td><td>Pretrain</td><td>Knowledge Injection</td><td>SSP</td><td>Contact Homology Stability</td><td></td><td></td><td>Loc</td><td>PPI</td><td>Avg</td></tr><tr><td>Transformer</td><td>X</td><td>X</td><td>×</td><td>0.384</td><td>0.274</td><td>0.101</td><td>0.422</td><td>0.541</td><td>0.616</td><td>0.345</td></tr><tr><td>LSTM</td><td>X</td><td>X</td><td>X</td><td>0.596</td><td>0.263</td><td>0.181</td><td>0.591</td><td>0.629</td><td>0.638</td><td>0.404</td></tr><tr><td>RSA (Transformer backbone)</td><td>X</td><td>X</td><td>√</td><td>0.541</td><td>0.332</td><td>0.346</td><td>0.602</td><td>0.591</td><td>0.700</td><td>0.518</td></tr><tr><td>ESM-1b</td><td>V</td><td>X</td><td>×</td><td>0.716</td><td>0.458</td><td>0.978</td><td>0.695</td><td></td><td>0.7810.782</td><td>0.668</td></tr><tr><td>ESM-2</td><td>√</td><td>X</td><td>X</td><td></td><td>0.553</td><td>0.993</td><td>0.718</td><td>0.787</td><td></td><td></td></tr><tr><td>ProtBERT</td><td>√</td><td>X</td><td>×</td><td>0.691</td><td>0.556</td><td>0.528</td><td>0.651</td><td>0.771</td><td>0.688</td><td>0.579</td></tr><tr><td>MSA Transformer (MSA N=1)</td><td>√</td><td>√</td><td>X</td><td>0.594</td><td>0.397</td><td>0.880</td><td>0.767</td><td>0.668</td><td>0.633</td><td>0.592</td></tr><tr><td>Gremlin (Balakrishnan et al., 2011)</td><td>X</td><td>X</td><td>√</td><td></td><td>0.507</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>MSA Transformer</td><td>√</td><td>√</td><td>√</td><td>0.654</td><td>0.618</td><td>0.958</td><td>0.796</td><td></td><td>0.694 0.751 0.672</td><td></td></tr><tr><td>OntoProtein (Zhang et al., 2022)</td><td>√</td><td>X</td><td>√</td><td>0.68</td><td>0.40</td><td>0.96</td><td>0.75</td><td></td><td></td><td></td></tr><tr><td>PMLM (He et al., 2021b)</td><td>√</td><td>√</td><td>X</td><td>0.728</td><td>0.717</td><td>0.946</td><td></td><td></td><td></td><td></td></tr><tr><td>RSA (ProtBERT backbone)</td><td>√</td><td>X</td><td>√</td><td>0.691</td><td>0.717</td><td>0.987</td><td>0.778</td><td></td><td>0.795 0.827 0.723</td><td></td></tr></table>",
+        "bbox": [
+            122,
+            83,
+            880,
+            284
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "table",
+        "img_path": "images/70a0fceadb9122eaf0e1429056c28fcd30634ff4574f9233c50dc90c9256fe72.jpg",
+        "table_caption": [
+            "Table 3: Main Results for vanilla protein language models, knowledge-augmented baselines and our proposed RSA method. Note that italized result is reported by corresponding related work. The last column reports average result on all six tasks. For MSA Transformer and RSA, we all use 16 sequences (N=16) for augmentation. For Gremlin Potts model, we use the full MSA.",
+            "Table 4: Results for Structure Prediction on CASP14. Percentage represents the percentage of samples exceeding baselines."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Methods</td><td>TM-Score</td><td>Percentage</td></tr><tr><td>ESMFold</td><td>0.678</td><td></td></tr><tr><td>AlphaFold-single</td><td>0.335</td><td></td></tr><tr><td>ESMFold-RSA</td><td>0.693</td><td>27.7%</td></tr><tr><td>AlphaFold-RSA</td><td>0.359</td><td>45.5%</td></tr><tr><td>AlphaFold-Full</td><td>0.747</td><td></td></tr><tr><td>AlphaFold-Acc</td><td>0.551</td><td>19.7%</td></tr></table>",
+        "bbox": [
+            164,
+            357,
+            440,
+            466
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "chart",
+        "img_path": "images/5b5b904bdddb0d8d9e1d3d85d1f1bee2d7bb2c0a842396e0206643082f4e31cd.jpg",
+        "content": "",
+        "chart_caption": [],
+        "chart_footnote": [],
+        "bbox": [
+            134,
+            531,
+            250,
+            609
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "chart",
+        "img_path": "images/ef2b682b10bedc40e2eb27f484520120f7591bac60bd7f4b1fb646c701257675.jpg",
+        "content": "",
+        "chart_caption": [
+            "PDB - De Novo Contact Prediction CASP14-FM - Structure Prediction (TM-score"
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            250,
+            531,
+            361,
+            609
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "chart",
+        "img_path": "images/2cce2007d1be781685a797684cfa1f43c3ecb615aed022490007f1672181e37c.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 5: Prediction on proteins with few homologs, including contact prediction result on PDB de novo proteins and structure prediction result on CASP14-FM."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            364,
+            532,
+            477,
+            609
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "4.4 RSA as a Tool for Large Language Model",
+        "text_level": 2,
+        "bbox": [
+            112,
+            689,
+            487,
+            706
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "RSA can not only be used on small-scale representation learning model, it can also augment large language models, e.g. ChatGPT. Currently, even GPT4 model shows limited understanding of biological sequences. We follow ToolFormer (Schick et al., 2024) to equip RSA as a tool for GPT models, enabling LLM to query RSA and retrieve similar sequences as well as Pfam labels to improve understanding of the protein sequence. We benchmark RSA as a Tool on Gene Ontology tasks (Jensen et al., 2003). Results show that RSA as tool could improve protein understanding ability of LLMs for all tasks. We also show that RSA can be integrated",
+        "bbox": [
+            110,
+            713,
+            490,
+            922
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "table",
+        "img_path": "images/1dcbe6889a6f89341a23388ffea51231f36ff75f5d12161802c38809448d025b.jpg",
+        "table_caption": [
+            "with other bioinformatics tools to build a LLMagent for protein understanding in Appendix G.6.",
+            "Table 5: Gene Ontology Results Using LLM (N=8)"
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Methods</td><td>CC</td><td>MF</td><td>BP</td><td>EC</td></tr><tr><td>GPT-3.5-Turbo</td><td>0.43</td><td>0.45</td><td>0.39</td><td>0.12</td></tr><tr><td>GPT-3.5-Turbo + RSA</td><td>0.60</td><td>0.45</td><td>0.58</td><td>0.37</td></tr><tr><td>GPT-4</td><td>0.54</td><td>0.50</td><td>0.37</td><td>0.54</td></tr><tr><td>GPT-4 + RSA</td><td>0.70</td><td>0.74</td><td>0.65</td><td>0.74</td></tr></table>",
+        "bbox": [
+            566,
+            399,
+            825,
+            461
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "4.5 Retrieval Speed",
+        "text_level": 2,
+        "bbox": [
+            509,
+            494,
+            682,
+            510
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "A severe speed bottleneck limits the use of previous MSA-based methods. We compare the computation time of RSA with MSA and an accelerated version of MSA as introduced in § 2.2. As shown in Figure 1, alignment time cost is much more intense than retrieval time. Even after reducing the number of alignment sequences to 500, accelerated MSA still need 270 min to build MSA. At the same time RSA only uses dense retrieval, and is accelerated 373 times. Also, MSA is limited by its cubersome construction of retrieval HHM profile to perform HHM-HHM search. By contrast, RSA only needs to build the pre-trained features for the database, which can be accelerated with GPUs and batch forwarding. Results on a small database of 10000 proteins demonstrate a speedup of 320 times.",
+        "bbox": [
+            507,
+            517,
+            887,
+            776
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "4.6 Ablation Study",
+        "text_level": 2,
+        "bbox": [
+            509,
+            787,
+            677,
+            803
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Ablation on Retriever: Ablation on Retrieval Number Our study examines the effect of injected knowledge quantity for RSA and all retrieval baselines. The results are listed in Table 7. We select the Contact dataset because all baseline models are implemented on this dataset. RSA and all baselines perform consistently better as the retrieval",
+        "bbox": [
+            507,
+            809,
+            887,
+            922
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "page_number",
+        "text": "1744",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "table",
+        "img_path": "images/2be9a1a2231db0be277c80ac542b55c6a09b58520f5fd9c79c33252cf8d962f5.jpg",
+        "table_caption": [
+            "Table 6: Results for MSA Transformer and Accelerated MSA Transformer on downstream tasks. Accelerated MSA Transformer uses MSA built from dense retrieval."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Tasks</td><td>MSA Transformer</td><td>Accelerated MSA Transformer</td><td>RSA</td></tr><tr><td>SSP</td><td>0.654</td><td>0.634</td><td>0.691</td></tr><tr><td>Contact</td><td>0.618</td><td>0.608</td><td>0.717</td></tr><tr><td>Homology</td><td>0.958</td><td>0.945</td><td>0.987</td></tr><tr><td>Stability</td><td>0.796</td><td>0.767</td><td>0.778</td></tr><tr><td>Loc</td><td>0.694</td><td>0.682</td><td>0.795</td></tr><tr><td>PPI</td><td>0.751</td><td>0.679</td><td>0.827</td></tr></table>",
+        "bbox": [
+            152,
+            72,
+            445,
+            171
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "table",
+        "img_path": "images/10dd202cdb072da897460d14ed5defa2b2654c0fe03e30efcf3df35d9be069ab.jpg",
+        "table_caption": [
+            "number increases. Also, our model outperforms all baseline models for all augmentation numbers.",
+            "Table 7: The performance of RSA w.r.t. the number of retrieved sequences on contact prediction."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Methods</td><td>N=1</td><td>N=4 N=8</td><td>N=16 N=32 N= full</td></tr><tr><td>Potts Model</td><td></td><td></td><td>0.412 0.471 0.4790.480 0.507</td></tr><tr><td>MSA Transformer</td><td></td><td></td><td>0.397 0.579 0.560 0.6180.669</td></tr><tr><td>Accelerated MSA Transformer 0.397 0.524 0.538 0.6080.654</td><td></td><td></td><td></td></tr><tr><td>RSA (ProtBERT backbone)</td><td></td><td></td><td>0.556 0.595 0.615 0.717 0.719</td></tr></table>",
+        "bbox": [
+            121,
+            273,
+            485,
+            336
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Ablation on Aggregation: We compare RSA with Accelerated MSA Transformer to evaluate whether our aggregation method is beneficial for learning protein representations. Note that only part of the retrieved sequences that are homologous are utilized after alignment. As shown in Table 6, the performance of the Accelerated MSA Transformer drops a lot compared to RSA. In contrast to MSA type aggregation, which is restricted by token alignment, our aggregation is more flexible and can accommodate proteins with variant knowledge.",
+        "bbox": [
+            112,
+            390,
+            490,
+            569
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "4.7 Retrieved Protein Interpretability",
+        "text_level": 2,
+        "bbox": [
+            114,
+            581,
+            426,
+            596
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Dense Retrievers Find Homologous Sequences. As illustrated in Figure 6(a), across all six datasets, our dense retriever retrieved a high percentage of homologous proteins that can be aligned to the original protein sequence, comparable to traditional MSA retrievers. We additionally plot each dataset’s negative log E-values distribution in Figure 6(b). Accordingly, dense retrieval show high potential for finding homologous sequences, which explains the ability of RSA to capture evolutionary knowledge.",
+        "bbox": [
+            112,
+            605,
+            490,
+            766
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "RSA Retriever Find Structurally Similar Protein In Figure 6(c), we plot the TM scores between the RSA retrieved protein (structure obtained with ESMFold) and the origin protein on Protein-Net (AlQuraishi, 2019) test set. Most of the retrieved proteins TM-score exceed 0.2 (acceptable structural similarity) and about half are above 0.5 (high similarity), indicating dense retrieval is capable of finding proteins with structural knowledge.",
+        "bbox": [
+            110,
+            777,
+            492,
+            923
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "chart",
+        "img_path": "images/71c38f71ada48e4bd8aecf9965ca26e7535c8cbf7767680b2ad892830e944380.jpg",
+        "content": "",
+        "chart_caption": [],
+        "chart_footnote": [],
+        "bbox": [
+            521,
+            85,
+            872,
+            173
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "chart",
+        "img_path": "images/d8e3771cefb322e935360303de974bf2a62ec3cf94648faf82f6ed59cf994a5c.jpg",
+        "content": "",
+        "chart_caption": [
+            "(a) percentage comparison"
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            521,
+            198,
+            872,
+            287
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "chart",
+        "img_path": "images/aa23b3188d79113d263d9c7ec81be82b46387a8caf5be90e14f138f802e3fe2d.jpg",
+        "content": "",
+        "chart_caption": [
+            "(b) e-value comparison",
+            "(c) TM-score distribution",
+            "Figure 6: (a) Plot of the percentage of sequences that have found homologs on datasets for six tasks. (b) Plot of the -log(E-values) of MSA and Dense Retriever obtained sequences. E-values of both methods are obtained with HHblits(Remmert et al., 2012). Sequences with -log E-value >10 are high-quality homologs. (c) Cumulative distribution of TM-scores for retrieved proteins."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            515,
+            310,
+            872,
+            407
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "4.8 Creating MSA with RSA",
+        "text_level": 2,
+        "bbox": [
+            509,
+            538,
+            752,
+            555
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Despite the cumbersome computation, MSA is still widely used at present in SOTA models. In this section, we discuss the quality of MSA built by RSA, i.e. Accelerated MSA, a process 10 times faster. Table 6 illustrates that Accelerated MSA Transformer performs near to MSA Transformer (MSA N=16) for most datasets, except for Stability and PPI on which our retriever failed to find enough homologous sequences. Also, Accelerated MSA could be used as input for AlphaFold2 model, as shown in Table 4. However, the performance varies among samples, depending on retrieved sequence diversity, as further discussed in Appendix G.4.",
+        "bbox": [
+            507,
+            560,
+            885,
+            771
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "5 Related Work",
+        "text_level": 2,
+        "bbox": [
+            509,
+            782,
+            667,
+            799
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Retrieval-Augmented Language Models The integration of non-parametric retrieval and parametric models has been revolutionary for many problems (Kaplan et al., 2020; Guu et al., 2020b; He et al., 2021a; Borgeaud et al., 2021; Yogatama et al., 2021). Retrieval-augmentation introduces knowledge from memories and improve performance in complex reasoning (Trivedi et al., 2022) and generalization (Khandelwal et al., 2019).",
+        "bbox": [
+            507,
+            809,
+            889,
+            923
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "page_number",
+        "text": "1745",
+        "bbox": [
+            480,
+            928,
+            521,
+            942
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            84,
+            489,
+            117
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Protein Language Models To model and further understand the protein sequence data, language models are introduced to train on mass data (Heinzinger et al., 2019; Alley et al., 2019). Large scale pre-training enables language models to learn structural and evolutionary knowledge (Elnaggar et al., 2021; Jumper et al., 2021; Lin et al., 2022). Despite these successes, many important applications still require MSAs and other external knowledge (Rao et al., 2021; Jumper et al., 2021; He et al., 2021b; Zhang et al., 2021; Ju et al., 2021; Rao et al., 2020). MSAs have been shown effective in improving representation learning, despite being extremely slow and costly in computation. Hu et al. (2022) and Hong et al. (2021) use dense retrieval to accelerate multiple sequence augmentation, while still dependent on alignment procedures. Recent work (Fang et al., 2022; Lin et al., 2022; Wu et al., 2022; Chowdhury et al., 2022) explores MSA-free language models though additional pretraining is involved. We take this step further to investigate retrieval-augmented protein language models. Another line of work improves MSA quality and generation speed by using generative models to augment and produce MSAs (Zhang et al., 2020; Zheng et al., 2024; Chen et al., 2024). We differ from this line of work as we discuss substitutes rather than augmentation of MSAs.",
+        "bbox": [
+            110,
+            128,
+            492,
+            581
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "6 Conclusion",
+        "text_level": 2,
+        "bbox": [
+            114,
+            594,
+            247,
+            611
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "This work has highlighted the limitations inherent in traditional MSA-based approaches and proposed RSA as a substitute. Through extensive evaluation, we have demonstrated a significant improvement not only in the speed of processing—being more than 300 times faster than MSA—but also in enhancing predictive performance in downstream tasks with various models.",
+        "bbox": [
+            110,
+            621,
+            490,
+            752
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "7 Limitation",
+        "text_level": 2,
+        "bbox": [
+            114,
+            765,
+            243,
+            782
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "One notable limitation of our method RSA is that it is highly dependent on high-quality pre-trained embeddings and the abundance of protein sequences. We found that our retriever tends to perform better in a database that has more protein sequences – that have not been screened by a clustering algorithm, like Uniclust30. This could be explained by our nearest neighbor retrieval technique which often requires more similar sequences for augmentation. We also found different patterns in retrieval sequences from MSAs. Our retriever tends to show polarized retrieval quality, either finding many evolutionary close sequences or failing to find any homologous sequences. We believe this is due to the imbalanced training of pre-trained embeddings on different protein families and hope to mitigate this issue with further training on retrieval datasets.",
+        "bbox": [
+            110,
+            793,
+            490,
+            923
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            885,
+            229
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "We report other failed cases here for a more thorough view of our proposed method:",
+        "bbox": [
+            509,
+            230,
+            885,
+            263
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "• Directly applying Accelerated MSAs to MSAbased pre-trained models often shows about 2-3% decrease on downstream performance than using original MSAs. This may be the natural gap between Acc-MSA and pretraining data.However, Accelerated MSAs are 10 times faster.",
+        "bbox": [
+            531,
+            275,
+            887,
+            388
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "• The performance of RSA improves marginally with more sequences when N > 16. This is because we use the softmax distribution over L2 metrics to perform weighting, thereby assigning low weights to sequences further from the query.",
+        "bbox": [
+            531,
+            401,
+            885,
+            499
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "We intend to further scale up our RSA method to larger protein databases and pre-train a retriever on abundant data in future work.",
+        "bbox": [
+            507,
+            511,
+            885,
+            561
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "8 Acknowledgement",
+        "text_level": 2,
+        "bbox": [
+            509,
+            573,
+            705,
+            589
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "We would like to thank the anonymous reviewers for their valuable suggestions that greatly helped improve this work. This work is partially supported by the joint research scheme of the National Natural Science Foundation of China (NSFC) and the Research Grants Council (RGC) under grant number N\\_HKU714/21.",
+        "bbox": [
+            507,
+            600,
+            887,
+            713
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "References",
+        "text_level": 2,
+        "bbox": [
+            510,
+            740,
+            610,
+            757
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Josh Abramson, Jonas Adler, Jack Dunger, Richard Evans, Tim Green, Alexander Pritzel, Olaf Ronneberger, Lindsay Willmore, Andrew J Ballard, Joshua Bambrick, et al. 2024. Accurate structure prediction of biomolecular interactions with alphafold 3. Nature, pages 1–3.",
+            "Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. 2023. Gpt-4 technical report. arXiv preprint arXiv:2303.08774."
+        ],
+        "bbox": [
+            510,
+            765,
+            885,
+            845
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "page_number",
+        "text": "1746",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Ethan C Alley, Grigory Khimulya, Surojit Biswas, Mohammed AlQuraishi, and George M Church. 2019. Unified rational protein engineering with sequencebased deep representation learning. Nature methods, 16(12):1315–1322.",
+            "José Juan Almagro Armenteros, Casper Kaae Sønderby, Søren Kaae Sønderby, Henrik Nielsen, and Ole Winther. 2017. Deeploc: prediction of protein subcellular localization using deep learning. Bioinformatics, 33(21):3387–3395.",
+            "Mohammed AlQuraishi. 2019. Proteinnet: a standardized data set for machine learning of protein structure. BMC bioinformatics, 20(1):1–10.",
+            "D Altschuh, T Vernet, P Berti, D Moras, and K Nagai. 1988. Coordinated amino acid changes in homologous protein families. Protein Engineering, Design and Selection, 2(3):193–199.",
+            "Rolf Apweiler, Amos Bairoch, Cathy H Wu, Winona C Barker, Brigitte Boeckmann, Serenella Ferro, Elisabeth Gasteiger, Hongzhan Huang, Rodrigo Lopez, Michele Magrane, et al. 2004. Uniprot: the universal protein knowledgebase. Nucleic acids research, 32(suppl\\_1):D115–D119.",
+            "Sivaraman Balakrishnan, Hetunandan Kamisetty, Jaime G Carbonell, Su-In Lee, and Christopher James Langmead. 2011. Learning generative models for protein fold families. Proteins: Structure, Function, and Bioinformatics, 79(4):1061–1078.",
+            "Protein Data Bank. Rcsb pdb. 2022.",
+            "Soumya Basu, Ankit Singh Rawat, and Manzil Zaheer. 2022. Generalization properties of retrieval-based models. arXiv preprint arXiv:2210.02617.",
+            "Helen M Berman, John Westbrook, Zukang Feng, Gary Gilliland, Talapady N Bhat, Helge Weissig, Ilya N Shindyalov, and Philip E Bourne. 2000. The protein data bank. Nucleic acids research, 28(1):235–242.",
+            "Nicholas Bhattacharya, Neil Thomas, Roshan Rao, Justas Dauparas, Peter K Koo, David Baker, Yun S Song, and Sergey Ovchinnikov. 2020. Single layers of attention suffice to predict protein contacts. Biorxiv, pages 2020–12.",
+            "Sebastian Borgeaud, Arthur Mensch, Jordan Hoffmann, Trevor Cai, Eliza Rutherford, Katie Millican, George van den Driessche, Jean-Baptiste Lespiau, Bogdan Damoc, Aidan Clark, et al. 2021. Improving language models by retrieving from trillions of tokens. arXiv preprint arXiv:2112.04426.",
+            "Bo Chen, Zhilei Bei, Xingyi Cheng, Pan Li, Jie Tang, and Le Song. 2024. Msagpt: Neural prompting protein structure prediction via msa generative pretraining. arXiv preprint arXiv:2406.05347.",
+            "Ratul Chowdhury, Nazim Bouatta, Surojit Biswas, Christina Floristean, Anant Kharkar, Koushik Roy, Charlotte Rochereau, Gustaf Ahdritz, Joanna Zhang,",
+            "George M Church, et al. 2022. Single-sequence protein structure prediction using a language model and deep learning. Nature Biotechnology, 40(11):1617– 1623.",
+            "David De Juan, Florencio Pazos, and Alfonso Valencia. 2013. Emerging methods in protein co-evolution. Nature Reviews Genetics, 14(4):249–261.",
+            "Sara El-Gebali, Jaina Mistry, Alex Bateman, Sean R Eddy, Aurélien Luciani, Simon C Potter, Matloob Qureshi, Lorna J Richardson, Gustavo A Salazar, Alfredo Smart, Erik L L Sonnhammer, Layla Hirsh, Lisanna Paladin, Damiano Piovesan, Silvio C E Tosatto, and Robert D Finn. 2018. The Pfam protein families database in 2019. Nucleic Acids Research, 47(D1):D427–D432.",
+            "Ahmed Elnaggar, Michael Heinzinger, Christian Dallago, Ghalia Rehawi, Yu Wang, Llion Jones, Tom Gibbs, Tamas Feher, Christoph Angerer, Martin Steinegger, Debsindhu Bhowmik, and Burkhard Rost. 2021. Prottrans: Towards cracking the language of life’s code through self-supervised learning. bioRxiv.",
+            "Ahmed Elnaggar, Michael Heinzinger, Christian Dallago, Ghalia Rihawi, Yu Wang, Llion Jones, Tom Gibbs, Tamas Feher, Christoph Angerer, Martin Steinegger, et al. 2020. Prottrans: towards cracking the language of life’s code through self-supervised deep learning and high performance computing. arXiv preprint arXiv:2007.06225.",
+            "Xiaomin Fang, Fan Wang, Lihang Liu, Jingzhou He, Dayong Lin, Yingfei Xiang, Xiaonan Zhang, Hua Wu, Hui Li, and Le Song. 2022. Helixfold-single: Msa-free protein structure prediction by using protein language model as an alternative. arXiv preprint arXiv:2207.13921.",
+            "Anirudh Goyal, Abram L. Friesen, Andrea Banino, Theophane Weber, Nan Rosemary Ke, Adria Puigdomenech Badia, Arthur Guez, Mehdi Mirza, Ksenia Konyushkova, Michal Valko, Simon Osindero, Timothy Lillicrap, Nicolas Heess, and Charles Blundell. 2022. Retrieval-augmented reinforcement learning.",
+            "Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Ming-Wei Chang. 2020a. Realm: Retrievalaugmented language model pre-training. international conference on machine learning.",
+            "Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Mingwei Chang. 2020b. Retrieval augmented language model pre-training. In International Conference on Machine Learning, pages 3929–3938. PMLR.",
+            "Junxian He, Graham Neubig, and Taylor Berg-Kirkpatrick. 2021a. Efficient nearest neighbor language models. arXiv preprint arXiv:2109.04212.",
+            "Liang He, Shizhuo Zhang, Lijun Wu, Huanhuan Xia, Fusong Ju, He Zhang, Siyuan Liu, Yingce Xia, Jianwei Zhu, Pan Deng, et al. 2021b. Pretraining co-evolutionary protein representation via"
+        ],
+        "bbox": [
+            114,
+            85,
+            490,
+            152
+        ],
+        "page_idx": 9
+    },
+    {
+        "type": "page_number",
+        "text": "1747",
+        "bbox": [
+            480,
+            928,
+            521,
+            941
+        ],
+        "page_idx": 9
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "a pairwise masked language model. arXiv preprint arXiv:2110.15527.",
+            "Michael Heinzinger, Ahmed Elnaggar, Yu Wang, Christian Dallago, Dmitrii Nechaev, Florian Matthes, and Burkhard Rost. 2019. Modeling aspects of the language of life through transfer-learning protein sequences. BMC bioinformatics, 20(1):1–17.",
+            "Liang Hong, Siqi Sun, Liangzhen Zheng, Qingxiong Tan, and Yu Li. 2021. fastmsa: Accelerating multiple sequence alignment with dense retrieval on protein language. bioRxiv.",
+            "Jie Hou, Badri Adhikari, and Jianlin Cheng. 2018. Deepsf: deep convolutional neural network for mapping protein sequences to folds. Bioinformatics, 34(8):1295–1303.",
+            "Mingyang Hu, Fajie Yuan, Kevin K Yang, Fusong Ju, Jin Su, Hui Wang, Fei Yang, and Qiuyang Ding. 2022. Exploring evolution-aware & -free protein language models as protein function predictors. In Advances in Neural Information Processing Systems.",
+            "Lars Juhl Jensen, Ramneek Gupta, H-H Staerfeldt, and Søren Brunak. 2003. Prediction of human protein function according to gene ontology categories. Bioinformatics, 19(5):635–642.",
+            "Jeff Johnson, Matthijs Douze, and Hervé Jégou. 2019a. Billion-scale similarity search with GPUs. IEEE Transactions on Big Data, 7(3):535–547.",
+            "Jeff Johnson, Matthijs Douze, and Hervé Jégou. 2019b. Billion-scale similarity search with GPUs. IEEE Transactions on Big Data, 7(3):535–547.",
+            "Fusong Ju, Jianwei Zhu, Bin Shao, Lupeng Kong, Tie-Yan Liu, Wei-Mou Zheng, and Dongbo Bu. 2021. Copulanet: Learning residue co-evolution directly from multiple sequence alignment for protein structure prediction. Nature communications, 12(1):1–9.",
+            "John Jumper, Richard Evans, Alexander Pritzel, Tim Green, Michael Figurnov, Olaf Ronneberger, Kathryn Tunyasuvunakool, Russ Bates, Augustin Žídek, Anna Potapenko, et al. 2021. Highly accurate protein structure prediction with alphafold. Nature, 596(7873):583–589.",
+            "Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. 2020. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361.",
+            "Urvashi Khandelwal, Omer Levy, Dan Jurafsky, Luke Zettlemoyer, and Michael Lewis. 2019. Generalization through memorization: Nearest neighbor language models. Learning.",
+            "Michael Schantz Klausen, Martin Closter Jespersen, Henrik Nielsen, Kamilla Kjaergaard Jensen, Vanessa Isabell Jurtz, Casper Kaae Soenderby, Morten Otto Alexander Sommer, Ole Winther,",
+            "Morten Nielsen, Bent Petersen, et al. 2019. Netsurfp-2.0: Improved prediction of protein structural features by integrated deep learning. Proteins: Structure, Function, and Bioinformatics, 87(6):520–527.",
+            "Andriy Kryshtafovych, Torsten Schwede, Maya Topf, Krzysztof Fidelis, and John Moult. 2021. Critical assessment of methods of protein structure prediction (casp)—round xiv. Proteins: Structure, Function, and Bioinformatics, 89(12):1607–1617.",
+            "Edmund RS Kunji and Alan J Robinson. 2006. The conserved substrate binding site of mitochondrial carriers. Biochimica et Biophysica Acta (BBA)- Bioenergetics, 1757(9-10):1237–1248.",
+            "Zeming Lin, Halil Akin, Roshan Rao, Brian Hie, Zhongkai Zhu, Wenting Lu, Allan dos Santos Costa, Maryam Fazel-Zarandi, Tom Sercu, Sal Candido, et al. 2022. Language models of protein sequences at the scale of evolution enable accurate structure prediction. bioRxiv.",
+            "Xueliang Liu. 2017. Deep recurrent neural network for protein function prediction from sequence. arXiv preprint arXiv:1701.08318.",
+            "Milot Mirdita, Konstantin Schütze, Yoshitaka Moriwaki, Lim Heo, Sergey Ovchinnikov, and Martin Steinegger. 2022. Colabfold: making protein folding accessible to all. Nature methods, 19(6):679–682.",
+            "Erik Nijkamp, Jeffrey Ruffolo, Eli N Weinstein, Nikhil Naik, and Ali Madani. 2022. Progen2: exploring the boundaries of protein language models. arXiv preprint arXiv:2206.13517.",
+            "Xiao-Yong Pan, Ya-Nan Zhang, and Hong-Bin Shen. 2010. Large-scale prediction of human protein- protein interactions from amino acid sequence based on latent topic features. Journal of proteome research, 9(10):4992–5001.",
+            "Sudeep Pushpakom, Francesco Iorio, Patrick A Eyers, K Jane Escott, Shirley Hopper, Andrew Wells, Andrew Doig, Tim Guilliams, Joanna Latimer, Christine McNamee, et al. 2019. Drug repurposing: progress, challenges and recommendations. Nature reviews Drug discovery, 18(1):41–58.",
+            "Roshan Rao, Nicholas Bhattacharya, Neil Thomas, Yan Duan, Peter Chen, John Canny, Pieter Abbeel, and Yun Song. 2019. Evaluating protein transfer learning with tape. Advances in neural information processing systems, 32.",
+            "Roshan Rao, Joshua Meier, Tom Sercu, Sergey Ovchinnikov, and Alexander Rives. 2020. Transformer protein language models are unsupervised structure learners. Biorxiv.",
+            "Roshan M Rao, Jason Liu, Robert Verkuil, Joshua Meier, John Canny, Pieter Abbeel, Tom Sercu, and Alexander Rives. 2021. Msa transformer. In International Conference on Machine Learning, pages 8844–8856. PMLR."
+        ],
+        "bbox": [
+            131,
+            85,
+            487,
+            112
+        ],
+        "page_idx": 10
+    },
+    {
+        "type": "page_number",
+        "text": "1748",
+        "bbox": [
+            480,
+            929,
+            522,
+            942
+        ],
+        "page_idx": 10
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Michael Remmert, Andreas Biegert, Andreas Hauser, and Johannes Söding. 2012. Hhblits: lightning-fast iterative protein sequence searching by hmm-hmm alignment. Nature methods, 9(2):173–175.",
+            "Alexander Rives, Siddharth Goyal, Joshua Meier, Demi Guo, Myle Ott, C. Lawrence Zitnick, Jerry Ma, and Rob Fergus. 2019. Biological structure and function emerge from scaling unsupervised learning to 250 million protein sequences. Proceedings of the National Academy of Sciences of the United States of America.",
+            "Gabriel J Rocklin, Tamuka M Chidyausiku, Inna Goreshnik, Alex Ford, Scott Houliston, Alexander Lemak, Lauren Carter, Rashmi Ravichandran, Vikram K Mulligan, Aaron Chevalier, et al. 2017. Global analysis of protein folding using massively parallel design, synthesis, and testing. Science, 357(6347):168–175.",
+            "MI Sadowski and DT Jones. 2009. The sequence– structure relationship and protein function prediction. Current opinion in structural biology, 19(3):357– 362.",
+            "Timo Schick, Jane Dwivedi-Yu, Roberto Dessì, Roberta Raileanu, Maria Lomeli, Eric Hambro, Luke Zettlemoyer, Nicola Cancedda, and Thomas Scialom. 2024. Toolformer: Language models can teach themselves to use tools. Advances in Neural Information Processing Systems, 36.",
+            "Martin Steinegger, Markus Meier, Milot Mirdita, Harald Vöhringer, Stephan J Haunsberger, and Johannes Söding. 2019. Hh-suite3 for fast remote homology detection and deep protein annotation. BMC bioinformatics, 20(1):1–15.",
+            "Ross Taylor, Marcin Kardas, Guillem Cucurull, Thomas Scialom, Anthony Hartshorn, Elvis Saravia, Andrew Poulton, Viktor Kerkez, and Robert Stojnic. 2022. Galactica: A large language model for science. arXiv preprint arXiv:2211.09085.",
+            "Harsh Trivedi, Niranjan Balasubramanian, Tushar Khot, and Ashish Sabharwal. 2022. Interleaving retrieval with chain-of-thought reasoning for knowledge-intensive multi-step questions. arXiv preprint arXiv:2212.10509.",
+            "Timothy Truong Jr and Tristan Bepler. 2023. Poet: A generative model of protein families as sequences-ofsequences. Advances in Neural Information Processing Systems, 36:77379–77415.",
+            "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. Advances in neural information processing systems, 30.",
+            "Dingmin Wang, Shengchao Liu, Hanchen Wang, Linfeng Song, Jian Tang, Song Le, Bernardo Cuenca Grau, and Qi Liu. 2022. Augmenting message passing by retrieving similar graphs.",
+            "Lusheng Wang and Tao Jiang. 1994. On the complexity of multiple sequence alignment. Journal of computational biology, 1(4):337–348.",
+            "Ruidong Wu, Fan Ding, Rui Wang, Rui Shen, Xiwen Zhang, Shitong Luo, Chenpeng Su, Zuofan Wu, Qi Xie, Bonnie Berger, et al. 2022. High-resolution de novo structure prediction from primary sequence. BioRxiv, pages 2022–07.",
+            "Minghao Xu, Zuobai Zhang, Jiarui Lu, Zhaocheng Zhu, Yangtian Zhang, Chang Ma, Runcheng Liu, and Jian Tang. 2022. Peer: A comprehensive and multitask benchmark for protein sequence understanding. arXiv preprint arXiv:2206.02096.",
+            "Jianyi Yang, Ivan Anishchenko, Hahnbeom Park, Zhenling Peng, Sergey Ovchinnikov, and David Baker. 2020. Improved protein structure prediction using predicted interresidue orientations. Proceedings ofthe National Academy ofSciences, 117(3):1496– 1503.",
+            "Charles Yanofsky, Virginia Horn, and Deanna Thorpe. 1964. Protein structure relationships revealed by mutational analysis. Science, 146(3651):1593–1594.",
+            "Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. 2022. React: Synergizing reasoning and acting in language models. arXiv preprint arXiv:2210.03629.",
+            "Jian Ye, Scott McGinnis, and Thomas L Madden. 2006. Blast: improvements for better sequence analysis. Nucleic acids research, 34(suppl\\_2):W6–W9.",
+            "Dani Yogatama, Cyprien de Masson d’Autume, and Lingpeng Kong. 2021. Adaptive semiparametric language models. Transactions of the Association for Computational Linguistics, 9:362–373.",
+            "Chengxin Zhang, Wei Zheng, SM Mortuza, Yang Li, and Yang Zhang. 2020. Deepmsa: constructing deep multiple sequence alignment to improve contact prediction and fold-recognition for distant-homology proteins. Bioinformatics, 36(7):2105–2112.",
+            "He Zhang, Fusong Ju, Jianwei Zhu, Liang He, Bin Shao, Nanning Zheng, and Tie-Yan Liu. 2021. Coevolution transformer for protein contact prediction. Advances in Neural Information Processing Systems, 34:14252–14263.",
+            "Ningyu Zhang, Zhen Bi, Xiaozhuan Liang, Siyuan Cheng, Haosen Hong, Shumin Deng, Jiazhang Lian, Qiang Zhang, and Huajun Chen. 2022. Ontoprotein: Protein pretraining with gene ontology embedding. arXiv preprint arXiv:2201.11147.",
+            "Wei Zheng, Qiqige Wuyun, Yang Li, Chengxin Zhang, P Lydia Freddolino, and Yang Zhang. 2024. Improving deep learning protein monomer and complex structure prediction using deepmsa2 with huge metagenomics data. Nature Methods, 21(2):279– 289."
+        ],
+        "bbox": [
+            114,
+            85,
+            489,
+            140
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "page_number",
+        "text": "1749",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Hong-Yu Zhou, Yunxiang Fu, Zhicheng Zhang, Bian Cheng, and Yizhou Yu. 2023. Protein representation learning via knowledge enhanced primary structure reasoning. In The Eleventh International Conference on Learning Representations."
+        ],
+        "bbox": [
+            115,
+            85,
+            487,
+            151
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "page_number",
+        "text": "1750",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Appendix for Retrieved Sequence Augmentation for Protein Representation Learning",
+        "bbox": [
+            131,
+            84,
+            766,
+            102
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Contents",
+        "text_level": 2,
+        "bbox": [
+            114,
+            116,
+            200,
+            134
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "1 Introduction   \n2 Augmenting Protein Representations with Retrieved Sequences – Is MSA necessary? 3   \n2.1 Background and Problem Statement 3   \n2.2 MSA is Retrieval through Alignment 3   \n2.3 Do we still need alignment for proteins? An Empirical Analysis 4   \n3 RSA 5   \n4 Experiments 5   \n4.1 General Setup 5   \n4.2 Main Results 6   \n4.3 Retrieval Augmentation for De Novo Proteins with Few Homologs 6   \n4.4 RSA as a Tool for Large Language Model 7   \n4.5 Retrieval Speed 7   \n4.6 Ablation Study 7   \n4.7 Retrieved Protein Interpretability 8   \n4.8 Creating MSA with RSA 8   \n5 Related Work 8   \n6 Conclusion 9   \n7 Limitation 9   \n8 Acknowledgement 9   \nA Limitations and Failed Case Analysis 15   \nB Broader Impact and Potential Risks 15   \nC A Brief Recap on Proteins 16   \nD Details Introduction of Retrieval-augmentation Designs 17   \nE Overview of Previous Protein Representation Augmentation Methods 17   \nF Experiment Setups 18   \nF.1 In-depth Introduction to Protein Tasks 18   \nF.2 HHblits Settings 19   \nF.3 Model Hyperparameters 20   \nF.4 RSA and Variants Implementation Details 20   \nF.4.1 Retriever Implementation Details 20   \nF.4.2 ProtBERT-RSA Architecture and Implementation . 20   \nF.4.3 RSA for Protein Folding 21   \nF.4.4 Accelerated MSA 21   \nG Supplementary Experiment Analysis 22   \nG.1 Comparison of the Running time between RSA vs MSA 22   \nG.2 Case Study 22   \nG.3 Domain Adaptation Analysis . 24   \nG.4 Comparison of Accelerated MSA vs MSA quality . 24   \nG.5 Interpretability of RSA . 26   \nG.6 ProteinChat: RSA Empowers ChatGPT on Protein Understanding 26",
+        "bbox": [
+            110,
+            146,
+            887,
+            926
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "page_number",
+        "text": "1751",
+        "bbox": [
+            480,
+            929,
+            519,
+            942
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            114,
+            83,
+            884,
+            198
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "A Limitations and Failed Case Analysis",
+        "text_level": 2,
+        "bbox": [
+            114,
+            209,
+            475,
+            224
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "One notable limitation of our method RSA is that it is highly dependent on high-quality pre-trained embeddings and the abundance of protein sequences. We found that our retriever tends to perform better in a database that has more protein sequences – that have not been screened by a clustering algorithm, like Uniclust30. This could be explained by our nearest neighbor retrieval technique which often requires more similar sequences for augmentation. We also found different patterns in retrieval sequences from MSAs. Our retriever tends to show polarized retrieval quality, either finding many evolutionary close sequences or failing to find any homologous sequences. We believe this is due to the imbalanced training of pre-trained embeddings on different protein families and hope to mitigate this issue with further training on retrieval datasets.",
+        "bbox": [
+            110,
+            234,
+            885,
+            378
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "We report other failed cases here for a more thorough view of our proposed method:",
+        "bbox": [
+            131,
+            378,
+            756,
+            394
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "• Directly applying Accelerated MSAs to MSA-based pre-trained models often shows about 2-3% decrease on downstream performance than using original MSAs. However, Accelerated MSAs are 10 times faster.",
+        "bbox": [
+            136,
+            403,
+            884,
+            450
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "• The performance of RSA improves marginally with more sequences when N > 16. This is because we use the softmax distribution over L2 metrics to perform weighting, thereby assigning low weights to sequences further from the query.",
+        "bbox": [
+            134,
+            461,
+            884,
+            510
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "• We found that in protein folding tasks, performing Average Pooling on ESMFold/AlphaFold shows worse zero-shot performance than Max Pooling with a scoring model. This is due to the misalignment of protein structures and simple weighting could result in averaging the structures of proteins with different angles of view.",
+        "bbox": [
+            136,
+            518,
+            884,
+            583
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "B Broader Impact and Potential Risks",
+        "text_level": 2,
+        "bbox": [
+            114,
+            590,
+            463,
+            607
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "In this section, we discuss the broader impact of RSA in terms of protein representation learning, de novo protein understanding, as well as the potential application to large language models.",
+        "bbox": [
+            112,
+            617,
+            882,
+            649
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "RSA for Protein Representation Learning Developing efficient protein representation learning methods will significantly improve the ability to analyze complex protein structures, functions, and interactions. This would lead to a more comprehensive understanding of biological processes at the molecular level, consequently boosting advancements in the fields of bioinformatics and computational biology. In this paper, we propose RSA as an efficient and effective protein representation learning methods, which will spur the development of protein representation learning methods. Notably, our method requires no alignment methods. The traditional alignment process in MSA often requires mass CPU engines mostly available to academics. Our method on the other hand only requires a small memory GPU like 3090Ti and we will publicize our retrieval index, promoting democratic research in this field.",
+        "bbox": [
+            112,
+            649,
+            885,
+            794
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "RSA for De Novo Protein Understanding We have shown in our work that RSA could perform De Novo Protein Understanding. This is particularly important for drug repurposing and virtual screening tasks (Pushpakom et al., 2019) for drug discovery. This can contribute to the development of personalized medicine by facilitating the identification of disease-specific protein biomarkers and selecting molecular cures for various diseases. However, de novo protein understanding often relies on newly-designed protein databases, which may include sensitive information about individuals, such as their genetic makeup, or violates intellectual property rights. Ensuring the privacy and security of this data is critical to prevent misuse and protect individual rights",
+        "bbox": [
+            110,
+            794,
+            885,
+            923
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "page_number",
+        "text": "1752",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "RSA as Tool for Large Language Models In addition to the potential impacts in the field of biology, our method could also improve the ability of Large Language Models in biological sequence understanding. Currently, large language models like ChatGPT show difficulty in understanding protein sequences. We showcase how RSA could improve this ability with the combination of retrieval and chain of thought. This application is valuable in education and training, as uses could rapidly learn about proteins through chat models, which help educate the next generation of researchers in bioinformatics, computational biology, and related fields. This will lead to a more skilled workforce in the life sciences.",
+        "bbox": [
+            110,
+            85,
+            887,
+            198
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "image",
+        "img_path": "images/0a2b04a8da2441da241114857fbd3c41d680c6fc4156c70d2df0f3f615305ec3.jpg",
+        "image_caption": [
+            "Figure 7: Illustrated explanation of protein levels of structures, primary structure, secondary structure and tertiary structure."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            115,
+            214,
+            460,
+            341
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "image",
+        "img_path": "images/c80794a9c91268378d05c62c04714800a99166710f1806ffc58c8d0cbd262545.jpg",
+        "image_caption": [
+            "Figure 8: Illustrated difference of aligned and unaligned protein sequences. The white colour stands for the empty space in alignment \"-\"."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            532,
+            206,
+            878,
+            351
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "C A Brief Recap on Proteins",
+        "text_level": 2,
+        "bbox": [
+            114,
+            431,
+            379,
+            449
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Proteins are the end products of the decoding process that starts with the information in cellular DNA. As workhorses of the cell, proteins compose structural and motor elements in the cell, and they serve as the catalysts for virtually every biochemical reaction that occurs in living things. This incredible array of functions derives from a startlingly simple code that specifies a hugely diverse set of structures. In fact, each gene in cellular DNA contains the code for a unique protein structure. Not only are these proteins assembled with different amino acid sequences, but they also are held together by different bonds and folded into a variety of three-dimensional structures. The folded shape, or conformation, depends directly on the linear amino acid sequence of the protein. In fact, this phenomenon is denoted as the sequence-structure-function paradigm. Here we will emphasize four key concepts in protein understanding.",
+        "bbox": [
+            110,
+            457,
+            887,
+            618
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "1. What are proteins made of ?",
+        "text_level": 2,
+        "bbox": [
+            132,
+            618,
+            383,
+            633
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Amino acids. Within a protein, multiple amino acids are linked together by peptide bonds, thereby forming a long chain. There are 22 alpha-amino acids, from which proteins are composed. We model these amino acids in a similar way in NLP, as tokens. A tokenizer breaks the protein sequences into amino acid tokens that could be modeled by protein language models.",
+        "bbox": [
+            112,
+            634,
+            885,
+            699
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "2. Protein structures",
+        "text_level": 2,
+        "bbox": [
+            132,
+            699,
+            302,
+            713
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "There are four levels of structures in protein, as illustrated in Figure 7:",
+        "bbox": [
+            132,
+            715,
+            655,
+            731
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "• Primary structure: amino acids sequence",
+        "bbox": [
+            134,
+            740,
+            457,
+            756
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "• Secondary structure: stable folding patterns, including Alpha Helix, Beta Sheet.",
+        "bbox": [
+            134,
+            765,
+            742,
+            782
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "• Tertiary structure: ensemble of formations and folds in a single linear chain of amino acids",
+        "bbox": [
+            134,
+            793,
+            823,
+            808
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "• macromolecules with multiple polypeptide chains or subunits",
+        "bbox": [
+            136,
+            818,
+            610,
+            833
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Predicting protein structure is an important and difficult task. In this work, we also perform experiments on three tasks – secondary structure prediction, protein contact prediction (tertiary structure), and protein folding (tertiary structure), with increasing task difficulty.",
+        "bbox": [
+            112,
+            843,
+            884,
+            890
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "3. Protein Homology Protein homology is defined as shared ancestry in the evolutionary history of life. There exists different kinds of homology, including orthologous homology that may be similar function proteins across species (human and mice α-goblin), and paralogous homology that is the result of mutations (human α-goblin and $\\beta { \\mathrm { - g o b l i n ) } }$ . Homologies result in conservative parts in protein sequences, or leads to similar structures and functions.",
+        "bbox": [
+            112,
+            891,
+            885,
+            922
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "page_number",
+        "text": "1753",
+        "bbox": [
+            480,
+            928,
+            521,
+            942
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            85,
+            885,
+            133
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "4. Multiple Sequence Alignments A method used to determine conservative regions and find homologous sequences. An illustration (Figure 8) is given here to show how sequences are aligned. Aligned tokens may include the original amino acid, substitution, and deletions. The traditional way to generate MSA is using dynamic programming, with $O ( L ^ { N } )$ complexity. Temporary methods use HMM-HMM alignment, as well as other acceleration methods. HH-Suite3 (Steinegger et al., 2019) reports a time complexity of $O ( N L ^ { 2 } )$ , which is still costly when performing alignment on a large database.",
+        "bbox": [
+            112,
+            134,
+            885,
+            231
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "D Details Introduction of Retrieval-augmentation Designs",
+        "text_level": 2,
+        "bbox": [
+            112,
+            243,
+            631,
+            261
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "We introduce 4 design dimensions to distinguish RSA against MSA-based methods as well as discuss how we could design more efficient substitutes.",
+        "bbox": [
+            112,
+            271,
+            882,
+            303
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "• Retriever Form indicates the retriever type used. Multiple Sequence Alignment is a discrete retrieval method that uses alignment (Ye et al., 2006) to find homologous sequences. Dense retrieval (Johnson et al., 2019b) has been introduced to accelerate discrete sequence retrieval.",
+        "bbox": [
+            134,
+            316,
+            884,
+            365
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "• Alignment Form indicates whether retrieved sequences are aligned.",
+        "bbox": [
+            136,
+            372,
+            658,
+            387
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "• Weight Form is the aggregation weight of homologous sequences, as the $p ( r _ { n }                            )$ in Eq. 3. Here we denote this weight as $\\lambda _ { n }$ . Traditionally, aggregation methods consider different homologous sequences to be similarly important and use average weighting. MSA Transformer uses a weighted pooling method though the weights of $\\lambda _ { n }$ use global attention and are dependent on all homologous sequences.",
+        "bbox": [
+            136,
+            393,
+            884,
+            474
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "• Aggregation Function is how the representations of homologous sequences are aggregated to the original sequence to form downstream prediction, as in $p ( y | x , r )$ . For example, considering the sequence classification problem, a fully connected layer maps representations to logits. The retrieval augmentation probabilistic form first maps each representation to logits $p ( \\boldsymbol { y } | \\boldsymbol { x } , r _ { n } )$ and then linearly weight the logits with $\\lambda _ { n }$ in Eq. 3.",
+        "bbox": [
+            134,
+            481,
+            885,
+            562
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Here retriever and alignment are the main bottlnecks of retrieval augmentation methods. The aggregation function and weight form are mainly dependent on model architecture and we focus on the first two dimensions in this paper.",
+        "bbox": [
+            112,
+            574,
+            884,
+            623
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "E Overview of Previous Protein Representation Augmentation Methods",
+        "text_level": 2,
+        "bbox": [
+            114,
+            637,
+            749,
+            653
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Below we introduce several state-of-the-art evolution augmentation methods for protein representation learning. These methods rely on MSA as input to extract representations. We use x to denote a target protein and its MSA containing N homologous proteins. We consider MSAs as N aligned protein homologs $r _ { 1 } , \\ldots , r _ { N }$ . These studies (Yang et al., 2020; Ju et al., 2021) encode MSA as coevolution statistics features $R _ { 1 \\ldots N }$ and aggregate these features to derive the representation, while MSA Transformer (Rao et al., 2021; Jumper et al., 2021) perceives MSA as a matrix, employing axial attention to extract salient evolutionary traits. A unified view of these variants is available in Table 1 and §3.2 in the main paper.",
+        "bbox": [
+            110,
+            664,
+            885,
+            793
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Potts Model (Balakrishnan et al., 2011). This line of research fits a Markov Random Field to the underlying MSA with likelihood maximization. This approach is different from other protein representation learning methods as it only learns a pairwise score for residues contact prediction. We will focus on other methods that augment protein representations that can be used for diverse downstream predictions.",
+        "bbox": [
+            112,
+            793,
+            885,
+            857
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Co-evolution Aggregator (Yang et al., 2020; Ju et al., 2021). One way to build an evolution informed representation is to use a MSA encoder to obtain the co-evolution related statistics. By applying MSA encoder on the n-th homologous protein in the MSA, we can get a total of $L \\times d$ embeddings $R _ { n }$ , each position is a d channel one-hot embedding indicating the amino acid type. We use $w _ { n }$ to denote the weight from $R _ { n }$ when computing the token representation $h _ { i } { \\mathrm { : } }$",
+        "bbox": [
+            110,
+            858,
+            885,
+            923
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "page_number",
+        "text": "1754",
+        "bbox": [
+            480,
+            929,
+            522,
+            942
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            84,
+            517,
+            101
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "equation",
+        "img_path": "images/83158f7103135cb8664715d61a486ab20d22a6b61f873e6fde387fb290564b79.jpg",
+        "text": "$$\nh _ { i } = \\frac { 1 } { M _ { e f f } } \\sum _ { n = 1 } ^ { N } w _ { n } R _ { n } ( i ) ,\\tag{6}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            403,
+            111,
+            593,
+            155
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "where $\\begin{array} { r } { M _ { e f f } = \\sum _ { n = 1 } ^ { N } w _ { n } } \\end{array}$ and $\\begin{array} { r } { \\begin{array} { r } { w _ { n } \\ = \\ \\frac { 1 } { N } } \\end{array} } \\end{array}$ . For contact prediction, pair co-evolution representation are computed in a similar way from the hadamard product:",
+        "bbox": [
+            110,
+            167,
+            884,
+            200
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "equation",
+        "img_path": "images/3f9063be29b73a8902ae8d69cf7613dd2428e6893c93fbdec1c04ac9d2c3a7bd.jpg",
+        "text": "$$\nh _ { i j } = \\frac { 1 } { M _ { e f f } } \\sum _ { n = 1 } ^ { N } w _ { n } R _ { n } ( i ) \\bigotimes R _ { n } ( j ) .\\tag{7}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            359,
+            211,
+            635,
+            254
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Ensembling Over MSA (Rao et al., 2020). This approach aligns and ensembles representations of homologous sequences. Consider the encoder extract the same token representations for unaligned and aligned sequences. The ensembled token representation is:",
+        "bbox": [
+            112,
+            263,
+            885,
+            313
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "equation",
+        "img_path": "images/952e47fbf94d98a21f17ef7bc0b8981113a8bba047940a1c0d598433677ac74a.jpg",
+        "text": "$$\nh _ { i } = \\frac { 1 } { N } \\sum _ { n = 1 } ^ { N } R _ { n } ( i ) , h _ { i j } = \\frac { 1 } { N } \\sum _ { n = 1 } ^ { N } \\sigma ( \\frac { R _ { n } ( i ) W _ { Q } ( R _ { n } ( j ) W _ { K } ) ^ { T } } { N \\sqrt { d } } ) .\\tag{8}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            263,
+            322,
+            731,
+            367
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "MSA Transformer (Rao et al., 2021) In each transformer layer, a tied row attention encoder extracts the dense representation $R _ { n }$ , then a column attention encoder",
+        "bbox": [
+            112,
+            376,
+            884,
+            409
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "equation",
+        "img_path": "images/5bdcae5f8d9bca1cc6073bb0a6c4a4880b533042d69df290f5202beb4602da01.jpg",
+        "text": "$$\nR _ { s } ( i ) = \\sum _ { n = 1 } ^ { N } \\sigma ( \\frac { R _ { s } ( i ) W _ { Q } ( R _ { n } ( i ) W _ { K } ) ^ { T } } { N \\sqrt { d } } ) R _ { n } ( i ) W _ { V } .\\tag{9}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            305,
+            419,
+            689,
+            463
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Knowledge Graph Augmentation (Zhang et al., 2022; Zhou et al., 2023). This line of research aims at incorporating factual knowledge in protein representations. Different from MSA-based methods that draw evolution knowledge from raw protein sequences, these methods are dependent on protein knowledge graphs that have been annotated by experts, therefore we only provide comparisons with these models in experimental studies and don’t incorporate them into our unified framework.",
+        "bbox": [
+            110,
+            473,
+            885,
+            555
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "F Experiment Setups",
+        "text_level": 2,
+        "bbox": [
+            112,
+            564,
+            317,
+            581
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "F.1 In-depth Introduction to Protein Tasks",
+        "text_level": 2,
+        "bbox": [
+            112,
+            590,
+            465,
+            606
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "table",
+        "img_path": "images/e08a6c34d9922d439e3d826797a74238c9e31038a6acebd9c3a3ef0a2be8dd7d.jpg",
+        "table_caption": [
+            "Table 8: Overview for datasets in downstream tasks"
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Task Name</td><td>Dataset source</td><td>#train sequences</td><td>#test sequences</td></tr><tr><td>Secondary Structure Prediction</td><td>NetSurfP-2.0 (Klausen et al., 2019)</td><td>8,678</td><td>513</td></tr><tr><td>Contact Prediction</td><td>ProteinNet (A1Quraishi, 2019)</td><td>25,299</td><td>40</td></tr><tr><td>Remote Homology Prediction</td><td>Deepsf (Hou et al., 2018)</td><td>12,312</td><td>718</td></tr><tr><td>Stability Prediction</td><td>Rocklin&#x27;s Dataset (Rocklin et al., 2017)</td><td>53,571</td><td>12,851</td></tr><tr><td>Subcellular Localization</td><td>DeepLoc (Almagro Armenteros et al., 2017)</td><td>8,945</td><td>2,768</td></tr><tr><td>Protein Protein Interaction</td><td>Pan&#x27;s Dataset (Pan et al., 2010)</td><td>6,844</td><td>227</td></tr><tr><td>Protein Folding</td><td>CASP14 (Kryshtafovych et al., 2021)</td><td></td><td>65</td></tr></table>",
+        "bbox": [
+            131,
+            646,
+            865,
+            746
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Secondary structure prediction (SSP)",
+        "bbox": [
+            131,
+            762,
+            431,
+            776
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: 8-class classification $o _ { i } \\mapsto \\{ 0 , 1 , \\ldots , 7 \\}$",
+        "bbox": [
+            114,
+            777,
+            551,
+            793
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Task Description: Secondary structure prediction aims to predict the secondary structure of proteins, which indicates the local structures. This task predicts an 8-class label for each token, indicating which local structure this amino acid belongs to.",
+        "bbox": [
+            112,
+            794,
+            885,
+            841
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Task Impact: This task helps to determine whether a model captures protein local structure.",
+        "bbox": [
+            112,
+            843,
+            788,
+            858
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Contact prediction (Contact):",
+        "bbox": [
+            132,
+            858,
+            371,
+            873
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: 2-class classification $( o _ { i } , o _ { j } ) \\mapsto \\{ 0 , 1 \\}$",
+        "bbox": [
+            112,
+            875,
+            539,
+            890
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Task Description: Contact prediction predicts the medium-range and long-range (distance ${ > } 6 )$ residueresidue contact, which measures the ability of models to capture global tertiary structures.",
+        "bbox": [
+            110,
+            890,
+            885,
+            922
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "page_number",
+        "text": "1755",
+        "bbox": [
+            480,
+            929,
+            521,
+            942
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Task Impact: This task helps to determine whether a model captures protein tertiary structure. The assessment of this task focuses specifically on medium- and long-range interactions due to their crucial importance in the protein folding process.",
+        "bbox": [
+            110,
+            85,
+            884,
+            134
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Homology prediction (Homology):",
+        "bbox": [
+            131,
+            135,
+            408,
+            151
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: 1195-class classification $x \\mapsto \\{ 0 , 1 \\ldots 1 1 9 4 \\}$",
+        "bbox": [
+            112,
+            151,
+            589,
+            166
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Description: Homology prediction aims to predict the fold label of any given protein, which indicates the evolutionary relationship of proteins.",
+        "bbox": [
+            112,
+            166,
+            884,
+            198
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Impact: Protein fold classification is important for both functional analysis and evaluating evolutionary knowledge.",
+        "bbox": [
+            112,
+            198,
+            885,
+            230
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Stability prediction (Stability):",
+        "bbox": [
+            131,
+            233,
+            379,
+            248
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: regression $x \\mapsto \\mathbb { R }$",
+        "bbox": [
+            114,
+            248,
+            391,
+            263
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Description: Stability prediction is a protein engineering task, which measures the change in stability w.r.t. residue mutations.",
+        "bbox": [
+            112,
+            265,
+            884,
+            296
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Impact: Evaluate the ability of models to predict protein function as well as evaluate the ability of models to understand mutations, which is crucial for drug discovery and protein engineering.",
+        "bbox": [
+            112,
+            297,
+            885,
+            329
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Subcellular Localization (Loc):",
+        "bbox": [
+            131,
+            330,
+            381,
+            346
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: regression $x \\mapsto \\{ 0 , 1 , \\ldots , 7 \\}$",
+        "bbox": [
+            114,
+            347,
+            470,
+            362
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Description: Subcellular localization refers to the process of determining the specific location or compartment within a cell where a particular molecule or protein resides. This information is essential for understanding the function and behavior of molecules or proteins, as their subcellular locations often dictate their roles in cellular processes, interactions with other molecules, and influence on cellular functions. For example, proteins on the cell membrane generally have signaling and regulatory functions. Task Impact: This task is closely related to protein functions and roles in biological processes.",
+        "bbox": [
+            112,
+            363,
+            885,
+            460
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Protein-Protein Interaction (PPI):",
+        "bbox": [
+            131,
+            461,
+            405,
+            476
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: two-class classification $( x _ { 1 } , x _ { 2 } ) \\mapsto \\{ 0 , 1 \\}$",
+        "bbox": [
+            114,
+            476,
+            564,
+            493
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Description: Protein-protein interaction predicts whether two proteins interact with each other.",
+        "bbox": [
+            114,
+            493,
+            850,
+            508
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Impact: This task is crucial for protein function understanding and drug discovery.",
+        "bbox": [
+            114,
+            510,
+            763,
+            525
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Protein Folding (Fold):",
+        "bbox": [
+            131,
+            526,
+            317,
+            542
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Formulation: x S, where S is the 3d-structure of protein, including all coordinates of atoms.   \nTask Description: Protein Folding predicts the structure of protein sequences.",
+        "bbox": [
+            112,
+            543,
+            857,
+            575
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Task Impact: This task is known to be challenging, and requires elaborated knowledge of protein local and global structure to make atomic predictions.",
+        "bbox": [
+            112,
+            575,
+            882,
+            607
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Dataset Details: We report test results on CASP14 public available targets. We also remove all sequences over 800 tokens due to the computation memory limit. The reported targets are: T1024, T1025, T1026, T1027, T1028, T1029, T1030, T1031, T1032, T1033, T1034, T1035, T1036s1, T1037, T1038, T1039, T1040, T1041, T1042, T1043, T1045s1, T1045s2, T1046s1, T1046s2,T1047s1, T1047s2, T1048, T1049, T1050, T1051, T1053, T1054, T1055, T1056, T1057, T1058, T1059, T1060s2, T1060s3, T1062, T1063, T1064, T1065s1, T1065s2, T1066s1, T1066s2, T1067, T1068, T1069s1, T1069s2, T1070, T1071, T1072s1, T1072s2, T1073, T1074, T1075, T1076, T1077, T1078, T1079, T1082, T1083, T1084, T1085, T1086, T1087, T1088, T1089, T1090, T1092, T1093, T1094, T1095, T1096, T1098, T1099, T1100, T1101. The blue targets are from CASP14-FM set.",
+        "bbox": [
+            110,
+            607,
+            887,
+            752
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Table 8 gives the details of the datasets for these tasks.",
+        "bbox": [
+            131,
+            753,
+            539,
+            770
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "De Novo Contact Prediction: We follow Chowdhury et al. (2022) to curate a de novo dataset of 108 proteins from Protein Data Bank (Bank). These proteins are originally designed de novo using computationally parametrized energy functions and are well-suited for out-of-domain tests. Note that different from orphan dataset, MSA can be built for this dataset, though showing a decline in quality.",
+        "bbox": [
+            110,
+            771,
+            885,
+            837
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "F.2 HHblits Settings",
+        "text_level": 2,
+        "bbox": [
+            112,
+            851,
+            294,
+            868
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "For MSA datasets, We use HHblits (Remmert et al., 2012) to perform alignment. The commands for MSA dataset construction is:",
+        "bbox": [
+            110,
+            875,
+            884,
+            907
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "page_number",
+        "text": "1756",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 18
+    },
+    {
+        "type": "code",
+        "sub_type": "code",
+        "code_caption": [],
+        "code_footnote": [],
+        "code_body": "```shell\nhhblits -cpu $CPU_NUM -i $INPUT_FILE -d $DATABASE_DIR -oa3m $OUTPUT_FILE -n 1 -e\n0.001\n```",
+        "bbox": [
+            112,
+            84,
+            855,
+            118
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "We also use HHblits to calculate E-value and determine whether we found homologous sequences in Figure 5 and §5.7 in the main paper. The commands for protein E-value calculation is:",
+        "bbox": [
+            112,
+            128,
+            884,
+            161
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "code",
+        "sub_type": "code",
+        "code_caption": [],
+        "code_footnote": [],
+        "code_body": "```batch\nhhalign -i query.fasta -d retrieved.fasta -o output.aln -e 0.001\n```",
+        "bbox": [
+            114,
+            166,
+            705,
+            184
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "F.3 Model Hyperparameters",
+        "text_level": 2,
+        "bbox": [
+            114,
+            204,
+            357,
+            221
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "All self-reported models use the same truncation strategy and perform parameter searches on the learning rate among [3e  8, 3e  6, 3e  5, 3e  4, 1e  3], warm-up rate among [0, 0.08], seed among [111, 222, 333, 444, 555, 666], and batch size among [1, 2, 4, 8, 16]. For evaluation, we choose the bestperforming model on the validation set and perform prediction on the test set. The best performing hyperparameters could be found in the file:",
+        "bbox": [
+            112,
+            225,
+            887,
+            306
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "code",
+        "sub_type": "algorithm",
+        "code_caption": [],
+        "code_footnote": [],
+        "code_body": "./RSA-code\\scripts\\$MODEL\\_NAME\\run\\_\\$TASK\\_NAME.sh",
+        "bbox": [
+            117,
+            312,
+            561,
+            329
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "Also, code with download instructions for dataset and retrieval index is available in the supplementary.",
+        "bbox": [
+            114,
+            340,
+            872,
+            356
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "F.4 RSA and Variants Implementation Details",
+        "text_level": 2,
+        "bbox": [
+            114,
+            366,
+            494,
+            382
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "F.4.1 Retriever Implementation Details",
+        "text_level": 2,
+        "bbox": [
+            114,
+            386,
+            440,
+            403
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "First, we calculate the ESM-1b embeddings of the 44 million sequences in Pfam-A 32.0. We use 16 V100 GPUs to calculate the embeddings in a day. A GPU as small as 3090 Ti would be enough, though it would take longer. Then, we adopt Faiss (Johnson et al., 2019b) indexing to accelerate the retrieval process by clustering the pre-trained dense vectors. In our implementation, we use the Inverted file with Product Quantizer encoding Indexing and set the size of quantized vectors to 64, the number of centroids to 4096, and the number of probes to 8. The construction of the Faiss index takes roughly 30 minutes using 0.5% randomly selected protein embeddings for index training. All embeddings as well as their id are subsequently added to the index.",
+        "bbox": [
+            110,
+            406,
+            885,
+            535
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "During retrieval, for each query sequence, we first use ESM-1b to calculate its embedding, and then using this embedding, we query faiss to find the top N nearest neighbor of this embedding, getting the distance and sequence id of retrieved sequences. L2 distances are used to measure sequence similarity.",
+        "bbox": [
+            112,
+            535,
+            884,
+            583
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "F.4.2 ProtBERT-RSA Architecture and Implementation",
+        "text_level": 2,
+        "bbox": [
+            114,
+            590,
+            569,
+            607
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "Here we provide the details for ProtBERT-RSA Architecture. An illustration of this process is also available in Figure 9. Note that in Step 2 retrieval of Faiss index could be further accelerated with GPU. In Step 4, the predictions of pairwise augmentation could be accelerated with batching on GPU, concurrently predicting k augmented sequences at the same time.",
+        "bbox": [
+            112,
+            611,
+            884,
+            675
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "However, for large pre-trained models and when k is very large, the batch computation may exceed memory limit. In this case, we provide implementation for gradient accumulation, which calculates loss and gradients for individual prediction (predictions ) and sum up the gradients with gradient accumulation. This implementation is a convex upperbound for the original loss function and we have validated its stability. This could also be implemented in batch size n, where each backward iteration calculates k/n retrieval augmentations, achieving trade-off between inference speed and memory limit.",
+        "bbox": [
+            110,
+            676,
+            885,
+            772
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "code",
+        "sub_type": "algorithm",
+        "code_caption": [],
+        "code_footnote": [],
+        "code_body": "Given query sequence \\$query, retrieval database \\$Faiss\\_Index, sequence database   \n\\$Pfam, the number of retrieval \\$k, ProtBERT model \\$Model, and label \\$y.   \nStep 1. embedding = ESM\\_1b(query)   \nStep 2. distances, ids = Faiss\\_Index.retrieve(embedding, k)   \nretrieved\\_seqs = Pfam[ids]   \nStep 3. predictions\\_i = Model([query, retrieved\\_seq]), i=1,2,..k   \nStep 4. prediction = sum(predictions\\_i \\* softmax(distance\\_i))   \nStep 5. loss = loss\\_function(prediction, y), perform training",
+        "bbox": [
+            112,
+            777,
+            847,
+            909
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "page_number",
+        "text": "1757",
+        "bbox": [
+            480,
+            928,
+            521,
+            942
+        ],
+        "page_idx": 19
+    },
+    {
+        "type": "image",
+        "img_path": "images/c1f2165493a40ff1112bb91e123ddf33cb0d9e0a7b3b9afd1e3a5aeef5a5e614.jpg",
+        "image_caption": [
+            "Figure 9: Detailed illustration of ProtBERT-RSA architecture."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            235,
+            82,
+            764,
+            254
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "F.4.3 RSA for Protein Folding",
+        "text_level": 2,
+        "bbox": [
+            112,
+            305,
+            368,
+            321
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "The major difference of RSA prediction for protein folding from other tasks is that we use a ranker to choose the final prediction rather than using weighted pooling. This is due to the misalignment of protein structures and simple weighting could result in averaging the structures of proteins with different angles of view. We train the ranker together with pTM-score loss (Lin et al., 2022) and contrastive loss on a subset of 1000 randomly chosen proteins from Protein Data Bank. These proteins are distinct from CASP14 test set. The ranker takes in the original structure prediction of the protein sequence and the k augmented predictions, and generate the highest ranking prediction as the final result. As current protein folding models are very large, we only provide zero-shot testing results on these pre-trained models, without further finetuning on our pipeline.",
+        "bbox": [
+            110,
+            324,
+            885,
+            470
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "code",
+        "sub_type": "algorithm",
+        "code_caption": [],
+        "code_footnote": [],
+        "code_body": "Given query sequence \\$query, retrieval database \\$Faiss\\_Index, sequence database   \n\\$Pfam, the number of retrieval \\$k, Folding model \\$Model, Ranking model \\$Ranker   \nand label \\$y.   \nStep 1. embedding = ESM\\_1b(query)   \nStep 2. distances, ids = Faiss\\_Index.retrieve(embedding, k)   \nretrieved\\_seqs = Pfam[ids]   \nStep 3. predictions\\_i = Model([query, retrieved\\_seq]), i=1,2,..k   \nStep 4. prediction = Ranker(predictions\\_i), i=1,2,..k",
+        "bbox": [
+            112,
+            475,
+            882,
+            609
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Due to the different model architectures of ESMFold and AlphaFold, we explain in details the inference pipeline of Model([query, retrieved]).",
+        "bbox": [
+            112,
+            619,
+            884,
+            651
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "ESMFold-RSA ESMFold is a single sequence protein folding model that consists of a protein representation model and a folding trunk based on the extracted representation. As illustrated in Figure 10(a), we concatenate query sequence with retrieved sequence and input them into the representation encoder. The encoder combines information from both query and retrieved sequence into query embedding via self-attention. Then we could use the pre-trained folding trunk to predict the structure of the query sequence. This pipeline could also be accelerated with batch prediction.",
+        "bbox": [
+            112,
+            652,
+            887,
+            749
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "AlphaFold-RSA Different from ESMFold, AlphaFold encoder takes both single sequence representation and pairwise representation as input. Therefore, as shown in FIgure 10(b), we generate the retrieved structure encoding with AlphaFold based on retrieved sequences, then we generate the structure of the query sequence based on the combination of single and pair representation. Note that we removed the template and MSA input in AlphaFold to ablation the effect of RSA.",
+        "bbox": [
+            110,
+            749,
+            887,
+            831
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "F.4.4 Accelerated MSA",
+        "text_level": 2,
+        "bbox": [
+            114,
+            838,
+            314,
+            853
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Accelerated MSA variant explores 165 substituting the discrete retrieval process in MSA with a dense retriever. We implement this method by first retrieving 500 sequences and then aligning these sequences with JackHMMer tool. Note that for most tasks we retrieve 500 sequences before alignment, as MSA Transformer can’t take in many sequences. The command for aligning is:",
+        "bbox": [
+            110,
+            858,
+            885,
+            922
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "page_number",
+        "text": "1758",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 20
+    },
+    {
+        "type": "image",
+        "img_path": "images/2490dc1cb7325bc0592421735259b992440cefa736e33069093f0d6d48ffc8cb.jpg",
+        "image_caption": [
+            "Figure 10: Illustration of the inference pipeline of RSA for Protein Folding"
+        ],
+        "image_footnote": [],
+        "bbox": [
+            119,
+            82,
+            875,
+            317
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "./jackhmmer -E 10.0 -A \\$aligned\\_file query.fasta retrieved.fasta",
+        "bbox": [
+            115,
+            380,
+            707,
+            397
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "G Supplementary Experiment Analysis",
+        "text_level": 2,
+        "bbox": [
+            114,
+            422,
+            473,
+            439
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "G.1 Comparison of the Running time between RSA vs MSA",
+        "text_level": 2,
+        "bbox": [
+            114,
+            447,
+            601,
+            463
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "A severe speed bottleneck limits the use of previous MSA-based methods. In this part, we add analysis on database construction time as well as give details for inference time calculation. We calculate the total time used in each retrieval inference by summing: alignment time and retrieval time, as shown in Figure 11. Alignment time is the time used when finding MSA sequences through alignment and aligning found sequences with HHblits. Retrieval time is the time used during dense retrieval, including calculating the embedding of the query sequence with GPU. It is notable from the figure that alignment itself is a computationally costly procedure.",
+        "bbox": [
+            110,
+            470,
+            885,
+            582
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "Also, MSA is limited by its cubersome construction of retrieval HHM profile to perform HHM-HHM search. We follow the MSA custom database construction process in HHblits and compare with the construction time for RSA on a single V100 GPU (batch size=1) on a database of 10000 protein sequences. As shown in Figure 12, our method use only 10 minutes to finish the construction, though building a profile requires more than 3200 minutes.",
+        "bbox": [
+            112,
+            583,
+            885,
+            664
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "G.2 Case Study",
+        "text_level": 2,
+        "bbox": [
+            114,
+            675,
+            255,
+            690
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "We cherry-picked one example of ProtBERT and ProtBERT-RSA on homology prediction (1195 class classification task) to showcase the interpretability as well as give intuition on our method. As shown in Figure 13, our method takes the original sequence as well as 16 retrieved sequences for prediction. After weighted summing of all predicted results, the prediction of probability on ground truth label increase and gives the correct prediction. We checked the most highly weighted (top 5) retrieved sequences, all five proteins are Colicins, which is a family under Toxins’ membrane translocation domains. We can see from the case that weighting by distance helps the model focus on more similar retrieved instances.",
+        "bbox": [
+            110,
+            696,
+            885,
+            809
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "We also provide two case studies on how RSA improves ESMFold. For target T1055, a DNA polymerase processivity factor, RSA retrieves A0A1A8WBQ9\\_9APIC, A0A1Y4NGW6\\_9FIRM, A0A4V4NFM9\\_9ASCO, A0A1D3TXL7\\_9FIRM, A0A0V0QX86\\_PSEPJ, A9KN76\\_LACP7, A0A162CB07\\_9CRUS, A0A369KX60\\_9PROT,SKI2\\_SCHPO, and the highest ranking augmentation prediction is from (T1055, A0A1A8WBQ9\\_9APIC). A0A1A8WBQ9\\_9APIC is a Merozoite surface protein. Merozoite surface protein 7 (MSP7) is a protein of the malaria parasite that has been found to be associated with processed fragments from the MSP1 protein in a complex involved in red blood cell invasion. A0A1A8WBQ9\\_9APIC is a Merozoite surface protein C-terminal domain-containing protein that is related to DNA polymerase processivity factor through its requirement of a host factor, E. coli thioredoxin, in order to carry out its function. They also show similar structures with a TM-score of 0.42.",
+        "bbox": [
+            110,
+            809,
+            887,
+            923
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "page_number",
+        "text": "1759",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 21
+    },
+    {
+        "type": "chart",
+        "img_path": "images/c9907cf9f6289293bec3655a81041bdb0278fc3d11dd9e0ce6611567a7f9c3b3.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 11: Illustration of speed up by RSA retrieval compared to MSA on secondary structure prediction dataset with 8678 sequences. Accelerated MSA refers to the MSA Transformer with MSA sequences retrieved by our RSA retriever."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            117,
+            153,
+            458,
+            361
+        ],
+        "page_idx": 22
+    },
+    {
+        "type": "chart",
+        "img_path": "images/4337fc975d99429ed7014f66b36498bd7f31bd198f59c122319ef90d330e83fe.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 12: Illustration of speed up by RSA retrieval compared to MSA on database construction of 10000 protein sequences."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            537,
+            156,
+            878,
+            387
+        ],
+        "page_idx": 22
+    },
+    {
+        "type": "image",
+        "img_path": "images/60096b38dc42ba00234c60e6e0eec5c90c43c52c35fb5703bf18488f10e39e4a.jpg",
+        "image_caption": [
+            "Figure 13: Case study on homology prediction."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            121,
+            596,
+            877,
+            820
+        ],
+        "page_idx": 22
+    },
+    {
+        "type": "page_number",
+        "text": "1760",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            85,
+            885,
+            133
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "For target T1039, a virion RNA polymerase of crAss-like phage, RSA retrieves A0A078ATM6\\_STYLE, A0A1D8P931\\_9FLAO, A0A363CW97\\_9PROT, D7JGI7\\_9BACT, A0A0B3VPN2\\_9FIRM, A0A1E4TQ27\\_PACTA, A0A1M6KY55\\_9FLAO, A0A1X7R9D3\\_9SACH, A0A0R1SCS6\\_9LACO, A0A367GMI1\\_9SPHI, A0A2N1F639\\_9FLAO, A0A0D6TLE8\\_9FLAO, A0A3N4NFZ1\\_9FLAO, A0A1D2VEI9\\_9ASCO, A0A1L7I7H7\\_9FLAO, A0A1R0FA92\\_9RHIZ. The highest ranking augmentation prediction is from (T1039, A0A078ATM6\\_STYLE). A0A078ATM6\\_STYLE is a COMM domaincontaining protein 1. It has no distinct functional relationship with T1039, though the second chain of this protein has a similar structure to T1039, with a TM-score of 0.34.",
+        "bbox": [
+            110,
+            134,
+            887,
+            263
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/161fd1c971adb589d5c0b1bf49e64c46e9a97ba3ad16f9a5c6c21bdbcd61aef7.jpg",
+        "image_caption": [
+            "Figure 14: Structure Prediction for T1055, Cyan is the color for Ground truth. Pink is the color for ESM-Fold. Pink is the color for ESMFold. Light purple is the color for ESMFold-RSA. The TM-score for ESMFold is 0.70, and the TM-score for ESMFold-RSA is 0.91."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            121,
+            280,
+            447,
+            526
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/0c3242375d5815bef71be5c1b9b20f6bd8fe9da95722b51b90856b40adf11ba9.jpg",
+        "image_caption": [
+            "Figure 15: Structure Prediction for T1039, The TMscore for ESMFold is 0.61, and the TM-score for ESMFold-RSA is 0.29"
+        ],
+        "image_footnote": [],
+        "bbox": [
+            566,
+            297,
+            877,
+            546
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "G.3 Domain Adaptation Analysis",
+        "text_level": 2,
+        "bbox": [
+            114,
+            658,
+            394,
+            674
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "In this section, we perform additional analysis on the domain adaptation ability on secondary structure prediction tasks. We perform training on NetSurfP-2.0(Klausen et al., 2019) training set and test on two datasets with domain gaps. On CASP12, RSA marginally outperforms other baselines, as shown in Table 8. We also test on 10 de novo proteins (6YWC, 2LUF, 7BPM, 7BPL, 7CBC, 1FSD, 1IC9, 5JI4, 5KWO, 6W6X). Since we didn’t find secondary structure labels for these proteins, we provide visualization in Figure 16, which shows that our model has an obvious overhead over MSA Transformer on predicting geometric components.",
+        "bbox": [
+            110,
+            680,
+            885,
+            794
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "G.4 Comparison of Accelerated MSA vs MSA quality",
+        "text_level": 2,
+        "bbox": [
+            114,
+            803,
+            552,
+            820
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "Accelerated MSA performs worse than original MSA when directly applied to MSA Transformer, as well as AlphaFold. In this section, we showcase successful and failed cases in AlphaFold and compare the coverage of two kinds of MSA.",
+        "bbox": [
+            112,
+            826,
+            884,
+            873
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "As shown in Figure 19, AlphaFold prediction is closely correlated to the coverage of MSA sequence. On cases where dense retriever fails to find a wide coverage of homologous sequences, AlphaFold performances drop starkly. Note that the MSA is implemented as ColabFold (Mirdita et al., 2022), using",
+        "bbox": [
+            112,
+            875,
+            885,
+            923
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "page_number",
+        "text": "1761",
+        "bbox": [
+            480,
+            929,
+            519,
+            942
+        ],
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/b8909fe443dd58bcd87dabdee01882cc814d5440d7ba29102ddc6efc5a5c6be7.jpg",
+        "image_caption": [
+            "Figure 16: Prediction of Secondary Structure on De Novo Dataset. Each color corresponds to a different secondary structure."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            115,
+            123,
+            878,
+            256
+        ],
+        "page_idx": 24
+    },
+    {
+        "type": "table",
+        "img_path": "images/2beba8078dd29dd75cad3cb7341bb59ecf22f9f3a4dda2a999f7222e9fa9cd1a.jpg",
+        "table_caption": [
+            "Table 9: The domain adaptation performance of models on CASP12 secondary structure prediction."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=1 colspan=2>Method                              CASP12</td></tr><tr><td rowspan=1 colspan=2>ProtBERT                             0.628MSA Transformer                   0.621</td></tr><tr><td rowspan=3 colspan=2>Accelerated MSA Transformer    0.620RSA (ProtBERT backbone)        0.631</td></tr><tr><td rowspan=2 colspan=1>d MS</td></tr><tr><td rowspan=1 colspan=1>ISA Transforn</td></tr></table>",
+        "bbox": [
+            329,
+            406,
+            665,
+            502
+        ],
+        "page_idx": 24
+    },
+    {
+        "type": "image",
+        "img_path": "images/e1f60cdc3610e117749cafbf32343d6382a511d69a410fe437194248dea0d070.jpg",
+        "image_caption": [
+            "Figure 17: Query and Retrieved Sequence Structures"
+        ],
+        "image_footnote": [],
+        "bbox": [
+            305,
+            589,
+            692,
+            856
+        ],
+        "page_idx": 24
+    },
+    {
+        "type": "page_number",
+        "text": "1762",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 24
+    },
+    {
+        "type": "chart",
+        "img_path": "images/8b1d3294300ec69c6404cd96439ab600f185fb845cca0e42da4fc97a58bcf049.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 18: E-value rank against dense retrieval rank on in CB513 dataset."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            273,
+            82,
+            726,
+            252
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "Uniclust30 for MSA building, while our retriever database has a smaller coverage, using only Pfam database. Also we build accelerated MSA based on only top-500 sequences from retrieval.",
+        "bbox": [
+            112,
+            303,
+            884,
+            335
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "G.5 Interpretability of RSA",
+        "text_level": 2,
+        "bbox": [
+            114,
+            344,
+            351,
+            361
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "In addition to analysis on interpretability in §5.7 in the main paper, we provide further analysis of the interpretability of RSA in terms of homology and structures.",
+        "bbox": [
+            112,
+            366,
+            884,
+            398
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "Retrieval rank does not necessarily corresponds to the sequence closest to the query sequence token-wise. As shown in Figure 18, we calculate and rank the E-value of Top-32 retrieved protein sequences in CB513 dataset. We then calculate the average rank for the 1st, 2nd,... 32nd proteins in the dataset. It shows that the top-1 protein only has an average rank of 11, indicating that the retrieval rank does not necessarily corresponds to the sequence closest to the query sequence token-wise. Therefore, using dense retrieval, our retrieved results are diverse in sequences, though close to the query sequences in properties.",
+        "bbox": [
+            112,
+            399,
+            885,
+            510
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "Visualization on Retrieval Structural Similarity As shown in Figure 17, we random picked a few more examples to illustrate the structural similarity between query protein and retrieval proteins. From the visualization, we can see that retrieved proteins exhibit similar structure or structure components, which could be used to boost structural knowledge.",
+        "bbox": [
+            110,
+            511,
+            885,
+            575
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "G.6 ProteinChat: RSA Empowers ChatGPT on Protein Understanding",
+        "text_level": 2,
+        "bbox": [
+            112,
+            586,
+            690,
+            601
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "In the section, we point out a direction for our future work. RSA can not only be used on small-scale representation learning model, it can also augment large language models, e.g. ChatGPT. Currently, even GPT4 model shows limited understanding of biological sequences, especially long sequences like proteins. Galactica (Taylor et al., 2022) pretrains LLM on scientific text and biological sequences, however, calibration on the nature of these sequences are ubiquitous. Here, we propose a new method to enable ChatGPT to understand protein sequences, ProteinChat, by directly applying the protein dense retriever to ChatGPT. We implement ProteinChat by binding ChatGPT with four tools,",
+        "bbox": [
+            110,
+            607,
+            887,
+            720
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "• RSA retriever, that finds homologous sequences to the query protein.",
+        "bbox": [
+            134,
+            730,
+            663,
+            746
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "• Annotator, that annotates the homologous sequences in a protein online database, i.e. InterPro<sup>2</sup>.",
+        "bbox": [
+            134,
+            756,
+            857,
+            772
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "• Wikipedia Search, that facilitates more elaborated enquiry into the features of these proteins.",
+        "bbox": [
+            134,
+            783,
+            836,
+            799
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "• PubMed Search, that facilitates elaborated enquiry into related scientific articles.",
+        "bbox": [
+            134,
+            809,
+            749,
+            825
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "ProteinChat is implemented similar to ReAct agent (Yao et al., 2022), which views ChatGPT as an agent that uses chain-of-thoughts to break down a difficult task into parts that could be accomplished by available tools. Here we show several demos of ProteinChat.",
+        "bbox": [
+            112,
+            835,
+            885,
+            883
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "Demo 1 (using Interpro + Wiki Search + RSA):",
+        "bbox": [
+            131,
+            883,
+            489,
+            900
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "page_footnote",
+        "text": "<sup>2</sup>https://www.ebi.ac.uk/interpro/",
+        "bbox": [
+            134,
+            907,
+            337,
+            922
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "page_number",
+        "text": "1763",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 25
+    },
+    {
+        "type": "table",
+        "img_path": "images/b8ca3175686342220f6a57f54edc66669d767272ec4d291772f2bf55e9a9b219.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<table><tr><td>Question: Which family does this protein MSLNAEQKAKVVLEHGSSAHDTGSTEVQVAL LTLRINDLQKHFLEHKKDHHSRRGLLRMVSQRRKLLDYLKKRNISKYTDLIQSLGLRK be- longs to? (Ground truth: Belongs to the universal ribosomal protein uS15 family.) Thought: I need to find out the functional and evolutionary annotations of this protein Action: Protein Retrieval</td></tr><tr><td>Action Input: MSLNAEQKAKVVLEHGSSAHDTGSTEVQVALLTLRINDLQKHFLEHKKD- HHSRRGLLRMVSQRRKLLDYLKKRNISKYTDLIQSLGLRK Observation: Here are 4 homologs for this protein separated by \",\":B4D3S0_9BACT, RS15_HAMD5, K6ZQA3_9ALTE, A0A1H6FC85_9GAMM Thought: I need to use the entry labels to search the InterPro database. Action: InterPro Annotation, Action Input: B4D3S0_9BACT</td></tr><tr><td>Observation: This is a 30S ribosomal protein S15. It is found in organism Chthoniobacter flavus Ellin428.It has molecular function that structural constituent of ribosome. It has a biological process translation. It has cellular component ribosome. Thought: I need to search Wikipedia to find out which family this protein belongs to. Action: Wikipedia Search, Action Input: 30S ribosomal protein S15</td></tr><tr><td>Observation: Page: Ribosomal protein Summary: A ribosomal protein (r-protein or rProtein)</td></tr><tr><td>is any of the proteins that, in conjunction with rRNA, make up the ribosomal subunits involved in</td></tr><tr><td>the cellular process of translation. E. coli, other bacteria and Archaea have a 30S small subunit and</td></tr><tr><td>a 50S large subunit, whereas humans and yeasts have a 40S small subunit and a 60S large subunit. Page: 40S ribosomal protein S30 Summary: 40S ribosomal protein S30 is a protein that in humans</td></tr><tr><td>is encoded by the FAU gene.</td></tr><tr><td>Thought: I now know the answer. Final Answer: The protein belongs to the 40S ribosomal protein S30 family.</td></tr><tr><td>Demo 2 (using Interpro + Wiki Search + RSA):</td></tr><tr><td>Question: Can this protein MPGVTVKDVNQQEFVRALAAFLKKSGKLKVPEWVDTVK-</td></tr><tr><td>LAKHKELAPYDENWFYTRAASTARHLYLRGGAGVGSMTKIYGGRORNGVMPSHFSRG</td></tr><tr><td>SKSVARRVLQALEGLKMVEKDQDGGRKLTPQGQRDLDRIAGQVAAANKK binds with RNA?</td></tr><tr><td>(Ground truth: Yes)</td></tr><tr><td>Thought:I need to find out what this protein does</td></tr><tr><td>Action: Protein Retrieval</td></tr><tr><td>Action Input: MPGVTVKDVNQQEFVRALAAFLKKSGKLKVPEWVDTVKLAKHKELAPY-</td></tr><tr><td>DENWFYTRAASTARHLYLRGGAGVGSMTKIYGGRORNGVMPSHFSRGSKSVARRV</td></tr><tr><td>LQALEGLKMVEKDQDGGRKLTPQGQRDLDRIAGQVAAANKK Observation: Here are 4 homologs for this protein separated by \",\":A0A315V8B8_GAMAF</td></tr><tr><td>,A0A673GQT0_9TELE ,A0A2K6SCP9_SAIBB ,A0A674GDP2_TAEGU</td></tr><tr><td>Thought: I need to find out what this protein does</td></tr><tr><td>Action: InterPro Search, Action Input: A0A315V8B8_GAMAF</td></tr><tr><td>Observation: This is a 40S ribosomal protein S19. It is found in organism Gambusia affinis</td></tr><tr><td>(Western mosquitofish).</td></tr><tr><td>Thought: I need to find out if this protein binds with RNA</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>Action: Wikipedia Search, Action Input: 40S ribosomal protein S19 binds RNA</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>Page: 40S ribosomal protein S19 Summary: 40S ribosomal protein S19 is a protein that in</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>humans is encoded by the RPS19 gene. Page: 5S ribosomal RNA Summary: The 5S ribosomal</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>RNA (5S rRNA) is an approximately 120 nucleotide-long ribosomal RNA molecule with a mass of</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>40 kDa. It is a structural and functional component of the large subunit of the ribosome in all domains</td></tr><tr><td>subunits involved in the cellular process of translation. E. coli, other bacteria and Archaea have a 30S small subunit and a 50S large subunit, whereas humans and yeasts have a 40S small subunit and a 60S large subunit.) Thought: I now know the final answer.</td></tr><tr><td>Final Answer: Yes, 40S ribosomal protein S19 binds with 5S ribosomal RNA as part of the ribosomal subunits involved in the cellular process of translation Demo 3 (using PubMed API + RSA):</td></tr><tr><td>Question: Identify the potential function of protein MSRTIFCTFLNKEAD- GLDFQLYPGELGKRIFNEISKEAWGQWMAKQTMLINEKKLNTMN- PDDRKLLEQEMVRFLFEGHDVHIDGYTPPEK and write a detailed protocol for measuring the</td></tr><tr><td>function of this protein. (Ground truth: N/A) Thought:I need to find what gene this protein is associated with Action: Protein Retrieval Action Input: MSRTIFCTFLNKEADGLDFQLYPGELGKRIFNEISKEAWGQWMAKQTM-</td></tr><tr><td>LINEKKLNTMNPDDRKLLEQEMVRFLFEGHDVHIDGYTPPEK Observation: Homologs of this protein has attributes: Iron_Traffic with importance 0.8876, E1_UFD with importance 0.1123</td></tr><tr><td>Thought: I need to find out more information about iron traffic</td></tr><tr><td>Action: PubMed Search, Action Input: iron traffic</td></tr><tr><td></td></tr><tr><td>Observation: Title: Moving Fe2+ from ferritin ion channels to catalytic OH centers depends on conserved protein cage carboxylates</td></tr><tr><td>Abstract: ... (too long, abbrevited) Title: L-ferritin binding to scara5: a new iron traffic pathway potentially implicated in retinopathy</td></tr><tr><td>Abstract: ... (too long, abbrevited)</td></tr><tr><td>Title: Ceruloplasmin-ferroportin system of iron traffic in vertebrates</td></tr><tr><td>Abstract: ... (too long, abbrevited)</td></tr><tr><td>Thought: I now know enough to write a detailed protocol.</td></tr><tr><td>Final Answer: Based on the information gathered from the protein sequence and the relevant</td></tr><tr><td>literature, it appears that the protein is potentially involved in iron trafficking. Iron trafficking is crucial for various cellular processes, and the ceruloplasmin-ferroportin system represents one of</td></tr><tr><td>the major iron traffic pathways in vertebrates. Ferritin is an iron storage protein that has also been</td></tr><tr><td>suggested as an iron carrier. The Scara5 receptor, which is specific for L-ferritin, has been found in</td></tr><tr><td></td></tr><tr><td>various tissues, including the retina. To measure the function of this protein, we can design a protocol that investigates the protein's</td></tr><tr><td>role in iron transport and its interaction with other proteins involved in iron trafficking, such as</td></tr><tr><td>ceruloplasmin, ferroportin, and Scara5. Here's a detailed protocol:</td></tr><tr><td>1. Protein expression and purification: Clone the gene encoding the protein of interest into an</td></tr><tr><td>appropriate expression vector. Transform the vector into a suitable host, such as E. coli, and induce</td></tr><tr><td>protein expression. Purify the expressed protein using affinity chromatography and other relevant</td></tr><tr><td>purification techniques.</td></tr><tr><td></td></tr><tr><td>2. Iron-binding assay: Assess the ability of the purified protein to bind iron using a colorimetric</td></tr><tr><td></td></tr><tr><td>iron-binding assay, such as the ferrozine assay. Measure the absorbance of the protein-iron complex</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>at the appropriate wavelength to determine the iron-binding capacity of the protein.</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>3. Protein-protein interaction studies: Investigate the interaction between the protein of interest</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>and other proteins involved in iron trafficking, such as ceruloplasmin, ferroportin, and Scara5. This</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>can be done using techniques like co-immunoprecipitation, pull-down assays, or surface plasmon</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>resonance (SPR). Cellular iron transport assay: Transfect cells with a plasmid encoding the protein</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td>of interest and perform an iron transport assay using radiolabeled iron (e.g., 59Fe). Measure the rate</td></tr></table>",
+        "bbox": [
+            121,
+            83,
+            877,
+            913
+        ],
+        "page_idx": 26
+    },
+    {
+        "type": "page_number",
+        "text": "1764",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 26
+    },
+    {
+        "type": "table",
+        "img_path": "",
+        "table_caption": [],
+        "table_footnote": [],
+        "bbox": [
+            122,
+            84,
+            875,
+            890
+        ],
+        "page_idx": 27
+    },
+    {
+        "type": "page_number",
+        "text": "1765",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "4. Functional studies in animal models: Assess the in vivo function of the protein by generating a knockout or transgenic animal model. Evaluate the iron status of the animals (e.g., serum iron, transferrin saturation, and ferritin levels) and examine the expression of other proteins involved in iron trafficking (e.g., ceruloplasmin, ferroportin, Scara5) in the knockout or transgenic animals compared to control animals.",
+        "bbox": [
+            131,
+            84,
+            867,
+            164
+        ],
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "5.Histological analysis: Examine the localization and distribution of the protein in various tissues, especially the retina, using immunohistochemistry. Determine the impact of the protein on retinal iron levels and assess the potential involvement of the protein in retinopathy.",
+        "bbox": [
+            131,
+            164,
+            867,
+            212
+        ],
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "6.Data analysis: Analyze the data obtained from the various assays and experiments to draw conclusions about the function of the protein in iron trafficking and its potential role in retinopathy.",
+        "bbox": [
+            131,
+            212,
+            865,
+            246
+        ],
+        "page_idx": 28
+    },
+    {
+        "type": "page_number",
+        "text": "1766",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 28
+    },
+    {
+        "type": "chart",
+        "img_path": "images/e3677422dd884e81945d2d3b322005e78b02de915fcad71f0a69132e10d7df82.jpg",
+        "content": "",
+        "chart_caption": [
+            "(a) T1024 MSA, AlphaFold prediction TM-score: 0.9842"
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            117,
+            96,
+            460,
+            265
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "chart",
+        "img_path": "images/0c5fe8cfa39cb02d32b9ef37c8077b51b61e4cd2f480a5985ebdcd2b7dc2231e.jpg",
+        "content": "",
+        "chart_caption": [
+            "(b) T1024 Acc-MSA, AlphaFold prediction TM-score: 0.9897"
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            537,
+            86,
+            880,
+            253
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "image",
+        "img_path": "images/7fd09adf7f5c64aad6adcf236e9b619b690ef85b9c2cedf8e95b81907d9f24cc.jpg",
+        "image_caption": [
+            "(c) T1025 MSA, AlphaFold prediction TM-score: 0.9229"
+        ],
+        "image_footnote": [],
+        "bbox": [
+            117,
+            300,
+            462,
+            467
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "image",
+        "img_path": "images/5aae7d44082b409d8d2bfdd27694eb5d925a7dac79a667a23c44c5e4d32ad1b7.jpg",
+        "image_caption": [
+            "(d) T1025 Acc-MSA, AlphaFold prediction TM-score: 0.9204"
+        ],
+        "image_footnote": [],
+        "bbox": [
+            536,
+            287,
+            880,
+            455
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "image",
+        "img_path": "images/0a774d6f646407aea420b848ec90bfedd201dc6ff099478b424be057cb60592a.jpg",
+        "image_caption": [
+            "(e) T1047s1 MSA, AlphaFold prediction TM-score: 0.5020"
+        ],
+        "image_footnote": [],
+        "bbox": [
+            115,
+            489,
+            463,
+            656
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "chart",
+        "img_path": "images/52fd99ab6b6d580fe838dd93d65d810473a89c766260bd04ed770f1f70c70475.jpg",
+        "content": "",
+        "chart_caption": [],
+        "chart_footnote": [],
+        "bbox": [
+            534,
+            487,
+            880,
+            656
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "chart",
+        "img_path": "images/79d976f09956fc2763da7944a5feb967716391611bef1403c38fc3362139cd6f.jpg",
+        "content": "",
+        "chart_caption": [
+            "(g) T1045s2 MSA, AlphaFold prediction TM-score: 0.9356"
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            117,
+            690,
+            462,
+            859
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "chart",
+        "img_path": "images/ea2a013d054b0f4138f10ff9db75db9f70585417dbfa08c7382af1e763acb959.jpg",
+        "content": "",
+        "chart_caption": [
+            "(f) T1047s1 Acc-MSA, AlphaFold prediction TM-score: 0.4214",
+            "(h) T1045s2 Acc-MSA, AlphaFold prediction TM-score: 0.2759",
+            "Figure 19: Visualization of the coverage rate of Accelerated MSA VS MSA."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            534,
+            689,
+            880,
+            859
+        ],
+        "page_idx": 29
+    },
+    {
+        "type": "page_number",
+        "text": "1767",
+        "bbox": [
+            480,
+            928,
+            522,
+            942
+        ],
+        "page_idx": 29
+    }
+]
