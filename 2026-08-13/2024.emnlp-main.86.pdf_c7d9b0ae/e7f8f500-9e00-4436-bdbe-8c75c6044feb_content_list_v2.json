@@ -1,0 +1,3629 @@
+[
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Mitigating Matthew Effect: Multi-Hypergraph Boosted Multi-Interest Self-Supervised Learning for Conversational Recommendation"
+                    }
+                ],
+                "level": 1
+            },
+            "bbox": [
+                134,
+                87,
+                863,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Yongsen Zheng<sup>1,2</sup>, Ruilin Xu<sup>3</sup>, Guohua Wang<sup>4†</sup>, Liang Lin<sup>3,5</sup>, Kwok-Yan Lam<sup>1,2†</sup> <sup>1</sup>Nanyang Technological University, Singapore <sup>2</sup>Digital Trust Centre Singapore <sup>3</sup>Sun Yat-sen University <sup>4</sup>South China Agricultural University <sup>5</sup>Peng Cheng Laboratory {yongsen.zheng, kwokyan.lam}@ntu.edu.sg, xurlin5@mail2.sysu.edu.cn wangguohua@scau.edu.cn, linliang@ieee.org"
+                    }
+                ]
+            },
+            "bbox": [
+                144,
+                141,
+                860,
+                227
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Abstract"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                260,
+                252,
+                342,
+                268
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The Matthew effect is a big challenge in Recommender Systems (RSs), where popular items tend to receive increasing attention, while less popular ones are often overlooked, perpetuating existing disparities. Although many existing methods attempt to mitigate Matthew effect in the static or quasi-static recommendation scenarios, such issue will be more pronounced as users engage with the system over time. To this end, we propose a novel framework, Multi-Hypergraph Boosted Multi-Interest Self-Supervised Learning for Conversational Recommendation (HiCore), aiming to address Matthew effect in the Conversational Recommender System (CRS) involving the dynamic user-system feedback loop. It devotes to learn multi-level user interests by building a set of hypergraphs (i.e., item-, entity-, word-oriented multiple-channel hypergraphs) to alleviate the Matthew effec. Extensive experiments on four CRS-based datasets showcase that HiCore attains a new state-of-the-art performance, underscoring its superiority in mitigating the Matthew effect effectively. Our code is available at https://github.com/zysensmile/HiCore."
+                    }
+                ]
+            },
+            "bbox": [
+                141,
+                278,
+                462,
+                637
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "1 Introduction"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                646,
+                260,
+                663
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Engaging users in ongoing conversations for personalized recommendations, Conversational Recommendation Systems (CRSs) (Qin et al., 2023; Mishra et al., 2023) have become a prevalent strategy utilized in diverse fields (Liu et al., 2023; Epure and Hennequin, 2023). However, CRSs often face a big challenge known as Matthew effect (Liu and Huang, 2021), captured by the adage \"the privileged gain more privilege, while the underprivileged fall further behind.\" This observation underscores that well-received items or categories in past records garner heightened visibility in future suggestions, whereas less preferred ones frequently face neglect or marginalization."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                671,
+                490,
+                898
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Lately, a multitude of studies have focused on investigating the Matthew effect in relatively unchanging offline recommendation scenarios (Liu and Huang, 2021; Anderson et al., 2020), identifying two root causes for its occurrence. One cause (Liang et al., 2021; Zheng et al., 2021a; Hansen et al., 2021; Anderson et al., 2020) is the heightened vulnerability of individuals with narrower and uniform preferences or interests to succumb to the pervasive influence of the Matthew effect. This susceptibility often stems from a tendency towards familiarity and comfort, leading to a reinforcement of existing patterns and a limited exploration of diverse alternatives. Another cause (Zheng et al., 2021b) arises from the pervasive favoritism towards mainstream items, resulting in a perpetual reinforcement of their prominence, while lesser-known alternatives linger in the shadows. This bias towards popular choices not only perpetuates existing trends but also limits the discoverability of niche or underappreciated options. Thus, the amplification of visibility for widely favored items can overshadow the potential value and diversity offered by less popular but equally deserving alternatives."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                253,
+                885,
+                656
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Despite their effectiveness, most existing methods still suffer from two major limitations. 1) Interactive Strategy. While many methods have offered valuable insights into the Matthew effect, they often overlook the adverse effects originating from the dynamic user-system feedback loop (Zhang et al., 2021), as they primarily focus on mitigating the Matthew effect in relatively stable offline recommendation settings. In fact, the Matthew effect can intensify as users interact more actively with the system over time, potentially exacerbating concerns such as echo chambers (Ge et al., 2020) and filter bubbles (Steck, 2018). Hence, it is important to address the Matthew effect in the CRS. 2) Interest Exploration. Considering that the root cause of the Matthew effect lies in the confinement of user interests (Zheng et al., 2021a; Liang et al., 2021; Hansen et al., 2021; Anderson et al., 2020), most existing methods focus on leveraging hypergraphs to unveil complex high-order user relationship patterns for exploring user interests. However, these hypergraphs often remain single-channel, constraining their capacity to capture diverse user relation patterns since each hypergraph can only represent a specific type of user patterns. Moreover, these single-channel hypergraphs may risk evolving into traditional Knowledge Graphs (KGs) due to the scarcity of user-item interaction data. Thus, the construction of multi-channel hypergraphs is paramount for exploring multi-level user interests."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                656,
+                887,
+                915
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>†</sup>Corresponding author."
+                    }
+                ]
+            },
+            "bbox": [
+                141,
+                906,
+                289,
+                920
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1455"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        },
+        {
+            "type": "page_footer",
+            "content": {
+                "page_footer_content": [
+                    {
+                        "type": "text",
+                        "content": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 1455–1466 November 12-16, 2024 ©2024 Association for Computational Linguistics"
+                    }
+                ]
+            },
+            "bbox": [
+                159,
+                945,
+                838,
+                973
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                110,
+                85,
+                489,
+                326
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "To address these limitations, we propose the novel framework, Multi-Hypergraph Boosted Multi-Interest Self-Supervised Learning for Conversational Recommendation (HiCore), which aims to mitigate the negative impact of Matthew effect when users engage with the system over time in the CRS. It is comprised of Multi-Hypergraph Boosted Multi-Interest Self-Supervised Learning and Interest-Boosted CRS. The former devotes to construct multi-hypergraph (i.e., item-oriented, entity-oriented, and word-oriented triple-channel hypergraphs) to learn multi-level user interests (i.e., item-level, entity-level, word-level triple-channel interests), where triple channels contain the group, joint, and purchase channels. The latter aims to utilize the multi-level interests to enhance both conversation and recommendation tasks when users chat with system over time. Concretely, multi-level user interests are used to effectively generate next utterances in the conversational task, and accurately predict users’ interested items in the recommendation task. Extensive experimental results on four benchmarks show that HiCore achieves a new state-of-the-art performance compared all the baselines, and the effectiveness of mitigating Matthew effect in the CRS."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                326,
+                489,
+                745
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Overall, our main contributions are included:"
+                    }
+                ]
+            },
+            "bbox": [
+                131,
+                745,
+                470,
+                760
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• To the best of our knowledge, this is the first work to build multi-hypergraph from triple-channel settings for learning multi-interest to mitigate Matthew effect in the CRS."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                759,
+                489,
+                822
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• We proposed a novel end-to-end framework HiCore, aiming to use multi-interest enhance both recommendation and conversation tasks."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                824,
+                489,
+                871
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• Quantitative and qualitative experimental results show the effectiveness of HiCore and the superiority of HiCore in mitigating Matthew effect."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                872,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2 Related Work"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                83,
+                667,
+                99
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2.1 Matthew Effect in Recommendation"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                114,
+                842,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The Matthew effect poses a formidable challenge in recommendation systems. To combat this issue, there are two primary research lines. One line of research focuses on understanding a diverse range of user interests to enhance recommendation diversification (Anderson et al., 2020; Hansen et al., 2021; Liang et al., 2021; Zheng et al., 2021a). The other line of research (Zheng et al., 2021b) is dedicated to mitigating popularity bias to ensure a balanced exposure of items across various categories. For example, Wang et al. (Wang et al., 2019) conducted a meticulous quantitative analysis, providing valuable insights into the quantitative characteristics of the Matthew effect in collaborative-based recommender systems. Liu et al. (Liu and Huang, 2021) have confirmed the presence and impact of the Matthew effect within the intricate algorithms of YouTube’s recommendation system. However, these methods primarily concentrate on exploring the Matthew effect in static recommendation environments, overlooking the crucial interplay of the user-system feedback loop."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                137,
+                887,
+                494
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2.2 Conversational Recommender System"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                510,
+                855,
+                525
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Conversational Recommendation System aims to uncover users’ genuine intentions and interests through natural language dialogues, thereby offering top-notch recommendations to users. Currently, CRS-based methods can be categorized into two main groups. 1) Attribute-based CRS (Deng et al., 2021a; Lei et al., 2020a,b; Ren et al., 2021; Xu et al., 2021), which seeks to delve into user interests by posing queries about items or their attributes. However, this approach primarily relies on predefined templates for response generation, often falling short in producing fluent, human-like natural language expressions. 2) Generated-based CRS (Chen et al., 2019; Deng et al., 2023; Li et al., 2022; Zhou et al., 2020a, 2022; Shang et al., 2023), which can address the shortcomings of attributecentric CRS by utilizing the Seq2Seq architecture (Vaswani et al., 2017a) to integrate a conversation component and a recommendation component, resulting in the creation of smooth and coherent human-like responses. Despite their effectiveness, they face challenges in grasping the varied interests of users because of the restricted and scarce character of user-item interaction data."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                533,
+                887,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1456"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/0aa40c22cb150da9cef0b1f6094c04bf388196e3913eadff288e2ce6e30b225d.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 1: Overview of our HiCore framework. It consists of Multi-Hypergraph Boosted Multi-Interest Self Supervised Learning and Interested-Boosted CRS. The former aims to learn multi-level user interests, while the latter devotes to generate responses in the conversation module and predict items in the recommendation module."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                117,
+                83,
+                880,
+                390
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3 HiCore"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                467,
+                215,
+                482
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Most existing methods (Hussein et al., 2020; Liu et al., 2021a; Nguyen et al., 2014) have consistently revealed that individuals with constrained interests are greatly impacted by Matthew effect. Thus, we propose a novel framework, HiCore, which is comprised of Multi-Hypergraph Boosted Multi-Interest Self-Supervised Learning and Interest-Boosted CRS. The overall pipeline of the proposed HiCore is illustrated in Fig.1."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                492,
+                490,
+                638
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1 Multi-Hypergraph Boosted Multi-Interest Self-Supervised Learning"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                646,
+                487,
+                680
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this section, we will establish multi-hypergraph to learn multi-level user interests to mitigate Matthew effect in the CRS."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                684,
+                487,
+                732
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1.1 Multi-Hypergraph Boosts Multi-Interest"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                112,
+                740,
+                487,
+                756
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Instead of linking only two nodes per edge as in traditional KGs, hypergraphs extend the notion of edges to connect more than two nodes. By utilizing diverse hypergraphs to encode various highorder user relation patterns, we construct multiple knowledge-oriented triple-channel hypergraphs."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                758,
+                489,
+                856
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Item-oriented triple-channel Hypergraphs. We first build item-oriented hypergraphs from triple channels, i.e., ‘Group Channel "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( g ) ^ { \\prime }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", ‘Joint Channel "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( j ) ^ { \\flat }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and ‘Purchase Channel "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( p ) ^ { \\prime }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "via the Motif (Milo et al., 2002; Yu et al., 2021), a commonly utilized tool for capturing complex local structures involving multiple nodes, as illustrated in Fig.2."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                856,
+                490,
+                921
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/90137f09b1816f35fa0cd3a50007b79bfa3ec925b6fec0815b6a7e615d18bd5c.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 2: Triangle motifs used in our proposed HiCore."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                515,
+                472,
+                894,
+                620
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                673,
+                884,
+                721
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Group-channel hypergraph. Group-channel hypergraphs aim to analyze users’ social relations to unveil the dynamics among individuals based on their shared interests, preferences, and characteristics. Understanding group preferences not only consolidates individual tastes but also facilitates collective decisions that benefit the entire group. Formally, we utilize a set of triangular motifs (Milo et al., 2002; Yu et al., 2021) to build the item-oriented group-channel hypergraphs "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { g } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "as:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                722,
+                887,
+                885
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathsf { G } _ { g } ^ { ( i ) } = ( \\mathcal { V } _ { g } ^ { ( i ) } , \\mathcal { N } _ { g } ^ { ( i ) } , \\boldsymbol { A } _ { M _ { k } ^ { g } } ^ { ( i ) } ) .\\tag{1}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/eaf456b717dcbe14e86b6132905699b32904c6d356b81e09aeb8e88497cd5d35.jpg"
+                }
+            },
+            "bbox": [
+                586,
+                897,
+                788,
+                923
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1457"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Here "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { V } _ { g } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "represents the set of items derived from the historical conversations, while "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { N } _ { g } ^ { ( i ) } ="
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\{ M _ { k } ^ { g } | 1 \\le k \\le 7 \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "denotes the collection of hyperedges, with each hyperedge representing an occurrence of the specified motif "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\boldsymbol { M } _ { k } ^ { g }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "in "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { F i g } . 2"
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "A _ { M _ { k } ^ { g } } ^ { ( i ) } \\in | \\mathcal { V } _ { g } ^ { ( i ) } | \\times | \\mathcal { N } _ { g } ^ { ( i ) } |"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the group-motif-induced adjacency matrices. Firstly, we need to define the matrix computation of each type of motif. Let "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\pmb { H } _ { k } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "be the matrix computation of the motif "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\boldsymbol { M } _ { \\boldsymbol { k } } ^ { g }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", then we can obtain:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                82,
+                489,
+                258
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\left\\{ \\begin{array} { l l } { H _ { 1 } ^ { ( i ) } = ( I ^ { T } J ) \\otimes I ^ { T } + ( J I ) \\otimes I + ( I I ^ { T } ) \\otimes J , } \\\\ { H _ { 2 } ^ { ( i ) } = ( I J ) \\otimes I + ( J I ^ { T } ) \\otimes I ^ { T } + ( I ^ { T } I ) \\otimes J , } \\\\ { H _ { 3 } ^ { ( i ) } = ( I I ) \\otimes I + ( I I ^ { T } ) \\otimes I + ( I ^ { T } I ) \\otimes I , } \\\\ { H _ { 4 } ^ { ( i ) } = ( J J ) \\otimes J , } \\\\ { H _ { 5 } ^ { ( i ) } = ( J J ) \\otimes I + ( J I ) \\otimes J + ( I \\cdot J ) \\otimes J , } \\\\ { H _ { 6 } ^ { ( i ) } = ( J I ) \\otimes I ^ { T } + ( I J ) \\otimes I ^ { T } + ( I I ) \\otimes J , } \\\\ { H _ { 7 } ^ { ( i ) } = ( I I ) \\otimes I ^ { T } , } \\end{array} \\right.\\tag{2}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/42cb122a500f4b2b6cf855fb57d4351de506f1f3a7cefe2f4f33b92e9eaa2118.jpg"
+                }
+            },
+            "bbox": [
+                119,
+                263,
+                492,
+                426
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\otimes"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the element-wise product, S denote the relation matrix (Yu et al., 2021). "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\pmb { J } = \\pmb { S } \\otimes \\pmb { S }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\pmb { I } = \\pmb { S } - \\pmb { J }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "specify the adjacency matrices of the bidirectional and unidirectional social networks (i.e., group motif), respectively. Then, the groupmotif-induced adjacency matrices "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "A _ { M _ { k } ^ { g } } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                439,
+                489,
+                543
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r } { A _ { M _ { k } ^ { ( i ) } } ^ { ( i ) } = \\left\\{ \\begin{array} { l l } { H _ { 1 } ^ { ( i ) } , } & { \\mathrm { i f } \\quad M _ { 1 } ^ { g } , } \\\\ { H _ { 2 } ^ { ( i ) } , } & { \\mathrm { i f } \\quad M _ { 2 } ^ { g } , } \\\\ { H _ { 3 } ^ { ( i ) } + ( H _ { 5 } ^ { ( i ) } ) ^ { T } , } & { \\mathrm { i f } \\quad M _ { 3 } ^ { g } , } \\\\ { H _ { 4 } ^ { ( i ) } , } & { \\mathrm { i f } \\quad M _ { 4 } ^ { g } , } \\\\ { H _ { 5 } ^ { ( i ) } + ( H _ { 3 } ^ { ( i ) } ) ^ { T } , } & { \\mathrm { i f } \\quad M _ { 5 } ^ { g } , } \\\\ { H _ { 6 } ^ { ( i ) } + ( H _ { 2 } ^ { ( i ) } ) ^ { T } , } & { \\mathrm { i f } \\quad M _ { 6 } ^ { g } , } \\\\ { H _ { 7 } ^ { ( i ) } + ( H _ { 1 } ^ { ( i ) } ) ^ { T } , } & { \\mathrm { i f } \\quad M _ { 7 } ^ { g } . } \\end{array} \\right. } \\end{array}\\tag{3}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/91cf88f64230937c186ac17b5cb4f015785206f29ac07c6dbe54978828dcfdc1.jpg"
+                }
+            },
+            "bbox": [
+                144,
+                555,
+                440,
+                719
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "If "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( \\boldsymbol { A } _ { M _ { k } ^ { g } } ^ { ( i ) } ) _ { n , r } = 1"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", it signifies that the node n and the node r co-occur in a single instance of "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\boldsymbol { M } _ { \\boldsymbol { k } } ^ { g }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "When two nodes appear in multiple instances, it turns to be "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( { \\cal A } _ { M _ { k } ^ { g } } ^ { ( i ) } ) _ { n , r } \\ ="
+                    },
+                    {
+                        "type": "text",
+                        "content": "#(n, r occur in the same instance of "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "M _ { k } ^ { g } )"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                730,
+                489,
+                824
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Joint-channel hypergraph. The joint channel reflects the scenario of shared behaviors among friends in a social network. When friends purchase the same items, it not only suggests similarities in tastes and interests but also hints at deeper levels of interaction and trust. This phenomenon of \"friends purchasing the same item\" may facilitate information dissemination and interaction within the social network, strengthening social relationships, and to some extent, reflecting influence and collective behavior within the social network. Therefore, by identifying and analyzing the joint motifs, the itemoriented joint-channel hypergraph "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { j } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                824,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                84,
+                887,
+                200
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\left\\{ \\begin{array} { l l } { \\boxed { \\hat { \\mathbf { G } } _ { j } ^ { ( i ) } = ( \\gamma _ { j } ^ { ( i ) } , \\mathcal { N } _ { j } ^ { ( i ) } , A _ { M _ { k } ^ { i } } ^ { ( i ) } ) , } } \\\\ { H _ { 8 } ^ { ( i ) } = ( R R ^ { T } ) \\otimes J , } \\\\ { H _ { 9 } ^ { ( i ) } = ( R R ^ { T } ) \\otimes I , } \\\\ { A _ { M _ { k } ^ { j } } ^ { ( i ) } = H _ { 8 } ^ { ( i ) } , \\qquad \\mathrm { i f } \\quad M _ { 8 } ^ { j } , } \\\\ { A _ { M _ { k } ^ { j } } ^ { ( i ) } = H _ { 9 } ^ { ( i ) } + [ H _ { 9 } ^ { ( i ) } ] ^ { T } , \\quad \\mathrm { i f } \\quad M _ { 9 } ^ { j } , } \\end{array} \\right.\\tag{4}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/6a3a5a431d1c272f3b286863c28bb3f86be8d63c8fdcf5562f00e98cc402c5f3.jpg"
+                }
+            },
+            "bbox": [
+                529,
+                211,
+                828,
+                344
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { V } _ { j } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { N } _ { i } ^ { ( i ) } = \\{ M _ { k } ^ { j } | 8 \\leq k \\leq 9 \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "denote the item set, and the hyperedge set, respectively. Each hyperedge is induced from each type of joint motif, depicted in Fig.2. R is a binary matrix that records user-item interactions, and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\dot { \\boldsymbol { A } } _ { M _ { k } ^ { j } } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "denotes the joint-motif-induced adjacency matrices."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                357,
+                885,
+                463
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Purchase-channel hypergraph. Additionally, we should also take into account users who do not have explicit social connections. Therefore, the analysis is non-exclusive and delineates the implicit higher-order social relationships among users who lack direct social ties but still purchase the same items. By considering these users without overt social links, we can uncover hidden patterns of social influence and affiliation that transcend traditional network structures. Thus, the item-oriented purchase-channel hypergraph "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { p } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "can be induced from the purchase motif "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "M _ { 1 0 } ^ { p }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "as follows:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                463,
+                885,
+                659
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { \\mathsf { G } _ { p } ^ { ( i ) } = ( \\mathcal { V } _ { p } ^ { ( i ) } , \\mathcal { N } _ { p } ^ { ( i ) } , \\boldsymbol { A } _ { M _ { k } ^ { p } } ^ { ( i ) } ) , } \\\\ & { \\boldsymbol { A } _ { M _ { k } ^ { p } } ^ { ( i ) } = \\boldsymbol { H } _ { 1 0 } ^ { ( i ) } = \\boldsymbol { R } \\boldsymbol { R } ^ { T } , \\quad \\mathrm { i f } \\quad M _ { 1 0 } ^ { p } , } \\end{array}\\tag{5}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/5a9eaa6b1bfd82e69cb03f40b4925f2f46d3206faf5a0e4df2587cb8cc9b7985.jpg"
+                }
+            },
+            "bbox": [
+                559,
+                669,
+                833,
+                721
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "here "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { V } _ { p } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { N } _ { p } ^ { ( i ) } = \\{ M _ { k } ^ { p } | k = 1 0 \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "are the item set and hyperedge set, respectively. Specifically, the hyperedge set, depicted in Fig.2. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\bar { \\boldsymbol { A } } _ { M _ { k } ^ { p } } ^ { ( i ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the purchase-motif-induced adjacency matrices."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                734,
+                885,
+                807
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Entity-oriented triple-channel hypergraphs. To tackle the sparsity and constraints inherent in historical user-item interaction data, we leverage the rich DBpedia KG (Auer et al., 2007) to build an entity-oriented hypergraph. More precisely, we identify individual items referenced in historical conversations as entities and their k-hop neighbors to construct each hyperedge. This method enables us to capture shared semantic nuances among the broader network of neighbors. Similar to itemoriented triple-channel hypergraphs, we build the entity-oriented hypergraphs from triple channel setting. Formally, the entity-oriented hypergraphs "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { c } ^ { ( \\bar { e } ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "from triple-channel c can be given as:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                807,
+                885,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1458"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                85,
+                489,
+                198
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\Game _ { c } ^ { ( e ) } = ( \\gamma _ { c } ^ { ( e ) } , \\mathcal { N } _ { c } ^ { ( e ) } , A _ { M _ { k } ^ { c } } ^ { ( e ) } ) .\\tag{6}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/077b47f9e06d9cea5d6e6be7065a6f345de1e4cb879647bbaa39d8601e673d97.jpg"
+                }
+            },
+            "bbox": [
+                196,
+                206,
+                403,
+                231
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Here "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "c \\in \\{ g , j , p \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "represents triple channels "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( i . e ."
+                    },
+                    {
+                        "type": "text",
+                        "content": "group, joint, and purchase channel). "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { V } _ { c } ^ { ( e ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "denotes the entities from triple-channel setting. These entities are k-hop neighbors extracted from the historical conversations. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { N } _ { c } ^ { ( e ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "means the hyperedge set induced from different motifs. Each hyperedge is an instance of the Motif. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "A _ { M _ { k } ^ { c } } ^ { ( e ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "represents the groupchannel, joint-channel, and purchase-channel adjacency matrices, they are defined as "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\operatorname { E q . } ( 3 ) , \\operatorname { E q . } ( 4 )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and Eq.(5), respectively."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                241,
+                489,
+                409
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Word-oriented triple-channel hypergraphs. The significance of keywords exchanged during conversations is paramount in grasping users’ requirements. By scrutinizing notable words, we can pinpoint specific inclinations, a critical aspect in modeling an array of user tastes. To realize this objective, we construct a lexeme-centric hypergraph utilizing the lexicon-focused ConceptNet (Speer et al., 2017) KG to unveil semantic associations such as synonymy, antonyms, and co-occurrence. Based on these analysis, the word-oriented hypergraphs from group-, joint-, and purchase-channel can be expressed as:"
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                409,
+                490,
+                619
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathsf { G } _ { c } ^ { ( w ) } = ( \\mathcal { V } _ { c } ^ { ( w ) } , \\mathcal { N } _ { c } ^ { ( w ) } , A _ { M _ { k } ^ { c } } ^ { ( w ) } ) ,\\tag{7}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/3b3c3d5819dbe775373ea993c701d45cf3e066258e637e6f6e522691832b412b.jpg"
+                }
+            },
+            "bbox": [
+                183,
+                627,
+                400,
+                651
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { V } _ { c } ^ { ( w ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the words from k-hop neighbors. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { N } _ { c } ^ { ( w ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "denotes the hyperedge set from different motifs, including group, joint, purchase motifs. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "{ \\cal A } _ { M _ { k } ^ { c } } ^ { ( w ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "are the word-oriented adjacency matrices induced from triple channels, illustrated in Eq.(3)  Eq.(5)."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                663,
+                489,
+                752
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1.2 Multi-Interest Self-Supervised Learning After constructing a series of hypergraphs from triple-channel setting, we will construct multi-level user interests via the hypergraph convolution network (Yu et al., 2021), which can be written as:"
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                759,
+                489,
+                844
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\pmb { P } _ { c } ^ { ( l + 1 ) } = \\pmb { D } _ { c } ^ { - 1 } \\pmb { K } _ { c } \\pmb { L } _ { c } ^ { - 1 } \\pmb { K } _ { c } ^ { T } \\pmb { P } _ { c } ^ { ( l ) } = \\pmb { \\widehat { D } } _ { c } ^ { - 1 } \\pmb { A } _ { c } ^ { ( i ) } \\pmb { P } _ { c } ^ { ( l ) } ,\\tag{8}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/3b2a76e80c0f9fd1eea6f87b82594a4812296892300c9bf3bd9b102c334bb4c4.jpg"
+                }
+            },
+            "bbox": [
+                115,
+                851,
+                485,
+                873
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "{ P } _ { c } ^ { ( l ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "P _ { c } ^ { ( l + 1 ) }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "represent the output of the l-th and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( l + 1 )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "-th layers, respectively. Specifically, the base user embedding is "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "P _ { c } ^ { ( 0 ) } = f _ { \\mathrm { g a t e } } ^ { c } ( P ^ { ( 0 ) } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "f _ { \\mathrm { g a t e } } ^ { c } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is self-gating units (SGUs) to control the information flow to different channel from the base user embedding "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "P ^ { ( 0 ) } . D _ { c }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the degree matrix of "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "A _ { c } ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", which is the summation of the motifs without considering self-connections (Yu et al., 2021). In terms of the group motifs, it can be defined as "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\begin{array} { r } { \\mathbf { { \\Sigma } } ^ { ( i ) } = \\sum _ { k = 1 } ^ { 7 } \\mathbf { { \\Sigma } } \\mathbf { { \\Sigma } } ^ { ( i ) } } \\end{array}"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", in terms of joint motifs, "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\begin{array} { r } { \\pmb { A } _ { c } ^ { ( i ) } = \\pmb { A } _ { M _ { 8 } } ^ { ( i ) } + \\pmb { A } _ { M _ { 9 } } ^ { ( i ) } \\ d , } \\end{array}"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and from the point of the purchase motifs, "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\pmb { A } _ { c } ^ { ( i ) } = \\pmb { A } _ { M _ { 1 0 } } ^ { ( i ) } - ( \\pmb { A } _ { M _ { 8 } } ^ { ( i ) } + \\pmb { A } _ { M _ { 9 } } ^ { ( i ) } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "Based on these analysis, the item-level interests from triple channel setting (i.e., "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { g } ^ { ( i ) } , X _ { i } ^ { ( i ) } , X _ { p } ^ { ( i ) } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "the entity-level interests from triple channel setting "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( i . e . , \\mathbf { \\boldsymbol { X } } _ { g } ^ { ( e ) } , \\mathbf { \\boldsymbol { X } } _ { j } ^ { ( e ) } , \\mathbf { \\boldsymbol { X } } _ { p } ^ { ( e ) } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", the word-level interests from triple channel setting "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( i . e . , X _ { g } ^ { ( w ) } , X _ { j } ^ { ( w ) }"
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { p } ^ { ( w ) } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "can be defined as:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                884,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                82,
+                885,
+                368
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { \\pmb { X } _ { g } ^ { ( h ) } = \\pmb { \\widehat { D } } _ { g } ^ { - 1 } ( \\overset { 7 } { \\underset { k = 1 } { \\sum } } \\pmb { A } _ { M _ { k } ^ { g } } ^ { ( h ) } ) \\pmb { P } _ { g } ^ { ( L ) } ; } \\\\ & { \\pmb { X } _ { j } ^ { ( h ) } = \\pmb { \\widehat { D } } _ { j } ^ { - 1 } ( \\pmb { A } _ { M _ { 8 } ^ { j } } ^ { ( h ) } + \\pmb { A } _ { M _ { 9 } ^ { j } } ^ { ( h ) } ) \\pmb { P } _ { j } ^ { ( L ) } ; } \\\\ & { \\pmb { X } _ { p } ^ { ( h ) } = \\pmb { \\widehat { D } } _ { p } ^ { - 1 } ( \\pmb { A } _ { M _ { 1 0 } ^ { p } } ^ { ( h ) } - ( \\pmb { A } _ { M _ { 8 } ^ { j } } ^ { ( h ) } + \\pmb { A } _ { M _ { 9 } ^ { j } } ^ { ( h ) } ) \\pmb { P } _ { p } ^ { ( L ) } . } \\end{array}\\tag{9}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/077d04a0a048c77604fde2736ad3ab13f9039ebcb6cb296ef8d8bd1e33dce6e1.jpg"
+                }
+            },
+            "bbox": [
+                522,
+                372,
+                865,
+                474
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Here "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "h \\in \\{ i , e , w \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and L is the last hypergraph convolution layer. Then, we adopt the attention network "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { A t t a } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and graph convolution GConv( ) to learn final multi-interest "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { m }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "as:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                487,
+                884,
+                552
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { X _ { i } = \\mathsf { G C o n v } ( \\mathsf { A t t a } ( X _ { g } ^ { ( i ) } ; X _ { j } ^ { ( i ) } ; X _ { p } ^ { ( i ) } ) ) , } \\\\ & { X _ { e } = \\mathsf { G C o n v } ( \\mathsf { A t t a } ( X _ { g } ^ { ( e ) } ; X _ { j } ^ { ( e ) } ; X _ { p } ^ { ( e ) } ) ) , } \\\\ & { X _ { w } = \\mathsf { G C o n v } ( \\mathsf { A t t a } X _ { g } ^ { ( w ) } ; X _ { j } ^ { ( w ) } ; X _ { p } ^ { ( w ) } ) ) , } \\\\ & { X _ { m } = \\mathsf { A t t a } ( X _ { i } ; X _ { e } ; X _ { w } ) . } \\end{array}\\tag{10}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/b340b6a813a74f7fa74b72780e0d5dcd6f39f27b0f07cc099ccd58efad75b4ca.jpg"
+                }
+            },
+            "bbox": [
+                521,
+                556,
+                840,
+                648
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Here ; is the concatenation operation. Finally, we use InfoNCE (Yu et al., 2021) as our learning objective to conduct the self-supervised learning as:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                652,
+                885,
+                700
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { \\mathcal { L } _ { s } = - \\displaystyle \\sum _ { h } \\bigg \\{ \\sum _ { u \\in U } \\log \\sigma ( f ( X _ { m } ) , z _ { u } ^ { h } ) - f ( X _ { m } , \\hat { z } _ { u } ^ { h } ) ) } \\\\ & { \\quad \\quad \\quad + \\displaystyle \\sum _ { u \\in U } \\log \\sigma ( f ( z _ { u } ^ { h } , \\mathbf { k } ^ { h } ) - f ( \\hat { z } _ { u } ^ { h } , \\mathbf { k } ^ { h } ) \\Big \\} . } \\end{array}\\tag{11}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/8a0f69bd2cb526b9369693deb8bad5db235b132ede1633997a92209eb9c1b421.jpg"
+                }
+            },
+            "bbox": [
+                509,
+                703,
+                899,
+                776
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Here "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "z _ { u } ^ { h } = f _ { \\mathrm { g a t e } } ^ { h } ( f _ { s } ( X _ { h } ; { \\mathbf p } _ { u } ^ { h } ) , f _ { s } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the sum operation, "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\hat { z } _ { u } ^ { h }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the negative example by shuffling both rows and columns of "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "z _ { u } ^ { h }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and h is defined as Eq.(9). "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "f ( \\cdot ) \\in \\mathbb { R } ^ { d \\times d }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "serves as the discriminator, evaluating the alignment between two input vectors. Specifically, "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { k } ^ { h } = f _ { \\mathrm { o u t } } ( Z _ { h } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { h }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { m }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "are ground truths for each other, and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "f _ { \\mathrm { o u t } } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "aims to perform permutation invariant (Yu et al., 2021)."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                787,
+                885,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1459"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2 Interest-Boosted CRS"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                84,
+                332,
+                99
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "To mitigate Matthew effect in the CRS, we employ multi-interest "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { m }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "to enhance both recommendation and conversation tasks."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                105,
+                489,
+                153
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2.1 Recommendation Module"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                161,
+                378,
+                177
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Recommendation module is to precisely forecast items for users via dynamic natural conversations. To improve recommendation diversity, we use "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { m }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "to select target items as "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { P } _ { \\mathrm { r e c } } = X _ { m } \\times V _ { \\mathrm { c a n d } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "V _ { \\mathrm { c a n d } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the embeddings of all candidate items. Finally, we adopt cross-entropy loss (Shang et al., 2023) to learn the recommendation task:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                181,
+                489,
+                293
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } { \\mathcal { L } _ { \\mathrm { r e c } } = - \\displaystyle \\sum _ { b = 1 } ^ { B } \\sum _ { a = 1 } ^ { | \\mathcal { Z } | } \\Big \\{ - \\left( 1 - \\mathsf { Y } _ { a b } \\right) \\cdot \\log ( 1 - \\mathsf { P } _ { \\mathrm { r e c } } ^ { ( b ) } ( } & { } \\\\ { + \\mathsf { Y } _ { a b } \\cdot \\log ( \\mathsf { P } _ { \\mathrm { r e c } } ^ { ( b ) } ( a ) ) \\Big \\} , } & { } \\end{array}\\tag{a)}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/9393915551fc41a1c7b04ddb65759e4e807e4304f3ba4ce85e8b81302a88819f.jpg"
+                }
+            },
+            "bbox": [
+                114,
+                299,
+                465,
+                373
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "(12)"
+                    }
+                ]
+            },
+            "bbox": [
+                453,
+                370,
+                487,
+                385
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { Y } _ { a b } \\in \\{ 0 , 1 \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", B, and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "| \\mathcal { T } |"
+                    },
+                    {
+                        "type": "text",
+                        "content": "are the target label, mini-batch size, the size of item set, respectively."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                386,
+                489,
+                419
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2.2 Conversation Module"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                426,
+                344,
+                442
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Conversation module centers on crafting appropriate dialogue responses. Next, we use multi-interest "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { m }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "to fed into Transformer "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "{ \\mathsf { M H A } } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "to produce informative responses. Suppose "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { Y } ^ { n - 1 }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the output of the last time unit, then the current one "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { Y } ^ { n }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                445,
+                489,
+                526
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { { \\bf A } _ { 0 } ^ { n } = { \\sf M H } { \\sf H } ( { \\bf Y } ^ { n - 1 } , { \\bf Y } ^ { n - 1 } , { \\bf Y } ^ { n - 1 } ) , } \\\\ & { { \\bf A } _ { 1 } ^ { n } = { \\sf M H } { \\sf H } ( { \\bf A } _ { 0 } ^ { n } , { \\bf X } _ { m } , { \\bf X } _ { m } ) , } \\\\ & { { \\bf A } _ { 2 } ^ { n } = { \\sf M H } ( { \\bf A } _ { 1 } ^ { n } , { \\bf X } _ { \\mathrm { c u r } } , { \\bf X } _ { \\mathrm { c u r } } ) , } \\\\ & { { \\bf A } _ { 3 } ^ { n } = { \\sf M H } { \\sf A } ( { \\bf A } _ { 1 } ^ { n } , { \\bf X } _ { \\mathrm { h i s } } , { \\bf X } _ { \\mathrm { h i s } } ) , } \\\\ & { { \\bf A } _ { 4 } ^ { n } = \\beta \\cdot { \\bf A } _ { 2 } ^ { n } + ( 1 - \\beta ) \\cdot { \\bf A } _ { 3 } ^ { n } , } \\\\ & { { \\bf Y } ^ { n } = { \\sf F F N } ( { \\bf A } _ { 4 } ^ { n } ) , } \\end{array}\\tag{13}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/62fc7fe801891f31d7dae7fd292e41b380929339ccbc67c282a5ec2fb2c2291a.jpg"
+                }
+            },
+            "bbox": [
+                152,
+                531,
+                418,
+                648
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { \\mathrm { c u r } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "X _ { \\mathrm { h i s } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "are the current and historical conversations, respectively. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\beta"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is hyper-parameters to control the information flow. Then, we use crossentropy loss to learn the conversation task:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                655,
+                489,
+                719
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r } { \\mathcal { L } _ { \\mathrm { c o n v } } = - \\displaystyle \\sum _ { b = 1 } ^ { B } \\sum _ { t = 1 } ^ { T } \\log ( \\mathsf { P } _ { \\mathrm { c o n v } } ( s _ { t } | \\{ s _ { t - 1 } \\} ) ) , } \\\\ { \\mathsf { P } _ { \\mathrm { c o n v } } ( \\cdot ) = p _ { 1 } ( s _ { t } | Y _ { i } ) + p _ { 2 } ( s _ { t } | \\mathsf { P } _ { \\mathrm { r e c } } ) + p _ { 3 } ( s _ { t } | \\mathsf { P } _ { \\mathrm { r e c } } ) , } \\end{array}\\tag{14}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/561afe358c1a9a166061a8d63d6f75e0933a97c55d8c541c3529765d18e3daed.jpg"
+                }
+            },
+            "bbox": [
+                112,
+                725,
+                487,
+                791
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { P } _ { \\mathrm { c o n v } } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the probability of the next token when given a sequence "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\left\\{ s _ { t - 1 } \\right\\} = s _ { 1 } , s _ { 2 } , \\cdot \\cdot \\cdot , s _ { t - 1 } ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "s _ { t }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "signifies the t-th utterance. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "p _ { 1 } ( \\cdot ) , p _ { 2 } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "p _ { 3 } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "denote the vocabulary probability, vocabulary bias, and copy probability, respectively. "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "T"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the truncated length of utterances."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                824,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.3 Challenges Discussion"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                84,
+                731,
+                99
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Throughout the developmental journey of hypergraphs, we surmounted several significant challenges, elaborated upon below:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                105,
+                885,
+                153
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "1) Hypergraph Construction Challenge: During the project’s initial stages, the real-time construction of hypergraphs presented a bottleneck, resulting in delays. Through the strategic repositioning of this operation to the data preprocessing phase, we adeptly extracted essential subgraphs, leading to a noteworthy reduction in training time. This adjustment enhanced efficiency, streamlined processes, and improved performance."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                154,
+                885,
+                299
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "2) Graph Storage Challenge: The transition to sparse graph storage mechanisms is pivotal in enhancing efficiency, streamlining computation time, and optimizing memory utilization. Embracing this shift not only boosts the system’s performance but also establishes a robust foundation for scalable and resource-efficient operations."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                299,
+                885,
+                411
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "3) Model Training Challenge: With the emergence of a series of hypergraphs, optimizing the efficiency of model training becomes paramount. Consequently, we redefined our strategy by dispersing hypergraphs across multiple computing cards, enabling parallel computation and achieving a significant boost in the model’s runtime speed."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                411,
+                887,
+                525
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4 Experiments and Analyses"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                537,
+                774,
+                554
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "To fully evaluate the proposed HiCore, we conduct experiments to answer the following questions:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                563,
+                884,
+                595
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• RQ1: How does HiCore perform compared with all baselines in the recommendation task?"
+                    }
+                ]
+            },
+            "bbox": [
+                495,
+                598,
+                884,
+                629
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• RQ2: How does HiCore perform compared with all baselines in the conversation task?"
+                    }
+                ]
+            },
+            "bbox": [
+                495,
+                630,
+                882,
+                661
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• RQ3: How does HiCore mitigate Matthew effect in the CRS?"
+                    }
+                ]
+            },
+            "bbox": [
+                495,
+                662,
+                884,
+                692
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• RQ4: How do parameters affect our HiCore?"
+                    }
+                ]
+            },
+            "bbox": [
+                495,
+                694,
+                850,
+                709
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• RQ5: How do different hypergraphs contribute to the performance?"
+                    }
+                ]
+            },
+            "bbox": [
+                495,
+                711,
+                884,
+                743
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.1 Experimental Protocol"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                753,
+                736,
+                770
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Datasets. We assess the effectiveness of our proposed HiCore through comprehensive evaluations on four CRS-based benchmarks: REDIAL (Li et al., 2018b), TG-REDIAL (Zhou et al., 2020b), OpenDialKG (Moon et al., 2019), and DuRecDial (Liu et al., 2021b). The REDIAL dataset comprises 11,348 dialogues involving 956 users and 6,924 items, while the TG-REDIAL dataset encompasses 10,000 dialogues with 1,482 users and"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                775,
+                887,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1460"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/ee9627b3c7cff04ff852dbe0bd0aa05708706d605c494d0351e5e5d84e120ed9.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 1: Recommendation results on REDIAL and TG-REDIAL datasets. * indicates statistically significant improvement (p < 0.05) over all baselines."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"7\">REDIAL</td><td colspan=\"6\">TG-REDIAL</td></tr><tr><td>R@10</td><td>R@50</td><td>M@10</td><td>M@50</td><td>N@10</td><td>N@50</td><td>R@10</td><td>R@50</td><td></td><td>M@10</td><td>M@50</td><td>N@10</td><td>N@50</td></tr><tr><td>TextCNN</td><td>0.0644</td><td>0.1821</td><td>0.0235</td><td>0.0285</td><td>0.0328</td><td>0.0580</td><td></td><td>0.0097</td><td>0.0208</td><td>0.0040</td><td>0.0045</td><td>0.0053</td><td>0.0077</td></tr><tr><td>SASRec</td><td>0.1117</td><td>0.2329</td><td>0.0540</td><td>0.0593</td><td>0.0674</td><td>0.0936</td><td>0.0043</td><td>0.0178</td><td>0.0011</td><td>0.0017</td><td></td><td>0.0019</td><td>0.0047</td></tr><tr><td>BERT4Rec</td><td>0.1285</td><td>0.3032</td><td>0.0475</td><td>0.0555</td><td>0.0663</td><td>0.1045</td><td></td><td>0.0043</td><td>0.0226</td><td>0.0013</td><td>0.0020</td><td>0.0020</td><td>0.0058</td></tr><tr><td>KGSF</td><td>0.1785</td><td>0.3690</td><td>0.0705</td><td>0.0796</td><td>0.0956</td><td>0.1379</td><td>0.0215</td><td>0.0643</td><td>0.0069</td><td></td><td>0.0087</td><td>0.0103</td><td>0.0194</td></tr><tr><td>TG-ReDial</td><td>0.1679</td><td>0.3327</td><td>0.0694</td><td>0.0771</td><td>0.0924</td><td>0.1286</td><td></td><td>0.0110</td><td>0.0174</td><td>0.0048</td><td>0.0050</td><td>0.0062</td><td>0.0076</td></tr><tr><td>ReDial</td><td>0.1705</td><td>0.3077</td><td>0.0677</td><td>0.0738</td><td>0.0925</td><td>0.1222</td><td></td><td>0.0038</td><td>0.0165</td><td>0.0012</td><td>0.0017</td><td>0.0018</td><td>0.0045</td></tr><tr><td>KBRD</td><td>0.1796</td><td>0.3421</td><td>0.0722</td><td>0.0800</td><td>0.0972</td><td>0.1333</td><td></td><td>0.0201</td><td>0.0501</td><td>0.0077</td><td>0.0090</td><td>0.0106</td><td>0.0171</td></tr><tr><td>BART</td><td>0.1693</td><td>0.3783</td><td>0.0646</td><td>0.0744</td><td>0.0888</td><td>0.1350</td><td></td><td>0.0047</td><td>0.0187</td><td>0.0012</td><td>0.0017</td><td>0.0020</td><td>0.0048</td></tr><tr><td>BERT</td><td>0.1608</td><td>0.3525</td><td>0.0597</td><td>0.0688</td><td>0.0831</td><td>0.1255</td><td>0.0040</td><td></td><td>0.0194</td><td>0.0011</td><td>0.0017</td><td>0.0018</td><td>0.0050</td></tr><tr><td>XLNet</td><td>0.1569</td><td>0.3590</td><td>0.0583</td><td>0.0677</td><td>0.0811</td><td>0.1255</td><td></td><td>0.0040</td><td>0.0187</td><td>0.0011</td><td>0.0017</td><td>0.0017</td><td>0.0048</td></tr><tr><td>KGConvRec</td><td>0.1819</td><td>0.3587</td><td>0.0711</td><td>0.0794</td><td>0.0969</td><td>0.1358</td><td></td><td>0.0220</td><td>0.0524</td><td>0.0088</td><td>0.0102</td><td>0.0119</td><td>0.0185</td></tr><tr><td>MHIM</td><td>0.1966</td><td>0.3832</td><td>0.0742</td><td>0.0830</td><td>0.1027</td><td>0.1440</td><td>0.0300</td><td>0.0783</td><td></td><td>0.0108</td><td>0.0129</td><td>0.0152</td><td>0.0256</td></tr><tr><td>HiCore*</td><td>0.2192</td><td>0.4163</td><td>0.0775</td><td>0.0874</td><td>0.1107</td><td>0.1558</td><td></td><td>0.0270</td><td>0.0769</td><td>0.0880</td><td>0.1074</td><td>0.0152</td><td>0.0225</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                117,
+                82,
+                884,
+                287
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "33,834 items. To provide a holistic evaluation of our proposed methodology, we integrate two cross-domain datasets, OpenDialKG and DuRec-Dial, which cover a wide array of domains including movies, music, books, sports, restaurants, news, and culinary experiences."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                348,
+                489,
+                444
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Baselines. We compared our HiCore with the following state-of-the-art methods TextCNN (Kim, 2014), SASRec (Kang and McAuley, 2018), BERT4Rec (Sun et al., 2019), KBRD (Chen et al., 2019), Trans. (Vaswani et al., 2017b), ReDial (Li et al., 2018a), KGSF (Zhou et al., 2020a), KG-ConvRec (Sarkar et al., 2020), XLNet (Yang et al., 2019), BART (Lewis et al., 2020), BERT (Devlin et al., 2019), DialoGPT (Zhang et al., 2020), Uni-CRS (Deng et al., 2021b), GPT-3 (Brown et al., 2020), C2-CRS (Zhou et al., 2022), LOT-CRS (Zhao et al., 2023), MHIM (Shang et al., 2023), and HyCoRec (Zheng et al., 2024)."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                445,
+                490,
+                656
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.2 Recommendation Performance (RQ1)"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                112,
+                670,
+                458,
+                686
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In accordance with (Shang et al., 2023), we utilize Recall@K (R@K), MRR@K (M@K), and NDCG@K (N@K) (K=1, 10, 50) to assess the recommendation task. Analyzing the results presented in Table 1 and Table 2, it is evident that our proposed method, HiCore, consistently outperforms all the comparison baselines."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                693,
+                490,
+                806
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "There exist multiple crucial facets contributing to the advancement of our proposed HiCore method: (a) Diversification of hypergraphs: we introduced a diverse set of hypergraphs, including item-oriented, entity-oriented, and word-oriented hypergraphs. This expansion aims to go beyond the traditional pairwise interactions, broadening the scope of user interest modeling by incorporating interactions among multiple nodes. (b) Exploration of hypergraph configurations: moving beyond the conventional triple-channel model, we delved into various hypergraph configurations like group-channel, joint-channel, and purchasechannel. These configurations were designed to cater not only to social connections but also individual preferences, enhancing the system’s adaptability. (c) Integration of multi-level user interests: transitioning from the triple-channel structure, we integrated these hypergraphs to capture multi-level user interests. This strategic shift helps alleviate the Matthew effect in the CRS involving the dynamic user-system feedback loop. This comprehensive approach highlights the innovation and adaptability of HiCore in addressing the intricacies of user interest modeling and enhancing recommendation system performance."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                807,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/f84cd39386a270c71924e5b324ac97c37445ddf5e711d127a0a7e73b64c7d34f.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 2: Results on both recommendation and conversation tasks on OpenDialKG and DuRecDial datasets involving various domains. * indicates statistically significant improvement (p < 0.05) over all baselines."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">OpenDialKG</td><td colspan=\"2\">DuRecDial</td></tr><tr><td>R@1</td><td>R@10</td><td>R@1</td><td>R@10</td></tr><tr><td>KBRD</td><td>0.1448</td><td>0.3162</td><td>0.0618</td><td>0.3971</td></tr><tr><td>KGSF</td><td>0.0626</td><td>0.1757</td><td>0.1395</td><td>0.4367</td></tr><tr><td>ReDial</td><td>0.0008</td><td>0.0134</td><td>0.0005</td><td>0.0336</td></tr><tr><td>TGReDial</td><td>0.2149</td><td>0.4035</td><td>0.0956</td><td>0.4882</td></tr><tr><td>HyCoRec</td><td>0.2742</td><td>0.4490</td><td>0.1279</td><td>0.4750</td></tr><tr><td>HiCore*</td><td>0.2628</td><td>0.4526</td><td>0.1735</td><td>0.5471</td></tr><tr><td rowspan=\"2\">Model</td><td>OpenDialKG</td><td></td><td></td><td>DuRecDial</td></tr><tr><td>Dist-2</td><td>Dist-3</td><td>Dist-2</td><td>Dist-3</td></tr><tr><td>KBRD</td><td>0.3192</td><td>1.7660</td><td>0.5180</td><td>1.5500</td></tr><tr><td>KGSF</td><td>0.1687</td><td>0.5387</td><td>0.1389</td><td>0.3862</td></tr><tr><td>ReDial</td><td>0.1579</td><td>0.5808</td><td>0.1095</td><td>0.3981</td></tr><tr><td>TGReDial</td><td>0.4836</td><td>2.1430</td><td>0.5453</td><td>2.0030</td></tr><tr><td>HyCoRec</td><td>2.8190</td><td>4.7710</td><td>1.0820</td><td>2.4440</td></tr><tr><td>HiCore*</td><td>2.8430</td><td>4.8120</td><td>1.0940</td><td>2.4280</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                512,
+                343,
+                887,
+                562
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                662,
+                887,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1461"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                519,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/619f194919a0ff353a02cd8545e99d4655be774dee21230ef2d3dc36f73c91d1.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 3: Conversation results on REDIAL and TG-REDIAL datasets. * indicates statistically significant improvement (p < 0.05) over all baselines."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">REDIAL</td><td colspan=\"2\">TG-REDIAL</td></tr><tr><td>Dist-2 Dist-3</td><td>Dist-4</td><td>Dist-2</td><td>Dist-3 Dist-4</td></tr><tr><td>ReDial</td><td>0.0214 0.0659 0.1333</td><td></td><td></td><td>0.2178 0.5136 0.7960</td></tr><tr><td>Trans.</td><td>0.05380.1574 0.2696</td><td></td><td>0.2362 0.70631.1800</td><td></td></tr><tr><td>KGSF</td><td>0.0572 0.24830.4349</td><td></td><td></td><td>0.3891 0.88681.3337</td></tr><tr><td>KBRD</td><td>0.07650.33440.6100</td><td></td><td></td><td>0.8013 1.7840 2.5977</td></tr><tr><td>DialoGPT</td><td>0.3542 0.62090.9482</td><td></td><td></td><td>1.1881 2.42693.9824</td></tr><tr><td>GPT-3</td><td>0.3604 0.6399 0.9511</td><td></td><td></td><td>1.2255 2.57134.0713</td></tr><tr><td>UniCRS</td><td>0.24640.42730.5290</td><td></td><td></td><td>0.6252 2.2352 2.5194</td></tr><tr><td>C2-CRS</td><td>0.2623 0.3891 0.6202</td><td></td><td></td><td>0.52351.9961 2.9236</td></tr><tr><td>LOT-CRS</td><td>0.3312 0.61550.9248</td><td></td><td></td><td>0.9287 2.48803.4972</td></tr><tr><td>MHIM</td><td>0.32780.62040.9629</td><td></td><td>1.1100 2.35203.8200</td><td></td></tr><tr><td>HiCore*</td><td></td><td>0.5871 1.1170 1.7500</td><td>2.8610 5.7440 8.4160</td><td></td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                114,
+                82,
+                494,
+                255
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                330,
+                489,
+                380
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.3 Conversational Performance (RQ2)"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                394,
+                440,
+                410
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For the conversation task, we use Distinct n-gram (Dist-n) (Shang et al., 2023) (n=2,3,4) to estimate the conversation task. Table 2 and Table 3 indicate a significant performance superiority of our HiCore. For example, HiCore gains 123.83%, 138.27%, 77.26%, 65.75%, 62.90%, and 79.10% improvements on Dist-2 against the strong baselines including, C2-CRS, UniCRS, LOT-CRS, DialoGPT, GPT-3, and MHIM on the REDIAL dataset, respectively. It also gains 446.51%, 357.61%, 208.07%, 140.80%, 133.46%, and 157.75% improvements on Dist-2 against the strong baselines including, C2-CRS, UniCRS, LOT-CRS, DialoGPT, GPT-3, and MHIM on the REDIAL dataset, respectively."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                419,
+                490,
+                644
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The improvement in HiCore can be attributed to the following reasons: (a) Our HiCore focuses on constructing a diverse set of hypergraphs, encompassing item-oriented, entity-oriented, and wordoriented triple-channel hypergraphs. These structures effectively capture intricate local patterns through motif analysis, enabling the exploration of high-order user behaviors. This proves invaluable in generating informative and high-quality response utterances. (b) HiCore is dedicated to mitigating the Matthew effect that may occur as users engage with the system over time. By learning multi-level user interests from the hypergraphs, the system can adapt to users’ evolving preferences. This strategic approach enables the CRS to provide a varied array of responses that align with the diverse interests of the users."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                646,
+                490,
+                921
+            ]
+        },
+        {
+            "type": "chart",
+            "content": {
+                "image_source": {
+                    "path": "images/1368bdf8f7d776abd394166f8704906bb542fe38341b1383856f3e3c866efad4.jpg"
+                },
+                "content": "",
+                "chart_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 3: Coverage results of C@k metric."
+                    }
+                ],
+                "chart_footnote": []
+            },
+            "bbox": [
+                514,
+                83,
+                885,
+                200
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/5f892f353635a7388091738eb557826ac0f136a75e05c2e57609de87f9c6e9d8.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 4: Results of Average Popularity (A@K) and Long Tail Ratio (L@K)."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">OpenDialKG</td><td colspan=\"2\">DuRecDial</td></tr><tr><td></td><td>A@5 A@15 A@30</td><td>A@5 A@15 A@30</td><td></td></tr><tr><td>KBRD KGSF</td><td></td><td>0.0025 0.0025 0.0088 0.0051 0.0108 0.0182</td><td>0.0318 0.0562 0.0938 0.0276 0.0534 0.0952</td><td></td></tr><tr><td>ReDial TGReDial</td><td></td><td>1.0000 0.9375 0.8333 0.0022 0.0043 0.0070</td><td>1.0000 0.8824 0.9677 0.0137 0.0399 0.0796</td><td></td></tr><tr><td>MHIM HiCore</td><td></td><td>0.0022 0.00440.0075 0.0017 0.0043 0.0065</td><td></td><td>0.0228 0.0434 0.0789 0.0226 0.0423 0.0751</td></tr><tr><td rowspan=\"2\">Model</td><td></td><td>OpenDialKG</td><td>DuRecDial L@5</td><td>L@15 L@30</td></tr><tr><td>L@5</td><td>L@15 L@30 0.2921 0.2782 0.2782</td><td>0.37580.41490.3406 0.23980.2482 0.3343</td><td>0.33140.42430.3302 1.0000 0.8235 0.9677</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                509,
+                243,
+                892,
+                462
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.4 Study on Matthew Effect (RQ3)"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                521,
+                806,
+                538
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Given our goal of mitigating the Matthew effect that may arise as users interact with the system over time, we engage in a series of experiments comparing the proposed method with the most robust baselines. This investigation seeks to determine the efficacy of HiCore in effectively alleviating the Matthew effect. Considering the key strategy to mitigate Matthew effect is to improve the recommendation diversification, and thus we use the diversify-based evaluation metrics Coverage@k (C@k), Average Popularity (A@K) of Recommended Items and Long Tail Recommendation Ratio (L@K) to comprehensively evaluate the efficacy of our proposed method in mitigating the Matthew Effect."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                548,
+                885,
+                789
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Fig.3 illustrates the experimental outcomes, showcasing the consistent superiority of HiCore in achieving the highest levels of Coverage across all datasets in comparison to the most robust baselines. The heightened coverage metric highlights its exceptional ability to encompass a broad spectrum of the recommendation space by incorporating items from diverse categories. Additionally, as outlined in Table 4, our proposed method demonstrates the lowest values for Average Popularity and Long Tail Ratio. This evidence suggests that our method effectively mitigates the adverse effects of item popularity on recommendation outcomes and successfully addresses the long tail distribution of items. These results validate the effectiveness of our proposed approach in combating the Matthew effect in the CRS as users interact with the system over time, attributed to its capability to learn multilevel user interests through a series of hypergraphs from triple-channel setting, including group, joint, and purchase channels."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                791,
+                887,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1462"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "chart",
+            "content": {
+                "image_source": {
+                    "path": "images/c098d43b722bac834d0b5a3b0bd020e58a89359caf51f1158ea29d454ea782da.jpg"
+                },
+                "content": "",
+                "chart_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 4: Impact of different hyperparameteres."
+                    }
+                ],
+                "chart_footnote": []
+            },
+            "bbox": [
+                115,
+                82,
+                499,
+                297
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                349,
+                490,
+                560
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.5 Hyperparameters Analysis (RQ4)"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                112,
+                574,
+                426,
+                590
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Hyperparameters are parameters in a machine learning algorithm that need to be manually set and tuned to optimize model performance, distinct from the parameters that the model learns during training. Next, we will delve into the research on how various hyperparameters influence the performance of recommendations, including the embedding dimension "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "d ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": "comparative learning weight "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\beta ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": "hypergraph convolution layers N, and the hyperedge threshold P. From Fig.4, we can obtain: (1) Elevating the feature dimensionality enhances outcomes, as higher dimensions can encapsulate more intricate features effectively; (2) Having too few hyperedges may hinder the capture of intricate local patterns, whereas an excess of hyperedges could impede the model’s convergence; (3) A lower beta value signifies a reduced weight for the comparison term, which show that the recommendation term exerts a more significant influence on the results; (4) A two-layer hyperconv network is sufficient to encode high-level features for enhancing recommendation performance."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                599,
+                490,
+                921
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/e00b59f203f15074d8a332888070cc4a4c36e1a0fba2477bb93b8b8513cefc18.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 5: Ablation studies on the recommendation task."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">REDIAL</td><td colspan=\"2\">TG-REDIAL</td></tr><tr><td>R@10</td><td>R@50</td><td>R@10</td><td>R@50</td></tr><tr><td>HiCore</td><td>0.2192</td><td>0.4163</td><td>0.0270</td><td>0.0769</td></tr><tr><td>w/o  $\\overline { { \\mathsf { G } _ { a } ^ { ( i ) } } }$ </td><td>0.2075</td><td>0.4160</td><td>0.0234</td><td>0.0742</td></tr><tr><td>w/o  $\\mathsf { G } _ { i } ^ { ( i ) }$ </td><td>0.2012</td><td>0.4026</td><td>0.0217</td><td>0.0706</td></tr><tr><td>w/o  $\\mathsf { G } _ { p } ^ { ( i ) }$ </td><td>0.1939</td><td>0.4096</td><td>0.0220</td><td>0.0739</td></tr><tr><td>w/o  $\\mathsf { G } _ { g } ^ { ( e ) }$ </td><td>0.2067</td><td>0.4044</td><td>0.0247</td><td>0.0713</td></tr><tr><td>w/o  $\\mathsf { G } _ { i } ^ { \\left( e \\right) }$ </td><td>0.2142</td><td>0.4122</td><td>0.0253</td><td>0.0756</td></tr><tr><td>w/o  $\\mathsf { G } _ { p } ^ { ( e ) }$ </td><td>0.1971</td><td>0.4110</td><td>0.0243</td><td>0.0693</td></tr><tr><td>w/o  $\\mathsf { G } _ { a } ^ { \\mathsf { \\tilde { ( } } w \\mathsf { ) } }$ </td><td>0.2067</td><td>0.4142</td><td>0.0264</td><td>0.0761</td></tr><tr><td>w/o  $\\mathsf { G } _ { i } ^ { \\vec { ( \\boldsymbol { w } ) } }$ </td><td>0.2151</td><td>0.4145</td><td>0.0223</td><td>0.0733</td></tr><tr><td>w/o  $\\mathsf { G } _ { p } ^ { ( w ) }$ </td><td>0.2067</td><td>0.3974</td><td>0.0263</td><td>0.0759</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                517,
+                82,
+                877,
+                259
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                306,
+                885,
+                338
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.6 Ablation Studies (RQ5)"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                353,
+                741,
+                368
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "To assess the efficacy of each component within the proposed method, we perform ablation experiments using various iterations of Hicore, including: 1) w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { g } ^ { i } ."
+                    },
+                    {
+                        "type": "text",
+                        "content": ", w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { j } ^ { i }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { p } ^ { i } \\colon \\quad \\mathsf { G } _ { p } ^ { i } \\colon"
+                    },
+                    {
+                        "type": "text",
+                        "content": "removing item-oriented group-channel, joint-channel, purchase-channel hypergraph, respectively; 2) w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { g } ^ { e } ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": "w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { j } ^ { e }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { p } ^ { i } \\colon \\qquad"
+                    },
+                    {
+                        "type": "text",
+                        "content": ": removing entity-oriented group-channel, joint-channel, purchase-channel hypergraph, respectively; 3) w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { g } ^ { w }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { j } ^ { w }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", w/o "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathsf { G } _ { p } ^ { w }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ": removing word-oriented group-channel, joint-channel, purchase-channel hypergraph, respectively."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                375,
+                885,
+                555
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Table 5 outlines the experimental findings, indicating that the removal of any hypergraph type results in a performance decrease. This highlights the effectiveness of each hypergraph type and underscores the superiority of HiCore in learning multi-level user interests through a collection of hypergraphs to mitigate Matthew effect in the CRS."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                556,
+                887,
+                669
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "5 Conclusion"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                682,
+                643,
+                699
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The Matthew effect poses a significant challenge in the CRS due to the dynamic user-system feedback loop, which tends to escalate over time as users engage with the system. In response to these challenges, we proposed a novel framework, HiCore, aimed at mitigating the Matthew effect by capturing multi-level user interests through a variety of hypergraphs, including item-oriented, entity-oriented, and word-oriented triple-channel hypergraphs. Extensive experiments validate that HiCore outperforms all baselines, demonstrating the effectiveness of HiCore in addressing the Matthew effect as users chat with the system over time in the CRS."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                709,
+                887,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1463"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "6 Limitations"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                84,
+                250,
+                99
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "While our HiCore has achieved a remarkable stateof-the-art performance, it does come with certain limitations. Firstly, triple-channel hypergraphs may present challenges due to their computational complexity, interpretational intricacies, and potential issues with sparse data. Secondly, scaling these hypergraphs to larger datasets could introduce scalability hurdles, with a risk of overfitting when the model becomes excessively fine-tuned to the training data. Furthermore, ensuring generalizability and handling resource-intensive computations are crucial factors to consider when leveraging multichannel hypergraphs."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                110,
+                490,
+                319
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "7 Ethics Statement"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                330,
+                297,
+                346
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The data used in this paper are sourced from openaccess repositories, and do not pose any privacy concerns. We are confident that our research adheres to the ethical standards set forth by EMNLP."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                356,
+                490,
+                420
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "8 Acknowledgements"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                432,
+                317,
+                449
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "This research / project is supported by the National Research Foundation, Singapore and Infocomm Media Development Authority under its Trust Tech Funding Initiative. Any opinions, findings and conclusions or recommendations expressed in this material are those of the author(s) and do not reflect the views of National Research Foundation, Singapore and Infocomm Media Development Authority."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                457,
+                489,
+                588
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "References"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                613,
+                215,
+                629
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Ashton Anderson, Lucas Maystre, Ian Anderson, Rishabh Mehrotra, and Mounia Lalmas. 2020. Algorithmic effects on the diversity of consumption on spotify. In The Web Conference, pages 2155–2165."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Sören Auer, Christian Bizer, Georgi Kobilarov, Jens Lehmann, Richard Cyganiak, and Zachary G. Ives. 2007. Dbpedia: A nucleus for a web of open data. In International Semantic Web Conference/Asian Semantic Web Conference, volume 4825, pages 722– 735."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "2020. Language models are few-shot learners. In Conference on Neural Information Processing Systems."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Qibin Chen, Junyang Lin, Yichang Zhang, Ming Ding, Yukuo Cen, Hongxia Yang, and Jie Tang. 2019. Towards knowledge-based recommender dialog system. arXiv preprint arXiv:1908.05391."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yang Deng, Yaliang Li, Fei Sun, Bolin Ding, and Wai Lam. 2021a. Unified conversational recommendation policy learning via graph-based reinforcement learning. In Conference on Research and Development in Information Retrieval, pages 1431–1441."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yang Deng, Yaliang Li, Fei Sun, Bolin Ding, and Wai Lam. 2021b. Unified conversational recommendation policy learning via graph-based reinforcement learning. In Conference on Research and Development in Information Retrieval, pages 1431–1441."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yang Deng, Wenxuan Zhang, Weiwen Xu, Wenqiang Lei, Tat-Seng Chua, and Wai Lam. 2023. A unified multi-task learning framework for multi-goal conversational recommender systems. ACM Transactions on Information Systems, 41(3):1–25."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2019. BERT: pre-training of deep bidirectional transformers for language understanding. In the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, pages 4171–4186. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Elena V. Epure and Romain Hennequin. 2023. A human subject study of named entity recognition in conversational music recommendation queries. In European Chapter of the Association for Computational Linguistics, pages 1273–1288."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yingqiang Ge, Shuya Zhao, Honglu Zhou, Changhua Pei, Fei Sun, Wenwu Ou, and Yongfeng Zhang. 2020. Understanding echo chambers in e-commerce recommender systems. In Conference on Research and Development in Information Retrieval, pages 2261– 2270. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Christian Hansen, Rishabh Mehrotra, Casper Hansen, Brian Brost, Lucas Maystre, and Mounia Lalmas. 2021. Shifting consumption towards diverse content on music streaming platforms. In Conference on Web Search and Data Mining, pages 238–246. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Eslam Hussein, Prerna Juneja, and Tanushree Mitra. 2020. Measuring misinformation in video search platforms: An audit study on youtube. ACM on Human-Computer Interaction, 4(CSCW):048:1– 048:27."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wang-Cheng Kang and Julian J. McAuley. 2018. Selfattentive sequential recommendation. In IEEE International Conference on Data Mining, pages 197– 206."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                115,
+                637,
+                487,
+                689
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1464"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yoon Kim. 2014. Convolutional neural networks for sentence classification. In Empirical Methods in Natural Language Processing (Demonstrations), pages 1746–1751."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wenqiang Lei, Xiangnan He, Yisong Miao, Qingyun Wu, Richang Hong, Min-Yen Kan, and Tat-Seng Chua. 2020a. Estimation-action-reflection: Towards deep interaction between conversational and recommender systems. In Web Search and Data Mining, pages 304–312."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wenqiang Lei, Gangyi Zhang, Xiangnan He, Yisong Miao, Xiang Wang, Liang Chen, and Tat-Seng Chua. 2020b. Interactive path reasoning on graph for conversational recommendation. In International Conference on Knowledge Discovery and Data Mining, pages 2073–2083."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Veselin Stoyanov, and Luke Zettlemoyer. 2020. BART: denoising sequence-to-sequence pre-training for natural language generation, translation, and comprehension. In the Association for Computational Linguistics, pages 7871–7880. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Raymond Li, Samira Ebrahimi Kahou, Hannes Schulz, Vincent Michalski, Laurent Charlin, and Chris Pal. 2018a. Towards deep conversational recommendations. Advances in Neural Information Processing Systems, 31."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Raymond Li, Samira Ebrahimi Kahou, Hannes Schulz, Vincent Michalski, Laurent Charlin, and Chris Pal. 2018b. Towards deep conversational recommendations. In Advances in Neural Information Processing Systems, pages 9748–9758."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Shuokai Li, Ruobing Xie, Yongchun Zhu, Xiang Ao, Fuzhen Zhuang, and Qing He. 2022. User-centric conversational recommendation with multi-aspect user modeling. In Conference on Research and Development in Information Retrieval, pages 223–233."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yile Liang, Tieyun Qian, Qing Li, and Hongzhi Yin. 2021. Enhancing domain-level and user-level adaptivity in diversified recommendation. In Conference on Research and Development in Information Retrieval, pages 747–756. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Ping Liu, Karthik Shivaram, Aron Culotta, Matthew A. Shapiro, and Mustafa Bilgic. 2021a. The interaction between political typology and filter bubbles in news recommendation algorithms. In The Web Conference, pages 3791–3801."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Ying Chieh Liu and Min Qi Huang. 2021. Examining the matthew effect on youtube recommendation system. In Conference on Technologies and Applications ofArtificial Intelligence, pages 146–148."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yuanxing Liu, Weinan Zhang, Baohua Dong, Yan Fan, Hang Wang, Fan Feng, Yifan Chen, Ziyu Zhuang, Hengbin Cui, Yongbin Li, and Wanxiang Che. 2023."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "U-NEED: A fine-grained dataset for user needscentric e-commerce conversational recommendation. In Conference on Research and Development in Information Retrieval, pages 2723–2732. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zeming Liu, Haifeng Wang, Zhengyu Niu, Hua Wu, and Wanxiang Che. 2021b. Durecdial 2.0: A bilingual parallel corpus for conversational recommendation. In Conference on Empirical Methods in Natural Language Processing EMNLP, pages 4335–4347. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "R. Milo, S. Shen-Orr, S. Itzkovitz, N. Kashtan, D. Chklovskii, and U. Alon. 2002. Network motifs: Simple building blocks of complex networks. Science, 298(5594):824–827."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Kshitij Mishra, Priyanshu Priya, and Asif Ekbal. 2023. Help me heal: A reinforced polite and empathetic mental health and legal counseling dialogue system for crime victims. In Association for the Advancement ofArtificial Intelligence, pages 14408–14416."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Seungwhan Moon, Pararth Shah, Anuj Kumar, and Rajen Subba. 2019. Opendialkg: Explainable conversational reasoning with attention-based walks over knowledge graphs. In Conference ofthe Association for Computational Linguistics ACL, pages 845–854. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Tien T. Nguyen, Pik-Mai Hui, F. Maxwell Harper, Loren G. Terveen, and Joseph A. Konstan. 2014. Exploring the filter bubble: the effect of using recommender systems on content diversity. In The Web Conference, pages 677–686. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Libo Qin, Zhouyang Li, Qiying Yu, Lehan Wang, and Wanxiang Che. 2023. Towards complex scenarios: Building end-to-end task-oriented dialogue system across multiple knowledge bases. In Association for the Advancement of Artificial Intelligence, pages 13483–13491."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xuhui Ren, Hongzhi Yin, Tong Chen, Hao Wang, Zi Huang, and Kai Zheng. 2021. Learning to ask appropriate questions in conversational recommendation. In Conference on Research and Development in Information Retrieval, pages 808–817."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Rajdeep Sarkar, Koustava Goswami, Mihael Arcan, and John Philip McCrae. 2020. Suggest me a movie for tonight: Leveraging knowledge graphs for conversational recommendation. In Conference on Computational Linguistics, pages 4179–4189."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Chenzhan Shang, Yupeng Hou, Wayne Xin Zhao, Yaliang Li, and Jing Zhang. 2023. Multi-grained hypergraph interest modeling for conversational recommendation. AI Open, 4:154–164."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Robyn Speer, Joshua Chin, and Catherine Havasi. 2017. Conceptnet 5.5: An open multilingual graph of general knowledge. In Association for the Advancement of Artificial Intelligence, pages 4444–4451."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                115,
+                85,
+                489,
+                139
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1465"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Harald Steck. 2018. Calibrated recommendations. In Conference on Recommender Systems, pages 154– 162."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Fei Sun, Jun Liu, Jian Wu, Changhua Pei, Xiao Lin, Wenwu Ou, and Peng Jiang. 2019. Bert4rec: Sequential recommendation with bidirectional encoder representations from transformer. In International Conference on Information and Knowledge Management, pages 1441–1450. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Ł ukasz Kaiser, and Illia Polosukhin. 2017a. Attention is all you need. Advances in neural information processing systems, 30."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, and Illia Polosukhin. 2017b. Attention is all you need. In Advances in Neural Information Processing Systems, pages 5998–6008."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Hao Wang, Zonghu Wang, and Weishi Zhang. 2019. Quantitative analysis of matthew effect and sparsity problem of recommender systems. CoRR."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Kerui Xu, Jingxuan Yang, Jun Xu, Sheng Gao, Jun Guo, and Ji-Rong Wen. 2021. Adapting user preference to online feedback in conversational recommendation. In Web Search and Data Mining, pages 364–372."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zhilin Yang, Zihang Dai, Yiming Yang, Jaime G. Carbonell, Ruslan Salakhutdinov, and Quoc V. Le. 2019. Xlnet: Generalized autoregressive pretraining for language understanding. In Advances in Neural Information Processing Systems, pages 5754–5764."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Junliang Yu, Hongzhi Yin, Jundong Li, Qinyong Wang, Nguyen Quoc Viet Hung, and Xiangliang Zhang. 2021. Self-supervised multi-channel hypergraph convolutional network for social recommendation. In World Wide Web WWW, pages 413–424. ACM / IW3C2."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yang Zhang, Fuli Feng, Xiangnan He, Tianxin Wei, Chonggang Song, Guohui Ling, and Yongdong Zhang. 2021. Causal intervention for leveraging popularity bias in recommendation. In Conference on Research and Development in Information Retrieval, pages 11–20. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yizhe Zhang, Siqi Sun, Michel Galley, Yen-Chun Chen, Chris Brockett, Xiang Gao, Jianfeng Gao, Jingjing Liu, and Bill Dolan. 2020. DIALOGPT : Large-scale generative pre-training for conversational response generation. In the Association for Computational Linguistics, pages 270–278. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zhipeng Zhao, Kun Zhou, Xiaolei Wang, Wayne Xin Zhao, Fan Pan, Zhao Cao, and Ji-Rong Wen. 2023. Alleviating the long-tail problem in conversational recommender systems. In ACM Conference on Recommender Systems, pages 374–385. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yongsen Zheng, Ruilin Xu, Ziliang Chen, Guohua Wang, Mingjie Qian, Jinghui Qin, and Liang Lin. 2024. Hycorec: Hypergraph-enhanced multipreference learning for alleviating matthew effect in conversational recommendation. In the Associationfor Computational Linguistics ACL, pages 2526– 2537. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yu Zheng, Chen Gao, Liang Chen, Depeng Jin, and Yong Li. 2021a. DGCN: diversified recommendation with graph convolutional networks. In The Web Conference, pages 401–412."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yu Zheng, Chen Gao, Xiang Li, Xiangnan He, Yong Li, and Depeng Jin. 2021b. Disentangling user interest and conformity for recommendation with causal embedding. In The Web Conference, pages 2980–2991."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Kun Zhou, Wayne Xin Zhao, Shuqing Bian, Yuanhang Zhou, Ji-Rong Wen, and Jingsong Yu. 2020a. Improving conversational recommender systems via knowledge graph based semantic fusion. In International Conference on Knowledge Discovery and Data Mining, pages 1006–1014."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Kun Zhou, Yuanhang Zhou, Wayne Xin Zhao, Xiaoke Wang, and Ji-Rong Wen. 2020b. Towards topicguided conversational recommender system. In International Conference on Computational Linguistics, pages 4128–4139."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yuanhang Zhou, Kun Zhou, Wayne Xin Zhao, Cheng Wang, Peng Jiang, and He Hu. 2022. C<sup>2</sup>-crs: Coarseto-fine contrastive learning for conversational recommender system. In Web Search and Data Mining, pages 1488–1496. ACM."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                115,
+                85,
+                487,
+                126
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1466"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                522,
+                942
+            ]
+        }
+    ]
+]

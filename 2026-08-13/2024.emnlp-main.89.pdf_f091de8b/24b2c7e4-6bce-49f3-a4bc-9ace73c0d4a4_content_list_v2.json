@@ -1,0 +1,4571 @@
+[
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "UniFashion: A Unified Vision-Language Model for Multimodal Fashion Retrieval and Generation"
+                    }
+                ],
+                "level": 1
+            },
+            "bbox": [
+                129,
+                89,
+                868,
+                129
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Xiangyu Zhao<sup>1</sup>, Yuehan Zhang<sup>2</sup>, Wenlong Zhang<sup>1,3</sup>, Xiao-Ming Wu<sup>1</sup> <sup>1</sup>Department of Computing, The Hong Kong Polytechnic University <sup>2</sup>Wuhan University, <sup>3</sup>Shanghai AI Laboratory xiang-yu.zhao@connect.polyu.hk, xiao-ming.wu@polyu.edu.hk"
+                    }
+                ]
+            },
+            "bbox": [
+                201,
+                151,
+                808,
+                221
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Abstract"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                262,
+                260,
+                341,
+                277
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The fashion domain includes a range of realworld multimodal tasks, such as multimodal retrieval and generation. Recent advancements in AI-generated content, particularly large language models for text and diffusion models for visuals, have spurred significant research interest in applying these multimodal models to fashion. However, fashion models must also effectively handle embedding tasks, like imageto-text and text-to-image retrieval. Moreover, current unified fashion models often lack the capability for image generation. In this work, we present UniFashion, a unified framework that tackles the challenges of multimodal generation and retrieval tasks in the fashion domain, by integrating image and text generation with retrieval tasks. UniFashion unifies embedding and generative processes through the use of a diffusion model and LLM, enabling controllable and high-fidelity generation. Our model significantly outperforms previous state-of-the-art models focused on single tasks across various fashion-related challenges and can be easily adapted to manage complex vision-language tasks. This study highlights the synergistic potential between multimodal generation and retrieval, offering a promising avenue for future research in the fashion domain. The source code is available at https: //github.com/xiangyu-mm/UniFashion."
+                    }
+                ]
+            },
+            "bbox": [
+                141,
+                291,
+                462,
+                719
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "1 Introduction"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                733,
+                260,
+                750
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The fashion domain presents a range of real-world multimodal tasks, encompassing multimodal retrieval (Gao et al., 2020; Wu et al., 2021; Bai et al., 2023; Liu et al., 2024b) and multimodal generation (Yang et al., 2020) tasks. Such tasks have been utilized in diverse e-commerce scenarios to enhance product discoverability, seller-buyer interaction, and customer conversion rates after catalog browsing (Han et al., 2023; Zhuge et al., 2021). The remarkable progress in the field of artificial intelligence generated content (AIGC), particularly in technologies like large language models (LLMs) (Chiang et al., 2023; Touvron et al., 2023; Brown et al., 2020) for text generation and diffusion models (Rombach et al., 2022; Nichol et al., 2022; Saharia et al., 2022) for visual generation, yielding significant advancements in numerous downstream tasks (Feng et al., 2023; Zhang et al., 2022) and sparking widespread research interest in applying these multimodal models to the fashion domain."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                760,
+                490,
+                922
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                261,
+                887,
+                438
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Instruction-tuned multimodal large language models (Liu et al., 2023a; Dai et al., 2023; Dong et al., 2023; Zhao et al., 2024) (MLLMs) have emerged as a promising direction for developing a single multi-task model (Shi et al., 2023). However, due to the heterogeneous nature of multimodal fashion tasks (Han et al., 2023), most existing MLLMs struggle to be directly applicable in the fashion domain. For example, in the fashion domain, retrieval tasks that rely on embedding ability, such as imageto-text or text-to-image retrieval, have largely been overlooked. Furthermore, existing MLLMs lack the ability to solve the composed image retrieval (CIR) (Liu et al., 2021; Baldrati et al., 2022) task, which composes the reference image and related caption in a joint embedding to calculate similarities with candidate images and is particularly relevant in recommender systems (Han et al., 2017; Liu et al., 2022, 2024a)."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                438,
+                887,
+                745
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Drawing inspiration from GRIT (Muennighoff et al., 2024), which successfully combined generative and embedding tasks into a unified model for text-centric applications and enhanced embedding performance by incorporating a generative objective, it is evident that exploring task correlations and integrating embedding with generative models in the fashion domain is promising."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                745,
+                887,
+                873
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "While previous works (Han et al., 2023; Zhuge et al., 2021) in the fashion domain have also proposed using a single model for solving multiple tasks, they ignore image generation tasks. Besides, for fashion tasks such as try-on (Choi et al., 2021) and fashion design (Baldrati et al., 2023b), it is generally required to generate target images based on multimodal input. However, previous works (Baldrati et al., 2023b) in fashion image generation typically adopt the CLIP text encoder for encoding text information. This approach may not effectively capture the textual context due to the limitations of the text encoder, as noted by Saharia et al. (2022). Hence, we posit that current studies have yet to fully explore the potential synergy between generation and retrieval."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                873,
+                885,
+                923
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1490"
+                    }
+                ]
+            },
+            "bbox": [
+                482,
+                928,
+                522,
+                941
+            ]
+        },
+        {
+            "type": "page_footer",
+            "content": {
+                "page_footer_content": [
+                    {
+                        "type": "text",
+                        "content": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 1490–1507 November 12-16, 2024 ©2024 Association for Computational Linguistics"
+                    }
+                ]
+            },
+            "bbox": [
+                159,
+                945,
+                836,
+                973
+            ]
+        }
+    ],
+    [
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/846130530d749c82e534c7fce7527e4f68e81f8e8ea94964d3a55bf6fa0478c8.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 1: Illustration of the fashion tasks encompassed in our UniFashion framework: cross-modal retrieval, text-guided image retrieval, fashion image captioning, and fashion image generation. Model inputs highlighted with a light yellow background and outputs denoted by a light blue background."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                147,
+                99,
+                847,
+                456
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                552,
+                490,
+                763
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this work, we propose UniFashion, which unifies retrieval and generation tasks by integrating LLMs and diffusion models, as illustrated in Figure 2. UniFashion consists of three parts: The Q-Former is crucial for amalgamating text and image input, creating multimodal learnable queries. These queries, once refined through task-specific adapters, enable the LLM module to utilize them as soft prompts for generating captions for target images. Simultaneously, the diffusion module utilizes the learnable queries as conditions to guide the latent diffusion model in image synthesis and editing tasks. To enable controllable and high-fidelity generation, we propose a two-phase training strategy. In the first phase, we perform multimodal representation learning on image-text pairs datasets. We freeze Q-Former and fine-tune the LLM and diffusion modules, ensuring they develop the capability to comprehend the multimodal representations provided by Q-Former. Subsequently, in the second phase, we proceed to fine-tune UniFashion on datasets with multimodal inputs, such as Fashion-IQ, where we freeze the LLM and diffusion modules, only tuning Q-Former. This strategy ensures that Q-Former is adept at crafting multimodal representations that effectively integrate both reference images and text inputs."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                777,
+                490,
+                923
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                552,
+                887,
+                843
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "UniFashion holds three significant advantages that address the challenges in multimodal fashion retrieval and generation:"
+                    }
+                ]
+            },
+            "bbox": [
+                509,
+                843,
+                884,
+                891
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• For the first time, we conduct an in-depth study of the synergistic modeling of multimodal retrieval and generation tasks within the fashion domain, thoroughly exploiting the inter-task relatedness. Further, we introduce UniFashion, a versatile, unified model that can handle all fashion tasks."
+                    }
+                ]
+            },
+            "bbox": [
+                531,
+                906,
+                884,
+                922
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1491"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                519,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                147,
+                85,
+                489,
+                181
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• Secondly, our model enhances performance via mutual task reinforcement. Specifically, the caption generative module aids the CIR task, while jointly training the generation and retrieval tasks improves the multimodal encoder for the diffusion module."
+                    }
+                ]
+            },
+            "bbox": [
+                136,
+                192,
+                490,
+                290
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "• Thirdly, extensive experiments on diverse fashion tasks—including cross-modal retrieval, composed image retrieval, and multimodal generation—demonstrate that our unified model significantly surpasses previous state-of-the-art methods."
+                    }
+                ]
+            },
+            "bbox": [
+                136,
+                299,
+                490,
+                395
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2 Preliminaries and Related Works"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                407,
+                436,
+                423
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2.1 Fashion Tasks"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                432,
+                273,
+                448
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Fashion tasks encompass a range of image and language manipulations, including cross-modal retrieval, composed image retrieval, fashion image captioning and generation, etc. The representative tasks can be briefly divided into the following two groups."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                454,
+                489,
+                551
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Fashion Retrieval. It generally consists of Cross-Modal Retrieval (CMR) (Ma et al., 2022; Rostamzadeh et al., 2018) and composed image retrieval (CIR) tasks (Baldrati et al., 2023a; Bai et al., 2023). CMR requests to efficiently retrieve the most matched image/sentence from a large candidate pool given a text/image query. CIR is a special type of image retrieval with a multimodal query (a combination of a reference image and a modifying text) matched against a set of images. It retrieves a target image from a vast image database based on a reference image and a text description detailing changes to be applied to the reference image. In this scenario, a query pair "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "p = \\{ I _ { R } , t \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is provided, where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "I _ { R }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the reference image and t is the text describing the desired modifications. The challenge for this task is to accurately identify the target image "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "I _ { T }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "that best matches the query among all potential candidates in the image corpus ."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                558,
+                490,
+                868
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Fashion Generation. It consists of Fashion Image Captioning (FIC) and Fashion Image Generation (FIG). FIC (Yang et al., 2020) aims to generate a descriptive caption for a product based on the visual and/or textual information provided in the input. FIG aims to generate images based on the multimodal input, such as try-on (Choi et al., 2021; Gou et al., 2023) and fashion design (Baldrati et al., 2023b)."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                873,
+                490,
+                922
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                85,
+                885,
+                181
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2.2 Multimodal Language Models"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                192,
+                794,
+                209
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Recent research has witnessed a surge of interest in multimodal LLMs, including collaborative models (Wu et al., 2023; Yang et al., 2023b; Shen et al., 2023) and end-to-end methods (Alayrac et al., 2022; Zhao et al., 2024; Li et al., 2022; Bao et al., 2021; Wang et al., 2022b,a,a). More recently, some works also explore training LLMs with parameterefficient tuning (Li et al., 2023b; Zhang et al., 2023b) and instruction tuning (Dai et al., 2023; Liu et al., 2023a; Ye et al., 2023; Zhu et al., 2023a; Li et al., 2023a). They only focus on generation tasks, while our model UniFashion is designed as a unified framework that enables both retrieval and generation tasks."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                214,
+                887,
+                441
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2.3 Diffusion Models"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                451,
+                692,
+                467
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Diffusion generative models (Rombach et al., 2022; Ramesh et al., 2021; Nichol et al., 2022; Ruiz et al., 2023) have achieved strong results in text conditioned image generation works. Among contemporary works that aim to condition pretrained latent diffusion models, ControlNet (Zhang et al., 2023a) proposes to extend the Stable Diffusion model with an additional trainable copy part for conditioning input. In this work, we focus on the fashion domain and propose a unified framework that can leverage latent diffusion models that directly exploit the conditioning of textual sentences and other modalities such as human body poses and garment sketches."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                473,
+                887,
+                684
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2.4 Problem Formulation"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                694,
+                727,
+                709
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Existing fashion image retrieval and generation methods are typically designed for specific tasks, which inherently restricts their applicability to the various task forms and input/output forms in the fashion domain. To train a unified model that can handle multiple fashion tasks, our approach introduces a versatile framework capable of handling multiple fashion tasks by aligning the multimodal representation into the LLM and the diffusion model. This innovative strategy enhances the model’s adaptability, and it can be represented as:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                715,
+                887,
+                894
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "I _ { \\mathrm { o u t } } , T _ { \\mathrm { o u t } } = \\mathcal { F } _ { \\mathcal { T } _ { \\mathrm { R e t } } , \\mathcal { T } _ { \\mathrm { G e n } } } ( I _ { \\mathrm { i n } } , T _ { \\mathrm { i n } } ; \\Theta ) ,\\tag{1}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/ac7b39167e16cf37c6cb91c9e1a16be2f927b712e6b55ad3b37b0f0ff64a18f2.jpg"
+                }
+            },
+            "bbox": [
+                561,
+                906,
+                831,
+                925
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1492"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { F } _ { \\mathcal { T } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "represents the unified model parameterized by Θ, it consists of retrieval module "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathcal { T } _ { R e t }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "and generative module "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\tau _ { G e n }"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                84,
+                489,
+                134
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3 Proposed Model: UniFashion"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                112,
+                145,
+                403,
+                161
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this section, we introduce the UniFashion to unify the fashion retrieval and generation tasks into a single model. By combining retrieval and generative modules, the proposed UniFashion employs a two-stage training strategy to capture relatedness between image and language information. Consequently, it can seamlessly switch between two operational modes for cross-modal tasks and composed modal tasks."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                171,
+                490,
+                317
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1 Phase 1: Cross-modal Pre-training"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                328,
+                435,
+                343
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In the first stage, we conduct pre-training on the retrieval and generative modules to equip the Large Language Model (LLM) and diffusion model with strong cross-modal fashion representation capabilities for the next phase."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                349,
+                489,
+                430
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1.1 Cross-modal Retrieval"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                439,
+                352,
+                454
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For cross-modal retrieval tasks, given a batch of image caption pairs "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "p = \\{ I , C \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", we first calculate their unimodal representations using an independent method. In particular, we adopt a lightweight Querying Transformer, i.e., Q-Former in BLIP-2 (Li et al., 2023b), to encode the multimodal inputs, as it is effective in bridging the modality gap. To avoid information leaks, we employ a unimodal self-attention mask (Li et al., 2023b), where the queries and text are not allowed to see each other:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                458,
+                490,
+                621
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { Z _ { I } = \\mathrm { Q – F o r m e r } ( I , q ) , } \\\\ & { Z _ { C } = \\mathrm { Q – F o r m e r } ( C ) . } \\end{array}\\tag{2}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/c86d7b2f0410d93f83279cb744cdce9af7ecfe0f1dd605fde3d47d12030a830d.jpg"
+                }
+            },
+            "bbox": [
+                215,
+                631,
+                386,
+                669
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where the output sequence "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { I }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the encoding result of an initialized learnable query q with the input image and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { C }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the encoded caption, which contains the embedding of the output of the [CLS] token "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "e _ { c l s } ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", which is a representation of the input caption text. Since "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { I }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "contains multiple output embeddings (one from each query), we first compute the pairwise similarity between each query output and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "e _ { c l s } ."
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and then select the highest one as the imagetext similarity. In our experiments, we employ 32 queries in "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": "with each query having a dimension of 768, which is the same as the hidden dimension of the Q-Former. For cross-modal learning objective, we leverage the Image-Text Contrastive Learning (ITC) and Image-Text Matching (ITM) method."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                681,
+                490,
+                923
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The first loss term is image-text contrastive loss, which has been widely adopted in existing text-toimage retrieval models. Specifically, the image-text contrastive loss is defined as:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                85,
+                885,
+                148
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\mathrm { I T C } } ( X , Y ) = - \\frac { 1 } { B } \\sum _ { i = 1 } ^ { B } \\log \\frac { \\exp [ \\lambda ( X _ { i } ^ { T } \\cdot Y ^ { i } ) ] } { \\sum _ { j = 1 } ^ { B } \\exp [ \\lambda ( X _ { i } ^ { T } \\cdot Y ^ { j } ) ] } ,\\tag{3}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/6e5ec1cb4915d45ec0000a000b1f22dbed88bc51b42f1f6799e9bf569a4f538e.jpg"
+                }
+            },
+            "bbox": [
+                526,
+                158,
+                863,
+                195
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where λ is a learnable temperature parameter. ITM aims to learn fine-grained alignment between image and text representation. It is a binary classification task where the model is asked to predict whether an image-text pair is positive (matched) or negative (unmatched), it is defined as,"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                206,
+                885,
+                304
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\mathrm { I T M } } ( X , Y ) = - \\frac { 1 } { B } \\sum _ { i = 1 } ^ { B } \\log \\frac { \\exp f _ { \\theta } ( X _ { i } , Y _ { i } ) } { \\sum _ { j = 1 } ^ { B } \\exp f _ { \\theta } ( X _ { j } , Y _ { i } ) } ,\\tag{4}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/09ae5443ca0122037bda6d15dee25ad8a79f60e786d001ef92d49e83757d58ee.jpg"
+                }
+            },
+            "bbox": [
+                524,
+                315,
+                848,
+                350
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Then, we maximize their similarities via symmetrical contrastive loss:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                360,
+                885,
+                392
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\mathrm { c r o s s } } = \\mathcal { L } _ { \\mathrm { I T C } } ( t _ { c } , Z _ { I } ) + \\mathcal { L } _ { \\mathrm { I T M } } ( Z _ { C } , Z _ { I } ) ,\\tag{5}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/317142843e97c3f33256f13766bdbb08f08b402fd4bf36a2e3895ce56cdba0e0.jpg"
+                }
+            },
+            "bbox": [
+                532,
+                406,
+                838,
+                423
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1.2 Cross-modal Generation"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                436,
+                764,
+                451
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "As depicted in Fig. 2, after the learnable queries q pass through the multimodal encoder, they are capable of integrating the visual information with textual guidance. However, in Section 3.1.1, we did not specify a learning target for q. Empirically, the "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q"
+                    },
+                    {
+                        "type": "text",
+                        "content": "that has been merged with the reference image and edited text information should be equivalent to the encoding of the target image. This implies that we should be able to reconstruct the target image and its caption based on "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q ."
+                    },
+                    {
+                        "type": "text",
+                        "content": "In this section, we will employ generative objectives to improve the representation of augmented q."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                455,
+                885,
+                649
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In the first stage, we connect the Q-Former (equipped with a frozen image encoder) to a Large Language Model (LLM) to harness the LLM’s prowess in language generation, and to a diffusion model to exploit its image generation capabilities. Notably, we exclusively train the model using image-text pairs throughout this process. As depicted in Figure 2, we employ a Task Specific Adapter (TSA) layer to linearly project the output query embeddings q to match the dimensionality of the embeddings used by the LLM and diffusion model. In this stage, we freeze the parameters of the Q-Former and fine-tune only the adapter layers, connecting LLM and diffusion models. This approach allows us to develop a discriminative model that can evaluate whether queries q can generate the target image and its corresponding caption."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                649,
+                887,
+                923
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1493"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/42d846cb3b6f1bbb4cd0067c73def9840fec8d18cc894dd9e7e6c616b9af943a.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 2: Overview of the training framework of our UniFashion model. Phase 1 - Cross-modal Pre-training: UniFashion acquires robust cross-modal fashion representation capabilities through pre-training, leveraging both the language model and the diffusion model. Phase 2 - Composed Multimodal Fine-tuning: The model undergoes fine-tuning to process both image and text inputs, refining its ability to learn composed modal representations. This is achieved by aligning the multimodal encoder with the LLM and the diffusion model for enhanced performance."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                129,
+                87,
+                878,
+                307
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Target Caption Generation. The adapter layer is placed before the LLM to map the output of Q-Former to the text embedding space of the LLM. To synchronize the space of Q-Former with that of the LLM, we propose to use the image-grounded text generation (ITG) objective to drive the model to generate texts based on the input image by computing the auto-regressive loss:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                416,
+                490,
+                546
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\mathrm { I T G } } = - \\frac { 1 } { L } \\sum _ { l = 1 } ^ { L } \\log p _ { \\phi } ( w _ { l } ^ { g } | w _ { < l } ^ { g } , f _ { \\theta } ( q ) ) ,\\tag{6}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/7852e0ba6c2528859c914c46a6d2bd63bdbfed14164c5923955c5876b514e425.jpg"
+                }
+            },
+            "bbox": [
+                141,
+                558,
+                440,
+                601
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "w ^ { g } = ( w _ { 1 } ^ { g } , . . . , w _ { L } ^ { g } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "represents the groundtruth caption of image I with length L, "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q \\quad ="
+                    },
+                    {
+                        "type": "text",
+                        "content": "Q-Former "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "( I , q )"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", ϕ denotes the LLM’s parameters, and θ denotes the text adapter layers’ parameters."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                615,
+                489,
+                681
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Target Image Generation. In the first stage, our task also aims to reconstruct the image "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\hat { I _ { T } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "from "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q ."
+                    },
+                    {
+                        "type": "text",
+                        "content": "As in standard latent diffusion models, given an encoded input x, the proposed denoising network is trained to predict the noise stochastically added to x. The corresponding objective function can be specified as:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                682,
+                489,
+                794
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r } { \\mathcal { L } _ { \\mathrm { q 2 I } } = \\mathbb { E } _ { \\epsilon ^ { y } , \\mathbf { x } _ { 0 } } [ \\| \\epsilon ^ { x } - \\epsilon _ { \\eta } ^ { x } ( \\mathbf { x } _ { t ^ { x } } , f _ { \\zeta } ( q ) , t ^ { x } ) \\| ^ { 2 } ] , } \\end{array}\\tag{7}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/3629462ed88853fc64af8d9179644943bf59d653317eeb6c380d46648a26a4f9.jpg"
+                }
+            },
+            "bbox": [
+                131,
+                808,
+                452,
+                829
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where η denotes the u-net models’ parameters and ζ denotes the image adapter layers’ parameters. The overall loss in the first stage can be expressed:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                843,
+                489,
+                891
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\mathrm { p h } 1 } = \\mathcal { L } _ { \\mathrm { c r o s s } } + \\mathcal { L } _ { \\mathrm { I T G } } + \\mathcal { L } _ { \\mathrm { q 2 T } } .\\tag{8}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/96cc835e223e9b15fd519282d35b441df5f429bc28f2d3968976d08607fc6b2e.jpg"
+                }
+            },
+            "bbox": [
+                179,
+                906,
+                420,
+                923
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "After the first training stage, we can leverage the LLM and diffusion model as discriminators to guide the generation of composed queries."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                416,
+                884,
+                464
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2 Phase 2: Composed Multimodal Fine-tuning"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                478,
+                810,
+                511
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this phase, the inputs are reference image and guidance text, and we fine-tune the model for composed multimodal retrieval and generation tasks."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                517,
+                885,
+                567
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2.1 Composed Image Retrieval"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                594,
+                784,
+                609
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For CIR task, the target image "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "I _ { T }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "generally encompasses the removal of objects and the modification of attributes in the reference image. To solve this problem, as depicted in Fig. 2, the multimodal encoder is utilized to extract features from the reference image and the guide text. It joint embeds the given pair "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "p = \\{ I _ { R } , t \\}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "in a sequential output. Specifically, a set of learnable queries "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q"
+                    },
+                    {
+                        "type": "text",
+                        "content": "concatenated with text guidance t is introduced to interact with the features of the reference image. Finally, the output of Q-Former is the multimodal synthetic prompt "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { R }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ". We use a bi-directional self-attention mask, similar to the one used in BLIP2 (Li et al., 2023b), where all queries and texts can attend to each other. The output query embeddings "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { R }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "thus capture multimodal information:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                615,
+                887,
+                873
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r l } & { Z _ { R } = \\mathrm { Q - F o r m e r } ( I _ { R } , t , q _ { R } ) , } \\\\ & { Z _ { T } = \\mathrm { Q - F o r m e r } ( I _ { T } , q _ { T } ) . } \\end{array}\\tag{9}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/faf77da943fd1ea535cc5b4d336404ca0468ce1be189c432b16f45338c842ca7.jpg"
+                }
+            },
+            "bbox": [
+                591,
+                888,
+                801,
+                925
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1494"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Noting that the output sequence "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { R }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "consists of learnable queries q and encoded text guidance t, which includes "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "e _ { c l s }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", the embedding of the output of the [CLS] token. On the other hand, the target image’s output sequence "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { T }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "consists only of learnable queries. Therefore, we can use "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { R }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "as a representation that incorporates information from the reference image and the guidance text and align it with the features of the target image "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { T }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ". Moreover, as UniFashion acquires the ability to generate captions for images from Sec. 3.1.2, we can generate captions for the candidate images and use "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "e _ { c l s }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "to retrieve the caption "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "Z _ { C }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "of the target image. Then, the final contrastive loss for the CIR task is:"
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                84,
+                490,
+                311
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r } { \\mathcal { L } _ { \\mathrm { c i r } } = \\mathcal { L } _ { \\mathrm { I T C } } ( e _ { c l s } , Z _ { T } ) + \\mathcal { L } _ { \\mathrm { I T C } } ( e _ { c l s } , Z _ { C } ) } \\\\ { + \\mathcal { L } _ { \\mathrm { I T M } } ( \\pmb { t } , Z _ { T } ) , \\qquad } \\end{array}\\tag{10}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/3c52a44888a2ea8b1fee2cc8d7f22d88d83efb12c84258868bccf1e6fdb69534.jpg"
+                }
+            },
+            "bbox": [
+                132,
+                321,
+                438,
+                359
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2.2 Composed Multimodal Generation"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                370,
+                450,
+                386
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For these generation tasks, we freeze the LLM parameters and tune the parameters of the taskspecific adapters, the diffusion model, and the "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { Q } \\mathrm { - }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "Former. The loss function for the target image’s caption generation is formulated in a way that is similar to Eq. 6:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                391,
+                489,
+                487
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\Pi \\mathrm { G } } = - \\frac { 1 } { L } \\sum _ { l = 1 } ^ { L } \\log p _ { \\phi } ( w _ { l } ^ { g } | w _ { < l } ^ { g } , f _ { \\theta } ( q _ { R } ) ) ,\\tag{11}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/052350188c41217293efac8884b1ada665b458b5f8b3cd97ef4c30025bba4736.jpg"
+                }
+            },
+            "bbox": [
+                131,
+                498,
+                440,
+                542
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The loss function for the target image generation is formulated in a way that is similar to Eq. 7:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                552,
+                487,
+                586
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r } { \\mathcal { L } _ { \\mathrm { q 2 I } } = \\mathbb { E } _ { \\epsilon ^ { y } , { \\bf x } _ { 0 } } [ \\| \\epsilon ^ { x } - \\epsilon _ { \\eta } ^ { x } ( { \\bf x } _ { t ^ { x } } , f _ { \\zeta } ( q _ { R } ) , t ^ { x } ) \\| ^ { 2 } ] , } \\end{array}\\tag{12}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/fd808e90c48830f49c58a3e62b4e2eb3608a1fa4ad621cf5c19ef4707c094ce7.jpg"
+                }
+            },
+            "bbox": [
+                126,
+                596,
+                457,
+                618
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The overall loss in the second stage can be expressed as:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                632,
+                489,
+                664
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } _ { \\mathrm { s t a g e 2 } } = \\mathcal { L } _ { \\mathrm { c i r } } + \\mathcal { L } _ { \\mathrm { I T G } } + \\mathcal { L } _ { \\mathrm { q 2 I } } .\\tag{13}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/df98971768a96243bc714fa902f680002961438ceecf17f06a0c86d290e6bef8.jpg"
+                }
+            },
+            "bbox": [
+                181,
+                677,
+                418,
+                695
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.3 Instruction-Tuning LLMs for Different Caption Style"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                112,
+                707,
+                468,
+                739
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Liu et al.’s work shows that LLMs have the potential to handle multimodal tasks based on text description of images. Due to the different styles of captions in different fashion datasets, we adopt different instructions to tune the LLM so that it can generate captions of different styles."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                745,
+                489,
+                841
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We designed different instructions for different datasets and tasks, as shown in Table 7. General instruction template is denoted as follows:"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                841,
+                489,
+                889
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "USER: <Img><queries></Img> + Instruction. Assistant: <answer>."
+                    }
+                ]
+            },
+            "bbox": [
+                114,
+                890,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For the <image> placeholder, we substitute it with the output of Multimodal Encoder. To avoid overfitting to the specific task and counteract the model’s inclination to generate excessively short outputs, we have devised specific instructions, which enable the LLM to produce concise responses when necessary."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                85,
+                887,
+                198
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4 Experiments"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                221,
+                657,
+                237
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.1 Experimental Setup"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                255,
+                714,
+                272
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We initialize the multimodal encoder using BLIP2’s Q-Former. Following the approach of LLaVA-1.5 (Liu et al., 2023a), we initialize the LLM from Vicuna-1.5 (Zheng et al., 2023). For the diffusion module, we adopt the autoencoder and denoising U-Net from Stable Diffusion v1.4, as utilized in StableVITON. The weights of the U-Net are initialized from Paint-by-Example. To achieve more refined person textures, we employ a VAE that has been fine-tuned on the VITONHD dataset, as done in StableVITON. The statistics of the two-stage datasets can be found in Table 6. For cross-modal retrieval, we evaluated UniFashion on FashionGen validation set. For the image captioning task, UniFashion is evaluated in the Fashion-Gen dataset. For the composed image retrieval task, we evaluated the Fashion-IQ validation set. To maintain consistency with previous work, for the composed image generation task, we fine-tuned UniFashion and evaluated it on the VITON-HD and MGD datasets. More details can be found in Appendix B."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                284,
+                887,
+                640
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Phase 1: For multimodal representation learning, we follow BLIP2 and pretrain the Q-Former on fashion image-text pairs. To adapt the model for multimodal generation, we freeze the parameters of Q-Former and fine-tune the MLLM and diffusion model with their task specific adapters separately. Due to the different styles of captions in different fashion datasets, we adopt the approach of instruction tuning to train the LLM so that it can generate captions of different styles. More details can be found in Appendix 3.3."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                658,
+                887,
+                838
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Phase 2: In order to make UniFashion have the composed retrieval and generation abilities, we freeze the parameters of LLM and diffusion model, only fine-tune the multimodal encoder."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                858,
+                885,
+                922
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1495"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/f7591dd6e2e0a9ac666a9172f59bf2d57db95a1b6fb5cac35e89a8ebc510585c.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 1: Performance comparison of UniFashion and baseline models on the FashionGen dataset for cross-modal retrieval tasks."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"3\">Image to Text</td><td colspan=\"3\">Text to Image</td><td rowspan=\"2\">Mean</td></tr><tr><td>R@1</td><td>R@5</td><td>R@10</td><td>R@1</td><td>R@5</td><td>R@10</td></tr><tr><td>FashionBERT (Li et al., 2022)</td><td>23.96</td><td>46.31</td><td>52.12</td><td>26.75</td><td>46.48</td><td>55.74</td><td>41.89</td></tr><tr><td>OSCAR (Alayrac et al., 2022)</td><td>23.39</td><td>44.67</td><td>52.55</td><td>25.10</td><td>49.14</td><td>56.68</td><td>41.92</td></tr><tr><td>KaledioBERT (Li et al., 2023b)</td><td>27.99</td><td>60.09</td><td>68.37</td><td>33.88</td><td>60.60</td><td>68.59</td><td>53.25</td></tr><tr><td>EI-CLIP (Li et al., 2023b)</td><td>38.70</td><td>72.20</td><td>84.25</td><td>40.06</td><td>71.99</td><td>82.90</td><td>65.02</td></tr><tr><td>MVLT (Dai et al., 2023)</td><td>33.10</td><td>77.20</td><td>91.10</td><td>34.60</td><td>78.00</td><td>89.50</td><td>67.25</td></tr><tr><td>FashionViL (Zhu et al., 2023a)</td><td>65.54</td><td>91.34</td><td>96.30</td><td>61.88</td><td>87.32</td><td>93.22</td><td>82.60</td></tr><tr><td>FAME-ViL (Liu et al., 2023a)</td><td>65.94</td><td>91.92</td><td>97.22</td><td>62.86</td><td>87.38</td><td>93.52</td><td>83.14</td></tr><tr><td>UniFashion (Ours)</td><td>71.44</td><td>93.79</td><td>97.51</td><td>71.41</td><td>93.69</td><td>97.47</td><td>87.55</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                218,
+                82,
+                779,
+                205
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/88a1c9b51384e651bb67d65679362e4a07c9d27e1435d611c0ae31aacb6abb40.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 2: The Performance of UniFashion in the image captioning task on the FashionGen dataset."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"4\">Image Captioning</td></tr><tr><td>BLEU-4</td><td>METEOR</td><td>ROUGE-L</td><td>CIDEr</td></tr><tr><td>FashionBERT</td><td>3.30</td><td>9.80</td><td>29.70</td><td>30.10</td></tr><tr><td>OSCAR</td><td>4.50</td><td>10.90</td><td>30.10</td><td>30.70</td></tr><tr><td>KaleidoBERT</td><td>5.70</td><td>12.80</td><td>32.90</td><td>32.60</td></tr><tr><td>FashionViL</td><td>16.18</td><td>25.60</td><td>37.23</td><td>39.30</td></tr><tr><td>FAME-ViL</td><td>30.73</td><td>25.04</td><td>55.83</td><td>150.4</td></tr><tr><td>UniFashion</td><td>35.53</td><td>29.32</td><td>54.59</td><td>169.5</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                126,
+                268,
+                477,
+                372
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.2 Datasets"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                442,
+                228,
+                457
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We test the effectiveness of UniFashion by experimenting on different tasks including fashion image captioning, cross-modal retrieval, composed image retrieval and composed image generation."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                467,
+                489,
+                532
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We use the FashionGen and FshaionIQ (Lin et al., 2014) datasets for retrieval tasks. Fashion-Gen contains 68k fashion products accompanied by text descriptions. Each product includes 1 - 6 images from different angles, resulting in 260.5k image-text pairs for training and 35.5k for testing. Fashion-IQ contains 18k training triplets (that is, reference image, modifying text, target image) and 6k validation triplets over three categories: Dress, Shirt, and Toptee. Each pair (reference image, target image) is manually annotated with two modifying texts, which are concatenated."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                533,
+                490,
+                727
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For fashion image captioning tasks, we utilize the FashionGen (Zang et al., 2021) dataset. Additionally, to enhance our model’s capability in the CIR task, which involves the ability to retrieve captions for target images, we have annotated images from the training set of Fashion-IQ. Recognizing that manually annotating all the images would be time-consuming and resource-intensive, we draw inspiration from the success of recent MLLM models such as LLaVA in text-annotation tasks, and propose leveraging LLaVA 1.5 (13B) to semi-automatically annotate the dataset. More details can be found in Appendix C."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                730,
+                490,
+                923
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                509,
+                271,
+                781,
+                287
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.3 Evaluation Methods"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                302,
+                715,
+                317
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We compare our models with previous state-of-theart methods on each task. For extensive and fair comparisons, all prior competitors are based on large-scale pre-trained models."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                324,
+                885,
+                391
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Cross-modal Retrieval Evaluation. We consider both image-to-text retrieval and text-to-image retrieval with random 100 protocols used by previous methods. 100 candidates are randomly sampled from the same category to construct a retrieval database. The goal is to locate the positive match depicting the same garment instance from these 100 same-category negative matches. We utilize Recall@K as the evaluation metric, which reflects the percentage of queries whose true target ranked within the top K candidates."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                401,
+                887,
+                580
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Fashion Image Captioning Evaluation. For evaluating the performance of caption generation, we utilize BLEU-4, METEOR, ROUGE-L, and CIDEr as metrics."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                590,
+                885,
+                656
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Composed Fashion Image Retrieval Evaluation. We compare our UniFashion with CIR methods and the FAME-ViL model of V + L that is oriented towards fashion in the original protocol used by Fashion-IQ. For this task, we also utilize Recall@K as the evaluation metric."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                668,
+                887,
+                765
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Composed Fashion Image Generation Evaluation. We compare our UniFashion with try-on methods on VITON-HD dataset and fashion design works on MGD dataset. To evaluate the quality of image generation, we use the Frechet Inception Distance (FID) score to measure the divergence between two multivariate normal distributions and employ the CLIP Score (CLIP-S) provided in the TorchMetrics library to assess the adherence of the image to the textual conditioning input (for fashion design task)."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                777,
+                887,
+                922
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1496"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/e25888da21fdd3da0cdfce8e0de8db3cc7d15ddc18e39469664fd81340e4e1f5.jpg"
+                },
+                "table_caption": [],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"3\">Model</td><td colspan=\"4\">Modalities</td><td colspan=\"3\">Metrics</td></tr><tr><td>Text</td><td>Sketch</td><td>Pose</td><td>Cloth</td><td>FID↓</td><td>KID↓</td><td>CLIP-S</td></tr><tr><td>try-on task</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>VITON-HD (Choi et al., 2021)</td><td>x</td><td>x</td><td>√</td><td>√</td><td>12.12</td><td>3.23</td><td></td></tr><tr><td>Paint-by-Example (Yang et al., 2023a)</td><td>x</td><td>x</td><td>√</td><td>√</td><td>11.94</td><td>3.85</td><td></td></tr><tr><td>GP-VTON (Xie et al., 2023)</td><td>x</td><td>x</td><td>√</td><td>√</td><td>13.07</td><td>4.66</td><td></td></tr><tr><td>StableVITON (Kim et al., 2024)</td><td>x</td><td>x</td><td>√</td><td>√</td><td>8.23</td><td>0.49</td><td></td></tr><tr><td>UniFashion (Ours)</td><td>x</td><td>x</td><td>√</td><td>√</td><td>8.42</td><td>0.67</td><td></td></tr><tr><td>fashion design task</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>SDEdit (Meng et al., 2021)</td><td>√</td><td>√</td><td>√</td><td>x</td><td>15.12</td><td>5.67</td><td>28.61</td></tr><tr><td>MGD (Baldrati et al., 2023b)</td><td>√</td><td>√</td><td>√</td><td>x</td><td>12.81</td><td>3.86</td><td>30.75</td></tr><tr><td>UniFashion (Ours)</td><td>√</td><td>√</td><td>√</td><td>x</td><td>12.43</td><td>3.74</td><td>31.29</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                225,
+                82,
+                773,
+                223
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/4cb2f3ea2fa55bb76b596af6e5555b93697bdedf54a7a6d4717ba6783c6a2493.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 3: Performance analysis of unpaired settings on the VITON-HD and MGD datasets across different input modalities."
+                    },
+                    {
+                        "type": "text",
+                        "content": "Table 4: Comparative evaluation of UniFashion and variants and baseline models on the Fashion-IQ dataset for composed image retrieval task. Best and second-best results are highlighted in bold and underlined, respectively."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td rowspan=\"2\">Model</td><td colspan=\"2\">Dress</td><td colspan=\"2\">Shirt</td><td colspan=\"2\">Toptee</td><td colspan=\"3\">Average</td></tr><tr><td>R@10</td><td>R@50</td><td>R@10</td><td>R@50</td><td>R@10</td><td>R@50</td><td>R@10</td><td>R@50</td><td>Avg.</td></tr><tr><td>FashionVLP (Goenka et al., 2022)</td><td>32.42</td><td>60.29</td><td>31.89</td><td>58.44</td><td>38.51</td><td>68.79</td><td>34.27</td><td>62.51</td><td>48.39</td></tr><tr><td>CASE (Levy et al., 2023)</td><td>47.44</td><td>69.36</td><td>48.48</td><td>70.23</td><td>50.18</td><td>72.24</td><td>48.79</td><td>70.68</td><td>59.74</td></tr><tr><td>AMC (Żhu et al., 2023b)</td><td>31.73</td><td>59.25</td><td>30.67</td><td>59.08</td><td>36.21</td><td>66.06</td><td>32.87</td><td>61.64</td><td>47.25</td></tr><tr><td>CoVR-BLIP (Ventura et al., 2024)</td><td>44.55</td><td>69.03</td><td>48.43</td><td>67.42</td><td>52.60</td><td>74.31</td><td>48.53</td><td>70.25</td><td>59.39</td></tr><tr><td>MGUR (Chen et al., 2022)</td><td>32.61</td><td>61.34</td><td>33.23</td><td>62.55</td><td>41.40</td><td>72.51</td><td>35.75</td><td>65.47</td><td>50.61</td></tr><tr><td>LinCIR (Gu et al., 2024)</td><td>38.08</td><td>60.88</td><td>46.76</td><td>65.11</td><td>50.48</td><td>71.09</td><td>45.11</td><td>65.69</td><td>55.4</td></tr><tr><td>CMAP (♀i et al., 2024)</td><td>36.44</td><td>64.25</td><td>34.83</td><td>60.06</td><td>41.79</td><td>69.12</td><td>37.64</td><td>64.42</td><td>51.03</td></tr><tr><td>CLIP4CIR (Baldrati et al., 2023a)</td><td>33.81</td><td>59.40</td><td>39.99</td><td>60.45</td><td>41.41</td><td>65.37</td><td>38.32</td><td>61.74</td><td>50.03</td></tr><tr><td>FAME-ViL (Han et al., 2023)</td><td>42.19</td><td>67.38</td><td>47.64</td><td>68.79</td><td>50.69</td><td>73.07</td><td>46.84</td><td>69.75</td><td>58.29</td></tr><tr><td>TG-CIR (Wen et al., 2Ó23)</td><td>45.22</td><td>69.66</td><td>52.60</td><td>72.52</td><td>56.14</td><td>77.10</td><td>51.32</td><td>73.09</td><td>58.05</td></tr><tr><td>Re-ranking (Liu et al., 2023b)</td><td>48.14</td><td>71.43</td><td>50.15</td><td>71.25</td><td>55.23</td><td>76.80</td><td>51.17</td><td>73.13</td><td>62.15</td></tr><tr><td>SPRC (Bai et al., 2023)</td><td>49.18</td><td>72.43</td><td>55.64</td><td>73.89</td><td>59.35</td><td>78.58</td><td>54.92</td><td>74.97</td><td>64.85</td></tr><tr><td>UniFashion w/o cap</td><td>49.65</td><td>72.17</td><td>56.88</td><td>74.12</td><td>59.29</td><td>78.11</td><td>55.27</td><td>74.80</td><td>65.04</td></tr><tr><td>UniFashion w/o img</td><td>32.49</td><td>49.11</td><td>44.70</td><td>59.63</td><td>43.16</td><td>60.26</td><td>40.12</td><td>56.33</td><td>48.22</td></tr><tr><td>UniFashion</td><td>53.72</td><td>73.66</td><td>61.25</td><td>76.67</td><td>61.84</td><td>80.46</td><td>58.93</td><td>76.93</td><td>67.93</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                134,
+                277,
+                865,
+                463
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/b59f8707897713f62c1176a1aa0fec72ec42a514f8335a1ae4abec3f9f8d5305.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 5: Ablation study and analysis of UniFashion across FashionGen, Fashion-IQ, and VITON-HD Datasets. Metrics reported include average image-totext and text-to-image recall for cross-modal retrieval (CMR), average recall for composed image retrieval (CIR), BLEU-4 for Fashion Image Captioning, and FID for Fashion image generation (FIG)."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Model</td><td>CMR</td><td>CIR</td><td>FIC</td><td>FIG</td></tr><tr><td>Base</td><td>87.38</td><td>64.76</td><td></td><td></td></tr><tr><td>Base+LLM</td><td>87.49</td><td>65.04</td><td>36.21</td><td></td></tr><tr><td>Base+LLM w/ cap</td><td>87.49</td><td>66.83</td><td>36.21</td><td></td></tr><tr><td>Base+LLM+diff.</td><td>87.55</td><td>67.93</td><td>35.53</td><td>12.43</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                129,
+                526,
+                470,
+                590
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                730,
+                487,
+                762
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.4 Comparative Analysis of Baselines and Our Method"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                771,
+                467,
+                803
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "UniFashion exhibits superior performance across all datasets compared to baselines. Tab. 1 presents the evaluation results for each baseline and our models in FashionGen data sets for crossmodal retrieval. UniFashion outperforms most of the baseline models on both the text-to-image and image-to-text tasks. Following FAME-ViL, we also adopt a more challenging and practical protocol that conducts retrieval on the entire product set, which is in line with actual product retrieval scenarios. In Tab. 2, we performed a comparison between our UniFashion and other baselines on the FashionGen dataset for the image captioning task. By integrating the powerful generative ability of the LLM, our model performed significantly better than the traditional multimodal models in this task. In Tab. 4, we conducted a comparison between our UniFashion and CIR-specialist methods. Our findings are in line with those of Tab. 1."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                809,
+                490,
+                923
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                530,
+                887,
+                724
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "After fine-tuning UniFashion on image generation/editing tasks with multimodal inputs, it exhibits outstanding performance. Tab. 3 evaluates the quality of the generated image of UniFashion in the VITON-HD unpaired setting. In order to verify that our model can achieve good results in a variety of modal inputs, we have conducted tests, respectively, on the traditional try-on task and the fashion design task proposed in MGD. For a fair evaluation with baselines, all the models are trained at a 512 × 384 resolution. To confirm the efficacy of our approach, we assess the realism using FID and KID score on all the tasks and using CLIP-S score for fashion design task. As can be seen, the proposed UniFashion model consistently outperforms competitors in terms of realism (i.e., FID and KID) and coherence with input modalities (i.e., CLIP-S), indicating that our method can better encode multimodal information. Meanwhile, although our model is slightly lower than Stable-VITON on the try-on task, this is because we froze the parameters of the diffusion model on the try-on task and only fine-tuned the Q-former part, but it can still achieve top2 results. The visual results can be found in Appendix E."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                730,
+                887,
+                922
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1497"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                110,
+                84,
+                490,
+                294
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.5 Ablation Study"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                305,
+                280,
+                321
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "UniFashion allows for more flexible execution of multimodal composed tasks. In Tab. 4, we also carry out ablation studies on different retrieval methods. Since UniFashion is capable of generating captions, for the CIR task, we initially utilize UniFashion to generate the captions of candidate images and then conduct the image retrieval task (denoted as UniFashion w/o cap) and the caption retrieval task (denoted as UniFashion w/o img). We find that our single-task variant has already achieved superior performance in the relevant field. Furthermore, due to the generative ability of our model, the pregenerated candidate library optimizes the model’s performance in this task. For specific implementation details, please refer to Appendix C."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                325,
+                490,
+                583
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We investigate the impact of different modules in UniFashion on various fashion tasks. In Tab. 5, we perform an ablation study on the proposed model architecture, with a focus on LLM and diffusion models. For comparison on the crossmodal retrieval task (CMR), we design the base model as directly fine-tuning BLIP2 without any new modules. The results indicate that the base model performs relatively well on this task and that the introduction of other modules does not lead to significant improvements. However, in the CIR task, the introduction of LLM and diffusion models as supervision can lead to significant improvements, especially when utilizing pregenerated captions by UniFashion to assist in retrieval, resulting in greater benefits. At the same time, we note that, after introducing the diffusion model, it may have some negative impact on the model’s image captioning ability, possibly due to the inherent alignment differences between LLM and the diffusion model."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                583,
+                492,
+                922
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "5 Conclusion"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                83,
+                643,
+                99
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We have introduced UniFashion, a unified framework designed to tackle challenges in multimodal generation and retrieval within the fashion domain. By integrating embedding and generative tasks using a diffusion model and LLM, UniFashion enables controllable, high-fidelity generation, significantly outperforming previous single-task state-ofthe-art models across various fashion tasks. Our model’s adaptability in handling complex visionlanguage tasks demonstrates its potential to enhance e-commerce scenarios and fashion-related applications. This study highlights the importance of exploring the learning synergy between multimodal generation and retrieval, offering a promising direction for future research in the fashion domain."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                112,
+                889,
+                370
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Limitations"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                384,
+                616,
+                400
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this section, we discuss limitations of our work and offer further insights into research within the fashion domain."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                411,
+                885,
+                460
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Computational Requirements. UniFashion integrates multiple complex modules, including Q-Former, LLM, and diffusion models, which result in higher computational complexity during training. However, during the inference stage, the computational complexity of UniFashion is comparable to that of current state-of-the-art models. For retrieval tasks, only the Q-Former module is needed to calculate the similarity between the input image or text and the pre-stored candidate features in the database, eliminating the need to utilize the LLM and diffusion model components for inference. For composed image generation tasks, such as fashion design, our model relies on diffusion processes, which may take longer. In our experiments, we tested the performance of our model on an A100 (80G) GPU. During inference, using 1000 examples from the VITON-HD dataset, UniFashion took approximately 3.15 seconds per image generation. We believe exploring more efficient sampling methods, such as DPM-Solver++ (Lu et al., 2022), could improve the overall efficiency of UniFashion."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                461,
+                889,
+                818
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Acknowledgements"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                829,
+                684,
+                847
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We thank the anonymous reviewers for their valuable feedback. This research was partially supported by the grant of HK ITF ITS/359/21FP."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                858,
+                887,
+                908
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1498"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "References"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                84,
+                215,
+                99
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Mensch, Katherine Millican, Malcolm Reynolds, et al. 2022. Flamingo: a visual language model for few-shot learning. Advances in Neural Information Processing Systems, 35:23716–23736."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yang Bai, Xinxing Xu, Yong Liu, Salman Khan, Fahad Khan, Wangmeng Zuo, Rick Siow Mong Goh, and Chun-Mei Feng. 2023. Sentence-level prompts benefit composed image retrieval. arXiv preprint arXiv:2310.05473."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Alberto Baldrati, Marco Bertini, Tiberio Uricchio, and Alberto Del Bimbo. 2022. Effective conditioned and composed image retrieval combining clip-based features. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, pages 21466–21474."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Alberto Baldrati, Marco Bertini, Tiberio Uricchio, and Alberto Del Bimbo. 2023a. Composed image retrieval using contrastive learning and task-oriented clip-based features. ACM Transactions on Multimedia Computing, Communications and Applications, 20(3):1–24."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Alberto Baldrati, Davide Morelli, Giuseppe Cartella, Marcella Cornia, Marco Bertini, and Rita Cucchiara. 2023b. Multimodal garment designer: Humancentric latent diffusion models for fashion image editing. In Proceedings of the IEEE/CVF International Conference on Computer Vision, pages 23393– 23402."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Hangbo Bao, Li Dong, Songhao Piao, and Furu Wei. 2021. Beit: Bert pre-training of image transformers. In International Conference on Learning Representations."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. 2020. Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yiyang Chen, Zhedong Zheng, Wei Ji, Leigang Qu, and Tat-Seng Chua. 2022. Composed image retrieval with text feedback via multi-grained uncertainty regularization. arXiv preprint arXiv:2211.07394."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wei-Lin Chiang, Zhuohan Li, Zi Lin, Ying Sheng, Zhanghao Wu, Hao Zhang, Lianmin Zheng, Siyuan Zhuang, Yonghao Zhuang, Joseph E. Gonzalez, Ion Stoica, and Eric P. Xing. 2023. Vicuna: An opensource chatbot impressing gpt-4 with 90%* chatgpt quality."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Seunghwan Choi, Sunghyun Park, Minsoo Lee, and Jaegul Choo. 2021. Viton-hd: High-resolution virtual try-on via misalignment-aware normalization. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, pages 14131– 14140."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wenliang Dai, Junnan Li, Dongxu Li, Anthony Meng Huat Tiong, Junqi Zhao, Weisheng Wang, Boyang Li, Pascale Fung, and Steven Hoi. 2023. Instructblip: Towards general-purpose vision-language models with instruction tuning."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Runpei Dong, Chunrui Han, Yuang Peng, Zekun Qi, Zheng Ge, Jinrong Yang, Liang Zhao, Jianjian Sun, Hongyu Zhou, Haoran Wei, et al. 2023. Dreamllm: Synergistic multimodal comprehension and creation. arXiv preprint arXiv:2309.11499."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yujie Feng, Zexin Lu, Bo Liu, Liming Zhan, and Xiao-Ming Wu. 2023. Towards llm-driven dialogue state tracking. In Proceedings ofthe 2023 Conference on Empirical Methods in Natural Language Processing, pages 739–755."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Dehong Gao, Linbo Jin, Ben Chen, Minghui Qiu, Peng Li, Yi Wei, Yi Hu, and Hao Wang. 2020. Fashionbert: Text and image matching with adaptive loss for cross-modal retrieval. In Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval, pages 2251–2260."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Sonam Goenka, Zhaoheng Zheng, Ayush Jaiswal, Rakesh Chada, Yue Wu, Varsha Hedau, and Pradeep Natarajan. 2022. Fashionvlp: Vision language transformer for fashion retrieval with feedback. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 14105–14115."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Junhong Gou, Siyu Sun, Jianfu Zhang, Jianlou Si, Chen Qian, and Liqing Zhang. 2023. Taming the power of diffusion models for high-quality virtual try-on with appearance flow. In Proceedings of the 31st ACM International Conference on Multimedia, pages 7599–7607."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yash Goyal, Tejas Khot, Douglas Summers-Stay, Dhruv Batra, and Devi Parikh. 2017. Making the v in vqa matter: Elevating the role of image understanding in visual question answering. In Proceedings ofthe IEEE conference on computer vision and pattern recognition, pages 6904–6913."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Geonmo Gu, Sanghyuk Chun, Wonjae Kim, Yoohoon Kang, and Sangdoo Yun. 2024. Language-only training of zero-shot composed image retrieval. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 13225–13234."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xiao Han, Xiatian Zhu, Licheng Yu, Li Zhang, Yi-Zhe Song, and Tao Xiang. 2023. Fame-vil: Multi-tasking vision-language model for heterogeneous fashion tasks. In Proceedings ofthe IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 2669–2680."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xintong Han, Zuxuan Wu, Phoenix X Huang, Xiao Zhang, Menglong Zhu, Yuan Li, Yang Zhao, and Larry S Davis. 2017. Automatic spatially-aware fashion concept discovery. In Proceedings of the IEEE international conference on computer vision, pages 1463–1471."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                115,
+                107,
+                489,
+                185
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1499"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                941
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jonathan Ho, Ajay Jain, and Pieter Abbeel. 2020. Denoising diffusion probabilistic models. Advances in neural information processing systems, 33:6840– 6851."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jeongho Kim, Guojung Gu, Minho Park, Sunghyun Park, and Jaegul Choo. 2024. Stableviton: Learning semantic correspondence with latent diffusion model for virtual try-on. In Proceedings ofthe IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 8176–8185."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Ranjay Krishna, Yuke Zhu, Oliver Groth, Justin Johnson, Kenji Hata, Joshua Kravitz, Stephanie Chen, Yannis Kalantidis, Li-Jia Li, David A Shamma, et al. 2017. Visual genome: Connecting language and vision using crowdsourced dense image annotations. International journal ofcomputer vision, 123:32–73."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Matan Levy, Rami Ben-Ari, Nir Darshan, and Dani Lischinski. 2023. Data roaming and early fusion for composed image retrieval. arXiv preprint arXiv:2303.09429."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Bo Li, Yuanhan Zhang, Liangyu Chen, Jinghao Wang, Jingkang Yang, and Ziwei Liu. 2023a. Otter: A multi-modal model with in-context instruction tuning. arXiv preprint arXiv:2305.03726."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi. 2023b. Blip-2: Bootstrapping language-image pretraining with frozen image encoders and large language models. arXiv preprint arXiv:2301.12597."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Junnan Li, Dongxu Li, Caiming Xiong, and Steven Hoi. 2022. Blip: Bootstrapping language-image pretraining for unified vision-language understanding and generation. In International Conference on Machine Learning, pages 12888–12900. PMLR."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Shenshen Li, Xing Xu, Xun Jiang, Fumin Shen, Zhe Sun, and Andrzej Cichocki. 2024. Cross-modal attention preservation with self-contrastive learning for composed query-based image retrieval. ACM Transactions on Multimedia Computing, Communications and Applications, 20(6):1–22."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr Dollár, and C Lawrence Zitnick. 2014. Microsoft coco: Common objects in context. In Computer Vision– ECCV 2014: 13th European Conference, Zurich, Switzerland, September 6-12, 2014, Proceedings, Part V 13, pages 740–755. Springer."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Haotian Liu, Chunyuan Li, Qingyang Wu, and Yong Jae Lee. 2023a. Visual instruction tuning. arXiv preprint arXiv:2304.08485."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Qijiong Liu, Xiaoyu Dong, Jiaren Xiao, Nuo Chen, Hengchang Hu, Jieming Zhu, Chenxu Zhu, Tetsuya Sakai, and Xiao-Ming Wu. 2024a. Vector quantization for recommender systems: A review and outlook. arXiv preprint arXiv:2405.03110."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Qijiong Liu, Jieming Zhu, Quanyu Dai, and Xiao-Ming Wu. 2022. Boosting deep ctr prediction with a plugand-play pre-trainer for news recommendation. In Proceedings ofthe 29th International Conference on Computational Linguistics, pages 2823–2833."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Qijiong Liu, Jieming Zhu, Yanting Yang, Quanyu Dai, Zhaocheng Du, Xiao-Ming Wu, Zhou Zhao, Rui Zhang, and Zhenhua Dong. 2024b. Multimodal pretraining, adaptation, and generation for recommendation: A survey. In Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining, pages 6566–6576."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zheyuan Liu, Cristian Rodriguez-Opazo, Damien Teney, and Stephen Gould. 2021. Image retrieval on real-life images with pre-trained vision-and-language models. in 2021 ieee. In CVF International Conference on Computer Vision (ICCV)(2021), pages 2105–2114."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zheyuan Liu, Weixuan Sun, Damien Teney, and Stephen Gould. 2023b. Candidate set re-ranking for composed image retrieval with dual multi-modal encoder. arXiv preprint arXiv:2305.16304."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Cheng Lu, Yuhao Zhou, Fan Bao, Jianfei Chen, Chongxuan Li, and Jun Zhu. 2022. Dpm-solver++: Fast solver for guided sampling of diffusion probabilistic models. arXiv preprint arXiv:2211.01095."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Haoyu Ma, Handong Zhao, Zhe Lin, Ajinkya Kale, Zhangyang Wang, Tong Yu, Jiuxiang Gu, Sunav Choudhary, and Xiaohui Xie. 2022. Ei-clip: Entityaware interventional contrastive learning for ecommerce cross-modal retrieval. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 18051–18061."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Chenlin Meng, Yutong He, Yang Song, Jiaming Song, Jiajun Wu, Jun-Yan Zhu, and Stefano Ermon. 2021. Sdedit: Guided image synthesis and editing with stochastic differential equations. arXiv preprint arXiv:2108.01073."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Niklas Muennighoff, Hongjin Su, Liang Wang, Nan Yang, Furu Wei, Tao Yu, Amanpreet Singh, and Douwe Kiela. 2024. Generative representational instruction tuning. arXiv preprint arXiv:2402.09906."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Alexander Quinn Nichol, Prafulla Dhariwal, Aditya Ramesh, Pranav Shyam, Pamela Mishkin, Bob Mcgrew, Ilya Sutskever, and Mark Chen. 2022. Glide: Towards photorealistic image generation and editing with text-guided diffusion models. In International Conference on Machine Learning, pages 16784–16804. PMLR."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Aditya Ramesh, Mikhail Pavlov, Gabriel Goh, Scott Gray, Chelsea Voss, Alec Radford, Mark Chen, and Ilya Sutskever. 2021. Zero-shot text-to-image generation. In International Conference on Machine Learning, pages 8821–8831. PMLR."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Björn Ommer. 2022. Highresolution image synthesis with latent diffusion models. In Proceedings of the IEEE/CVF Conference"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                115,
+                85,
+                489,
+                139
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1500"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "on Computer Vision and Pattern Recognition, pages 10684–10695."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Negar Rostamzadeh, Seyedarian Hosseini, Thomas Boquet, Wojciech Stokowiec, Ying Zhang, Christian Jauvin, and Chris Pal. 2018. Fashion-gen: The generative fashion dataset and challenge. arXiv preprint arXiv:1806.08317."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Nataniel Ruiz, Yuanzhen Li, Varun Jampani, Yael Pritch, Michael Rubinstein, and Kfir Aberman. 2023. Dreambooth: Fine tuning text-to-image diffusion models for subject-driven generation. In Proceedings ofthe IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 22500–22510."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Chitwan Saharia, William Chan, Saurabh Saxena, Lala Li, Jay Whang, Emily L Denton, Kamyar Ghasemipour, Raphael Gontijo Lopes, Burcu Karagol Ayan, Tim Salimans, et al. 2022. Photorealistic text-to-image diffusion models with deep language understanding. Advances in Neural Information Processing Systems, 35:36479–36494."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Dustin Schwenk, Apoorv Khandelwal, Christopher Clark, Kenneth Marino, and Roozbeh Mottaghi. 2022. A-okvqa: A benchmark for visual question answering using world knowledge. In European Conference on Computer Vision, pages 146–162. Springer."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Yongliang Shen, Kaitao Song, Xu Tan, Dongsheng Li, Weiming Lu, and Yueting Zhuang. 2023. Hugginggpt: Solving ai tasks with chatgpt and its friends in huggingface. arXiv preprint arXiv:2303.17580."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Guangyuan Shi, Qimai Li, Wenlong Zhang, Jiaxin Chen, and Xiao-Ming Wu. 2023. Recon: Reducing conflicting gradients from the root for multi-task learning. arXiv preprint arXiv:2302.11289."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jascha Sohl-Dickstein, Eric Weiss, Niru Maheswaranathan, and Surya Ganguli. 2015. Deep unsupervised learning using nonequilibrium thermodynamics. In International conference on machine learning, pages 2256–2265. PMLR."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jiaming Song, Chenlin Meng, and Stefano Ermon. 2020. Denoising diffusion implicit models. arXiv preprint arXiv:2010.02502."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timothée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. 2023. Llama: Open and efficient foundation language models. arXiv preprint arXiv:2302.13971."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Lucas Ventura, Antoine Yang, Cordelia Schmid, and Gül Varol. 2024. Covr: Learning composed video retrieval from web video captions. In Proceedings of the AAAI Conference on Artificial Intelligence, volume 38, pages 5270–5279."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Peng Wang, An Yang, Rui Men, Junyang Lin, Shuai Bai, Zhikang Li, Jianxin Ma, Chang Zhou, Jingren"
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zhou, and Hongxia Yang. 2022a. Ofa: Unifying architectures, tasks, and modalities through a simple sequence-to-sequence learning framework. In International Conference on Machine Learning, pages 23318–23340. PMLR."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wenhui Wang, Hangbo Bao, Li Dong, Johan Bjorck, Zhiliang Peng, Qiang Liu, Kriti Aggarwal, Owais Khan Mohammed, Saksham Singhal, Subhojit Som, et al. 2022b. Image as a foreign language: Beit pretraining for all vision and vision-language tasks. arXiv preprint arXiv:2208.10442."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Haokun Wen, Xian Zhang, Xuemeng Song, Yinwei Wei, and Liqiang Nie. 2023. Target-guided composed image retrieval. In Proceedings of the 31st ACM International Conference on Multimedia, pages 915– 923."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Chenfei Wu, Shengming Yin, Weizhen Qi, Xiaodong Wang, Zecheng Tang, and Nan Duan. 2023. Visual chatgpt: Talking, drawing and editing with visual foundation models. arXiv preprint arXiv:2303.04671."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Hui Wu, Yupeng Gao, Xiaoxiao Guo, Ziad Al-Halah, Steven Rennie, Kristen Grauman, and Rogerio Feris. 2021. Fashion iq: A new dataset towards retrieving images by natural language feedback. In Proceedings ofthe IEEE/CVF Conference on computer vision and pattern recognition, pages 11307–11317."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zhenyu Xie, Zaiyu Huang, Xin Dong, Fuwei Zhao, Haoye Dong, Xijin Zhang, Feida Zhu, and Xiaodan Liang. 2023. Gp-vton: Towards general purpose virtual try-on via collaborative local-flow global-parsing learning. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 23550–23559."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Binxin Yang, Shuyang Gu, Bo Zhang, Ting Zhang, Xuejin Chen, Xiaoyan Sun, Dong Chen, and Fang Wen. 2023a. Paint by example: Exemplar-based image editing with diffusion models. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 18381–18391."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xuewen Yang, Heming Zhang, Di Jin, Yingru Liu, Chi-Hao Wu, Jianchao Tan, Dongliang Xie, Jue Wang, and Xin Wang. 2020. Fashion captioning: Towards generating accurate descriptions with semantic rewards. In Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part XIII 16, pages 1–17. Springer."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zhengyuan Yang, Linjie Li, Jianfeng Wang, Kevin Lin, Ehsan Azarnasab, Faisal Ahmed, Zicheng Liu, Ce Liu, Michael Zeng, and Lijuan Wang. 2023b. Mm-react: Prompting chatgpt for multimodal reasoning and action. arXiv preprint arXiv:2303.11381."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Qinghao Ye, Haiyang Xu, Guohai Xu, Jiabo Ye, Ming Yan, Yiyang Zhou, Junyang Wang, Anwen Hu, Pengcheng Shi, Yaya Shi, et al. 2023. mplug-owl: Modularization empowers large language models with multimodality. arXiv preprint arXiv:2304.14178."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                131,
+                86,
+                487,
+                112
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1501"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                929,
+                519,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xiaoxue Zang, Lijuan Liu, Maria Wang, Yang Song, Hao Zhang, and Jindong Chen. 2021. Photochat: A human-human dialogue dataset with photo sharing behavior for joint image-text modeling. In Proceedings ofthe 59th Annual Meeting ofthe Associationfor Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers), pages 6142–6152."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Haode Zhang, Haowen Liang, Yuwei Zhang, Li-Ming Zhan, Xiao-Ming Wu, Xiaolei Lu, and Albert Lam. 2022. Fine-tuning pre-trained language models for few-shot intent detection: Supervised pre-training and isotropization. In Proceedings of the 2022 Conference of the North American Chapter of the Associationfor Computational Linguistics: Human Language Technologies, pages 532–542."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Lvmin Zhang, Anyi Rao, and Maneesh Agrawala. 2023a. Adding conditional control to text-to-image diffusion models. In Proceedings ofthe IEEE/CVF International Conference on Computer Vision, pages 3836–3847."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Renrui Zhang, Jiaming Han, Aojun Zhou, Xiangfei Hu, Shilin Yan, Pan Lu, Hongsheng Li, Peng Gao, and Yu Qiao. 2023b. Llama-adapter: Efficient fine-tuning of language models with zero-init attention. arXiv preprint arXiv:2303.16199."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xiangyu Zhao, Bo Liu, Qijiong Liu, Guangyuan Shi, and Xiao-Ming Wu. 2024. EasyGen: Easing multimodal generation with BiDiffuser and LLMs. In Proceedings ofthe 62nd Annual Meeting ofthe Associationfor Computational Linguistics (Volume 1: Long Papers), pages 1351–1370, Bangkok, Thailand. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang, Zi Lin, Zhuohan Li, Dacheng Li, Eric Xing, et al. 2023. Judging llm-as-a-judge with mt-bench and chatbot arena. Advances in Neural Information Processing Systems, 36:46595–46623."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Deyao Zhu, Jun Chen, Xiaoqian Shen, Xiang Li, and Mohamed Elhoseiny. 2023a. Minigpt-4: Enhancing vision-language understanding with advanced large language models. arXiv preprint arXiv:2304.10592."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Hongguang Zhu, Yunchao Wei, Yao Zhao, Chunjie Zhang, and Shujuan Huang. 2023b. Amc: Adaptive multi-expert collaborative network for text-guided image retrieval. ACM Transactions on Multimedia Computing, Communications and Applications, 19(6):1–22."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Mingchen Zhuge, Dehong Gao, Deng-Ping Fan, Linbo Jin, Ben Chen, Haoming Zhou, Minghui Qiu, and Ling Shao. 2021. Kaleido-bert: Vision-language pre-training on fashion domain. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, pages 12647–12657."
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                114,
+                85,
+                489,
+                192
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "A Basics of Diffusion Models"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                83,
+                779,
+                99
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "After the initial proposal of diffusion models by (Sohl-Dickstein et al., 2015), they have demonstrated remarkable capacity for generating highquality and diverse data. DDPM (Ho et al., 2020) connects diffusion and score matching models through a noise prediction formulation, while DDIM (Song et al., 2020) proposes an implicit generative model that generates deterministic samples from latent variables."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                109,
+                887,
+                254
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Given a data point sampled from a real data distribution "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "x _ { 0 } \\in q ( x )"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", during forward diffusion, x<sub>0</sub> is gradually “corrupted” at each step t by adding Gaussian noise to the output of step t-1. It produces a sequence of noisy samples "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { x } _ { 1 } , \\cdots , \\mathbf { x } _ { T }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ". Then, diffusion models learn to reverse the process:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                254,
+                885,
+                351
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\begin{array} { r } { p ( \\mathbf x _ { 0 : T } ) = p ( \\mathbf x _ { T } ) \\prod _ { t = 1 } ^ { T } p _ { \\theta } ( \\mathbf x _ { t - 1 } | \\mathbf x _ { t } ) , } \\\\ { p _ { \\theta } ( \\mathbf x _ { t - 1 } | \\mathbf x _ { t } ) = \\mathcal N ( \\mathbf x _ { t - 1 } ; \\mu _ { t } ( \\mathbf x _ { t } , t ) , \\sigma _ { t } ^ { 2 } \\mathbf I ) , } \\end{array}\\tag{14}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/2dfe8002feb382e7db82b3a72ffd0138bb393b1a0b08445415262726cd759702.jpg"
+                }
+            },
+            "bbox": [
+                539,
+                361,
+                840,
+                426
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "p ( \\mathbf { x } _ { T } ) \\ = \\ \\mathcal { N } ( \\mathbf { x } _ { T } ; 0 , \\mathbf { I } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the standard Gaussian distribution and "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mu _ { t } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is the parameterization of the predicted mean. Diffusion models are trained to maximize the marginal likelihood of the data "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbb { E } [ \\log p _ { \\theta } ( \\mathbf { x } _ { 0 } ) ]"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and the canonical objective is the variational lower bound of "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\log p _ { \\theta } ( \\mathbf { x } _ { 0 } )"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                437,
+                885,
+                535
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Stable Diffusion Model. Latent diffusion models (LDMs) operate in the latent space of a pre-trained autoencoder achieving higher computational efficiency while preserving the generation quality. Stable diffusion model is composed of an autoencoder with an encoder E and a decoder D, a conditional U-Net denoising model "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\epsilon _ { \\theta } ."
+                    },
+                    {
+                        "type": "text",
+                        "content": "and a CLIP-based text encoder. With the fixed encoder "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbb { E } ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": "an input image x is first transformed to a lower-dimensional latent space "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "z _ { 0 } = \\mathbb { E } ( x )"
+                    },
+                    {
+                        "type": "text",
+                        "content": ". The decoder D performs the opposite operation, decoding "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "z _ { \\mathrm { 0 } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "into the pixel space. When considering a latent variable z and its noisy counterpart "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "z _ { t } ,"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", which is obtained by incrementally adding noises to z over t steps, the latent diffusion models are designed to train the "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\epsilon _ { \\theta } ( \\cdot )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "to predict the added noise ϵ using a standard mean squared error loss:"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                543,
+                887,
+                816
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathcal { L } : = \\mathbb { E } _ { z , \\epsilon , t } [ \\| \\epsilon - \\epsilon _ { \\theta } ( \\mathbf { z } _ { t } , t ) \\| ^ { 2 } ] .\\tag{15}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/0bcba9f74d9259a71911fd316923ef485b00798e2f1e0ce2b7808017e297fbbe.jpg"
+                }
+            },
+            "bbox": [
+                584,
+                832,
+                808,
+                851
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Multimodal Conditional Generation. In the context of our current work, we have a particular focus on the pre-trained multimodal latent diffusion models. For a multimodal conditional generation, given a target image "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { x } _ { 0 } ."
+                    },
+                    {
+                        "type": "text",
+                        "content": ", the input condition "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { y } _ { 0 }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "could contain different constraints. The aim is to model the conditional data distribution "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "q ( \\mathbf { x } _ { 0 } | \\mathbf { y } _ { 0 } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", where "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathbf { y } _ { 0 }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "contains different modalities prompts. The conditioning mechanism is implemented by first encoding conditional information, then the denoising network "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\epsilon _ { \\theta }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "conditions on "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "y _ { 0 }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "via cross-attention. The label "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "y _ { 0 }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "in a class-conditional diffusion model "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\epsilon _ { \\theta } ( x _ { t } | y _ { 0 } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "is replaced with a null label with a fixed probability during training."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                858,
+                885,
+                922
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1502"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/2340cf4daf7e9db352816bccc989058223d4450ef494ee4d98d2f2ec2eee9550.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 6: Description of datasets used in two stages."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Data types</td><td>Dataset</td><td>Size</td><td>Stage 1</td><td>Stage 2 |</td><td>Metrics</td></tr><tr><td>CMR</td><td>FashionGen (Lin et al., 2014) Fashion200K (Krishna et al., 2017)</td><td>260.5K 172K</td><td>V V</td><td>V X</td><td>R@K 一</td></tr><tr><td>CIR</td><td>Fashion-IQ (Liu et al., 2023a)</td><td>18K</td><td>X</td><td>V</td><td>R@K</td></tr><tr><td>FIC</td><td>FashionGen (Liu et al., 2023a) Fashion-IQ-Cap</td><td>260.5K 60K</td><td>V V</td><td>V X</td><td>BLEU,CIDEr,METEOR,ROUGE-L</td></tr><tr><td>FIG</td><td>VITON-HD (Goyal et al., 2017) MGD (Schwenk et al., 2022)</td><td>83K 66K</td><td>X X</td><td>V V</td><td>FID, KID FID,KID,CLIP-S</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                189,
+                82,
+                806,
+                205
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/436c4b58db77a77d2deb7d01a529430f42a05c28f62478a21e352e199ce76fae.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 3: The architecture of UniFashion for fine-tuning on the image editing task. Firstly, we supply the cloth sketch and text guidance to the multimodal encoder. Then, the diffusion model receives the output of the multimodal encoder, along with the cloth sketches and human features (i.e., agnostic-mask), to subsequently generate the desired images."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                129,
+                249,
+                872,
+                442
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                110,
+                544,
+                490,
+                707
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "B Implementation Details"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                718,
+                357,
+                736
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "LLM During the first phase, due to the flexibility brought by the modular architectural design of BLIP-2, we are able to adapt the model to a broad spectrum of LLMs. In order to effectively utilize the capabilities of the existing MLLM models, we adopted LLaVA-1.5 as the LLM module of the model. Technically, we leverage LoRA to enable a small subset of parameters within UniFashion to be updated concurrently with two layers of adapter during this phase. Specifically, the lora rank is 128 and lora alpha is 256. We utilize the AdamW optimizer with "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\beta _ { 0 } = 0 . 9 , \\beta _ { 1 } = 0 . 9 9"
+                    },
+                    {
+                        "type": "text",
+                        "content": ", and weight decay of 0. The LLMs are trained with a cosine learning rate of 2e-5 and a warmup rate of 0.03. We use a batch size of 32 for the tuned LLMs."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                745,
+                490,
+                923
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                543,
+                885,
+                609
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Diffusion Module We inherit the autoencoder and the denoising U-Net of the Stable Diffusion v1.4. The weights of the U-Net from Paint-by-Example are used to initialize our denoising U-Net. To achieve more refined person texture, a VAE fine-tuned on the VITONHD dataset from StableVITON is utilized. We train the model using an AdamW optimizer with a fixed learning rate of 1e-4 for 360k iterations, employing a batch size of 32. For inference, we employ the pseudo linear multi-step sampler, with the number of sampling steps set to 50."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                621,
+                887,
+                815
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "C Datasets"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                829,
+                625,
+                846
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For fashion image captioning tasks, we utilize the FashionGen (Zang et al., 2021) dataset. Additionally, to enhance our model’s capability in the CIR task, which involves the ability to retrieve captions for target images, we have annotated images from the training set of Fashion-IQ. Recognizing that manually annotating all the images would be timeconsuming and resource-intensive, we draw inspiration from the success of recent MLLM models such as LLaVA in text-annotation tasks, and propose leveraging LLaVA 1.5 (13B) to semi-automatically annotate the dataset. We perform word lemmatization to reduce each word to its root form. Such pre-processing stage is crucial for the Fashion-IQ dataset, as the captions do not describe a single garment but instead express the properties to modify in a given image to match its target. As shown in Fig. 4, by analysis of the captions in Fashion-IQ, we extracted key words that describe clothing information such as color, sleeve, pattern, lace, etc., as prompts for MLLM (LLaVA 1.5). We then instructed the model to generate the corresponding captions referencing words that match the image features, as shown in Fig. 5. After this process, we got the captions for Fashion-IQ dataset. The trained UniFashion from this dataset (Fashion-IQ-cap) can generate captions for images in the evaluation set of Fashion-IQ to assist in the CIR task. More results can be seen in Fig. 6."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                858,
+                887,
+                922
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1503"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                521,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/ab9b9d164ec7f0c21ff405b63a24fba843b48e90433e01fb45f7ae0179e3cd89.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 4: Vocabulary of the frequent words scaled by frequency for dresses."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                117,
+                83,
+                478,
+                248
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                321,
+                490,
+                725
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "D Instruction Formats"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                734,
+                329,
+                751
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Due to the disparity in caption styles across different fashion datasets, we employ diverse instructions to fine-tune the LLM, enabling it to generate captions of varying styles. Specifically, the Fashion200K dataset inclines towards providing brief descriptions, the FashionGen dataset is prone to offering professional captions, and in Fashion-IQ-cap, the captions are detailed. Consequently, we have designed distinct instructions for different datasets and tasks, as illustrated in Table 7."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                760,
+                490,
+                922
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/d36e7e60465144f1908b1ac7a01b9fae590bce73528df87ed05d554a99041efc.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 5: Illustration of Instruction-Following Data. The top section displays an image alongside its original captions from Fashion-IQ dataset. The bottom section presents detailed captions generated by LLaVA-1.5. The original captions are not prompts for generation but are provided for comparison with the newly generated caption."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                531,
+                95,
+                862,
+                353
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "E Visual Results"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                508,
+                670,
+                525
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Figure 3 illustrates the architecture of UniFashion for fine-tuning on the image editing task. Initially, we input the cloth sketch and text guidance into the multimodal encoder. The diffusion model then receives the output from the multimodal encoder, along with the cloth sketches and human features (such as the agnostic mask), to generate the desired images. We compare UniFashion with the MGD (Baldrati et al., 2023b) model for this task. In Fig. 7, we compare the images generated by our approach with the competitor in the VITON-HD (Choi et al., 2021) paired setting. In Fig. 8, we show the generation effects of UniFashion in the VITON-HD unpaired setting. Our method, unlike the MGD method that employs a warping module to generate input sketches, directly uses in-shop garment sketches and is capable of generating images that align more accurately with the provided captions and cloth sketches."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                533,
+                887,
+                843
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1504"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/de7f546319cf25916507bde478f5cc0f3646113fb76a3efcd726e3187170812c.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                157,
+                304,
+                206,
+                382
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/37a17e6c262ab28e493bb36593f283174db0a21d9a1289df1b8d77d9ea650221.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 7: Examples of task instruction templates."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Dataset</td><td>Instruction</td></tr><tr><td>Fashion200K</td><td>USER:&lt;image&gt;+Short description. Assistant:</td></tr><tr><td>FashionGen</td><td>USER:&lt;image&gt;+Write a detail and professional description for the cloth. Assistant:</td></tr><tr><td>Fashion-IQ-cap</td><td>USER:&lt;image&gt;+Describe the cloth&#x27;s style, color, design... and other key points. Assistant:</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                188,
+                90,
+                810,
+                158
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/aa32c1211380f0cef8f521c9389b19901798fbea9bc9c25be8ce2cfc3dc59307.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                146,
+                227,
+                228,
+                288
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The shirt is black and has a pocket and tailored button tab. It is a short sleeve shirt with a collar. The shirt is made of a fabric that is darker than the pocket and button tab. The shirt is designed to be conservative and modest, with a simple pattern."
+                    }
+                ]
+            },
+            "bbox": [
+                236,
+                233,
+                482,
+                285
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/f5bbc3514a11ad598acb9681d74e829353c3d1004575272ef819ea9a5d73926c.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                505,
+                219,
+                544,
+                297
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The dress is a dark green, long, and fitted. It has a collar and is sleeveless. The dress is made of a shiny fabric and has a flowery pattern. The design is elegant and the dress is more revealing than conservative."
+                    }
+                ]
+            },
+            "bbox": [
+                236,
+                317,
+                482,
+                369
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The dress is a short, leopard print dress. It is a fitted dress, which is designed to be revealing. The dress is made of a shiny material, which adds to its overall style. The animal print pattern on the dress is the main focus of the design, making it a unique and eye-catching piece."
+                    }
+                ]
+            },
+            "bbox": [
+                561,
+                233,
+                858,
+                286
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/af3f7314682838d8eab12b7105276015b0c43de0f3c076baff39395684d84d6e.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                507,
+                302,
+                544,
+                381
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The dress is pink and has a floral pattern. It is a short dress, with a fitted top and a flared bottom. The dress is not revealing, but it is not conservative either. It is a sexy dress, with a collar and a belt. The dress is not crocheted, and it is not loose or tight. It is a colorful dress, and it is elegant."
+                    }
+                ]
+            },
+            "bbox": [
+                561,
+                317,
+                858,
+                369
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/e4ca1afe25575ed014dea69a657c42ca638ba485f2f6f70fc658f2018f8e52c2.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                156,
+                387,
+                206,
+                462
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The dress is black and white, with a checkered pattern. It is a short dress, revealing and sexy, with a fitted style. The dress has a collar and is not crocheted. The pattern is smaller and has a more floral style. The dress is elegant and casual, with a flowery design."
+                    }
+                ]
+            },
+            "bbox": [
+                238,
+                394,
+                482,
+                457
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/87b2f12b509dae39252bc7a7bf15bb6840ddf3b8445ad11dbbcf16df452516af.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                509,
+                388,
+                546,
+                461
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The dress is black and has a gold top half. It is a short dress with a fitted top and a flared bottom. The dress is sleeveless and has a low neckline, giving it a revealing and sexy appearance. The overall style of the dress is elegant and sophisticated, making it suitable for formal or semi-formal events."
+                    }
+                ]
+            },
+            "bbox": [
+                561,
+                394,
+                857,
+                456
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/260cd9d9fef2aa8e05547acc4415c383e00c9748d7dea238ddfb70d5a43f7230.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                159,
+                469,
+                201,
+                543
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "A blue and white striped dress. The dress is long and has a fitted style. It is a one-piece dress, and the woman is wearing black heels with it. The dress is not particularly revealing or conservative, but it is not overly sexy or modest either. It is a simple, patterned dress that is neither floral nor plain. The dress is elegant and casual, and it is made of a shiny material."
+                    }
+                ]
+            },
+            "bbox": [
+                238,
+                488,
+                858,
+                520
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/fc29b7a0fd94311705bb270b10fbbaff8c4ee8d467181bc48fb5ff587723279b.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                146,
+                548,
+                206,
+                624
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "The dress is black with red designs. It is a strapless dress, which is a type of revealing dress. The dress is short, which is a characteristic of a more revealing dress. The dress is patterned, which adds to its visual appeal. The dress is not crocheted, and it does not have a collar. The dress is flowery, which is a characteristic of a more elegant dress. The dress is shiny, which adds to its visual appeal. The dress is darker, which is a characteristic of a more revealing dress. The dress is fitted, which is a characteristic of a more elegant dress"
+                    }
+                ]
+            },
+            "bbox": [
+                236,
+                561,
+                858,
+                613
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/677ade0eb4846eb05923dc09581ba2407a24eb4b569aaaabe80d5257d5d0051b.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 6: Caption generation results using our method with images from the Fashion-IQ dataset."
+                    },
+                    {
+                        "type": "text",
+                        "content": "Table 8: Comparison of different multimodal models. XMR: Cross-modal retrieval tasks; CIR: Compoesd image retrieval task."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Model Types</td><td>Task Domain</td><td>Model</td><td>Main Structure</td><td>XMR</td><td>CIR</td><td>Text Generation</td><td>Image Generation</td></tr><tr><td rowspan=\"2\">Cross-modal Retrieval</td><td>General</td><td>CLIP (2021)</td><td>Dual-stream Transfomer</td><td>V</td><td>X</td><td>X</td><td>X</td></tr><tr><td>Fashion</td><td>FashionBERT (2020)</td><td>Single-stream Transfomer</td><td>V</td><td>x</td><td>X</td><td>X</td></tr><tr><td>Multimodal LLM</td><td>General</td><td>LLaVA (2023)</td><td>CLIP, LLM</td><td>X</td><td>X</td><td>V</td><td>X</td></tr><tr><td>Composed Image Retrieval</td><td>General</td><td>SPRC (2024)</td><td>CLIP, Qformer</td><td>X</td><td>V</td><td>X</td><td>X</td></tr><tr><td rowspan=\"2\">Conditional Diffusion</td><td>General</td><td>ControlNet (2023)</td><td>Stable diffusion</td><td>X</td><td>X</td><td>X</td><td>V</td></tr><tr><td>Fashion</td><td>StableVITON (2023)</td><td>Stable diffusion</td><td>X</td><td>x</td><td>X</td><td>V</td></tr><tr><td rowspan=\"3\">Unified Model</td><td>General</td><td>NExT-GPT (2023)</td><td>ImageBind, LLM, Diffusion</td><td>X</td><td>X</td><td>V</td><td>V</td></tr><tr><td>Fashion</td><td>FAME-ViL (2023)</td><td>Dual-stream Transfomer</td><td>V</td><td>V</td><td>V</td><td>X</td></tr><tr><td>General</td><td>BLIP2 (2023)</td><td>CLIP, Qformer, LLM</td><td>V</td><td>X</td><td>√</td><td>X</td></tr><tr><td>Unified Model (Ours)</td><td>Fashion</td><td>UniFashion</td><td>CLIP, Qformer, LLM, Diffusion</td><td>V</td><td>√</td><td>V</td><td>V</td></tr></table>",
+                "table_type": "complex_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                117,
+                688,
+                880,
+                870
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1505"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Agnostic-mask"
+                    }
+                ]
+            },
+            "bbox": [
+                163,
+                97,
+                242,
+                110
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Captions"
+                    }
+                ]
+            },
+            "bbox": [
+                289,
+                97,
+                337,
+                110
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Cloth Sketch"
+                    }
+                ]
+            },
+            "bbox": [
+                389,
+                98,
+                457,
+                110
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "MGD-Generated"
+                    }
+                ]
+            },
+            "bbox": [
+                504,
+                98,
+                589,
+                111
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "UniFashion-Generated"
+                    }
+                ]
+            },
+            "bbox": [
+                635,
+                93,
+                699,
+                115
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Ground Truth"
+                    }
+                ]
+            },
+            "bbox": [
+                759,
+                97,
+                831,
+                110
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/947bb3205448c0172d0f9507018ca596cbf73fd94945f3ddff6e9db817838212.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                139,
+                111,
+                857,
+                844
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Figure 7: Qualitative comparison on VITON-HD paired test set. From left to right: agnostic-mask image, caption, cloth sketch, MGD-generated image, UniFashion (ours)-generated image and ground truth. Our method is capable of generating images that align more accurately with the given captions and cloth sketch. For optimal viewing, please zoom in."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                853,
+                887,
+                913
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1506"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Reference Image"
+                    }
+                ]
+            },
+            "bbox": [
+                147,
+                124,
+                243,
+                139
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Agnostic-mask"
+                    }
+                ]
+            },
+            "bbox": [
+                295,
+                124,
+                379,
+                139
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Captions"
+                    }
+                ]
+            },
+            "bbox": [
+                421,
+                124,
+                475,
+                140
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/3db27a2011321dd466187204171c04d98899f442470fe4b08eab677d4ff3778f.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": [
+                    {
+                        "type": "text",
+                        "content": "white petite t-shirt only macy, white perforated leather front tee, white detail tee"
+                    }
+                ]
+            },
+            "bbox": [
+                137,
+                143,
+                257,
+                815
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/965d73e8fedab8bd71764973e26665433177ccf1dfc05f9f6dda469753b5d6bb.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": [
+                    {
+                        "type": "text",
+                        "content": "short-sleeve top only macy, sheer t-shirt, orange slub tee"
+                    },
+                    {
+                        "type": "text",
+                        "content": "high-neck top, longsleeve top, silver high neck jersey top"
+                    },
+                    {
+                        "type": "text",
+                        "content": "black long sleeve eyelash lace top, black long-sleeved lace top, long sleeve lace"
+                    },
+                    {
+                        "type": "text",
+                        "content": "white long-sleeve plisse, front long sleeve bardot, only white and long sleeves"
+                    },
+                    {
+                        "type": "text",
+                        "content": "black petite printed mock-neck top only macy, blue floralprint top, green ray floral-printed blouse"
+                    }
+                ]
+            },
+            "bbox": [
+                277,
+                145,
+                393,
+                814
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Cloth Sketch"
+                    }
+                ]
+            },
+            "bbox": [
+                517,
+                124,
+                593,
+                139
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/b6a947683b0a1d9818a94ce10511d4940dcab54ad814f95966bfd8d0a81d14b4.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                499,
+                145,
+                615,
+                814
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "MGD-Generated"
+                    }
+                ]
+            },
+            "bbox": [
+                628,
+                124,
+                726,
+                139
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "UniFashion-Generated"
+                    }
+                ]
+            },
+            "bbox": [
+                766,
+                118,
+                838,
+                145
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/fa59e838d720203bc448457732876a0221d0e9c0362068950933d882c6547874.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                620,
+                142,
+                737,
+                815
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/72f0f320cf2de543f40d66e20a64c9d15f9ce05606389d15d9e2f722689a4efb.jpg"
+                },
+                "image_caption": [],
+                "image_footnote": []
+            },
+            "bbox": [
+                742,
+                143,
+                858,
+                816
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Figure 8: Qualitative comparison on VITON-HD unpaired test set. From left to right: original image, agnostic-mask image, captions, MGD input sketch, MGD-generated image, UniFashion input sketch and UniFashion (ours)- generated image. Our model is capable of generating images that align more accurately with the provided captions and cloth sketch. For optimal viewing, please zoom in."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                832,
+                885,
+                894
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "1507"
+                    }
+                ]
+            },
+            "bbox": [
+                480,
+                928,
+                522,
+                942
+            ]
+        }
+    ]
+]
