@@ -1,0 +1,2637 @@
+[
+    [
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "A Usage-centric Take on Intent Understanding in E-Commerce"
+                    }
+                ],
+                "level": 1
+            },
+            "bbox": [
+                171,
+                89,
+                825,
+                110
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Wendi Zhou<sup>1</sup>† Tianyi Li<sup>1</sup> Pavlos Vougiouklis<sup>2</sup> Mark Steedman<sup>1</sup> Jeff Z. Pan<sup>1,2</sup>∗"
+                    }
+                ]
+            },
+            "bbox": [
+                129,
+                130,
+                880,
+                147
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>1</sup>University of Edinburgh <sup>2</sup>Huawei Technologies, Edinburgh RC, CSI"
+                    }
+                ]
+            },
+            "bbox": [
+                210,
+                147,
+                793,
+                166
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{s2236454, tianyi.li, m.steedman}@ed.ac.uk"
+                    }
+                ]
+            },
+            "bbox": [
+                253,
+                166,
+                752,
+                181
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{pavlos.vougiouklis}@huawei.com"
+                    }
+                ]
+            },
+            "bbox": [
+                314,
+                183,
+                694,
+                198
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Abstract"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                260,
+                252,
+                342,
+                268
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Identifying and understanding user intents is a pivotal task for E-Commerce. Despite its essential role in product recommendation and business user profiling analysis, intent understanding has not been consistently defined or accurately benchmarked. In this paper, we focus on predicative user intents as “how a customer uses a product”, and pose intent understanding as a natural language reasoning task, independent of product ontologies. We identify two weaknesses of FolkScope, the SOTA E-Commerce Intent Knowledge Graph: categoryrigidity and property-ambiguity. They limit its ability to strongly align user intents with products having the most desirable property, and to recommend useful products across diverse categories. Following these observations, we introduce a Product Recovery Benchmark featuring a novel evaluation framework and an example dataset. We further validate the above FolkScope weaknesses on this benchmark. Our code and dataset are available at https://github.com/stayones/Usgae-Centric-Intent-Understanding."
+                    }
+                ]
+            },
+            "bbox": [
+                141,
+                279,
+                462,
+                623
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "1 Introduction"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                634,
+                260,
+                650
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "User intents are a crucial source of information for E-Commerce (Deng et al., 2023; Er-Rahmadi et al., 2023; Zhang et al., 2016; Hao et al., 2022). Intents reveal users’ motivation in E-Commerce interactions: suppose a user plans to go for outdoor barbecue, their intent may not refer only to barbeque smoker grills but also to other products that can be useful, such as disposable cutlery or plates. In these cases, traditional product recommendation approaches would fail to handle these queries or to remind customers of the products they may need but have forgotten. Intent Understanding offers great benefits in recommending distinct products based on common user intents they fulfil."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                661,
+                490,
+                887
+            ]
+        },
+        {
+            "type": "image",
+            "content": {
+                "image_source": {
+                    "path": "images/75bbc66980b0d482a51719a344bbc7be24199abb4d37b71e10a641f73111b86f.jpg"
+                },
+                "image_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 1: A graphic illustration of the usage-centric paradigm of intent understanding."
+                    }
+                ],
+                "image_footnote": []
+            },
+            "bbox": [
+                526,
+                253,
+                868,
+                482
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "It involves identifying user intents and connecting them with products: a profile of user intents is extracted using user interactions (e.g. co-buy records, reviews) for each product listing. Then, a mapping from intents to product listings can be built to predict useful products based on user intents."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                549,
+                885,
+                645
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "One significant challenge towards effective intent understanding is the vague definition of user intents, which precludes effective intent identification and can easily result in contaminated intent-product associations. In prior work (Yu et al., 2023; Luo et al., 2021), user intents are often blended with “product properties” or “similar products”, which we argue are related to the products and not the users. These shortcuts may benefit existing product recommendation benchmarks, but are not aligned with the intent understanding objective, namely, to retrieve superficially distinct kinds of products serving common intents (Huang et al., 2024)."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                645,
+                887,
+                856
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Therefore, we propose a usage-centric paradigm for intent understanding (demonstrated in Figure 1). In this paradigm, user intents are focused on natural language predicative phrases, i.e. how users use a product; also, instead of individual product listings, we aim to predict kinds ofproducts useful for an intent. In particular, we define user intents as activities to accomplish (e.g. outdoor barbecue) or situations to resolve (e.g. lower-back pain); and, kinds of products as clusters of product listings possessing the same category (e.g. scrub brush) and property (e.g. stiff bristle). Predicting at the level of the kinds of products guarantees that the list of relevant predictions is not endless. Our task is a natural language reasoning task, closely related to commonsense reasoning (Sap et al., 2019; Bosselut et al., 2019): “The user has intent I” entails “The kind of product P is useful for the user.”"
+                    }
+                ]
+            },
+            "bbox": [
+                509,
+                856,
+                885,
+                921
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "∗Contact Author"
+                    }
+                ]
+            },
+            "bbox": [
+                141,
+                892,
+                248,
+                906
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>†</sup>Work done while at Huawei Edinburgh Research Centre."
+                    }
+                ]
+            },
+            "bbox": [
+                136,
+                906,
+                487,
+                920
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "228"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                517,
+                941
+            ]
+        },
+        {
+            "type": "page_footer",
+            "content": {
+                "page_footer_content": [
+                    {
+                        "type": "text",
+                        "content": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 228–236 November 12-16, 2024 ©2024 Association for Computational Linguistics"
+                    }
+                ]
+            },
+            "bbox": [
+                168,
+                946,
+                830,
+                972
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                85,
+                489,
+                311
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Knowledge Graphs (KGs) are important to many enterprises today, providing factual knowledge and structured data that steer many products and make them more ready to be used in automatic processes and thus supporting more intelligent applications. In this paper, we present an analysis of a SOTA E-Commerce intent knowledge graph, FolkScope (Yu et al., 2023), which reported promising results on an intrinsic co-buy prediction task. Refactoring their KG to build associations between kinds of products and their usage user intents, we discover two unsatisfactory characteristics in their KG topology: 1) property-ambiguity: generated user intents are poorly aligned with relevant product properties, such that the KG often maps user intents to kinds of products with relevant category but fairly random properties; 2) category-rigidity: each intent is strongly associated with a single category of product, such that the KG is unable to recommend diverse products across different categories that serve common intents."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                315,
+                490,
+                653
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In light of these findings, we develop a Product Recovery Benchmark, including an evaluation framework that aligns with the usage-centric paradigm, isolating product-specific confounders, such as product price or ratings. Also, we provide a dataset based on the Amazon Reviews Dataset (ARD) (Ni et al., 2019) where we further validate the impact of the weaknesses in FolkScope. All intent understanding methods developed on the ARD can be evaluated using this benchmark."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                658,
+                490,
+                820
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "To summarize, in this paper: 1) we propose a usage-centric paradigm for intent understanding; 2) we introduce a product recovery benchmark featuring a novel evaluation framework, and report results with SOTA baselines; 3) we identify crucial weaknesses in existing SOTA as category-rigidity and property-ambiguity, and propose intent mining from user reviews as a promising future direction to address these issues."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                824,
+                490,
+                921
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                85,
+                884,
+                134
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "2 Usage-Centric Intent Understanding"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                143,
+                862,
+                161
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We propose a usage-centric paradigm of intent understanding, focusing on usage user intents and the kinds of useful products, where the goal is to ground usage user intents in kinds of useful products. Differently from the “informal queries” in Luo et al. (2021), and similarly to Ding et al. (2015), our usage user intents are generic eventualities/situations, independent of product ontologies."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                171,
+                887,
+                299
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We introduce kinds of products as the target granularity level, as it abstracts away the nuanced differences among individual listings, and yields a purely natural language setup, independent of product ontologies. It contains just enough information (category + property) to represent the product listings inside for intent understanding."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                299,
+                887,
+                411
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "User intents rarely require combinations of properties in a product category. Therefore, to avoid generating factorial numbers of kinds of product, we impose a mild constraint that only one property is specified for each kind of product."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                412,
+                887,
+                492
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We demonstrate the specificity trade-off with an example below: for outdoor barbecues, a stiffbristle scrub brush is useful for cleaning the grease on the grill. To that end, there are many listings of hard-bristle scrubs but the exact choice among them is irrelevant to the user intent and could be identified by downstream recommendation systems using other factors (customer habit, geo-location, etc.). However, the stiff bristle property is essential for a listing to be suitable for outdoor barbecues. In short, grouping based on kinds of products strikes a balance between sparsity that comes with specificity, and ambiguity that comes with generality."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                492,
+                887,
+                703
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3 FolkScope Analysis"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                713,
+                714,
+                730
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.1 KG Refactoring"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                738,
+                684,
+                755
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We refactor FolkScope based on our usage-centric intent understanding paradigm. FolkScope KG connects products with their user intents, which are generated with OPT-30B (Zhang et al., 2022) when given pairs of co-bought products sourced from ARD (Ni et al., 2019), along with manually defined commonsense relations."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                759,
+                885,
+                871
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Among their 18 commonsense relations, we filter out all “item” relations as well as 3 “function” relations (SymbolOf, MannerOf, and DefinedAs), since they are nominal in nature, and are irrelevant to product usage. We keep the remaining 5 predicative relations, UsedFor, CapableOf, Result, Cause, CauseDesire, as legitimate user intents."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                872,
+                887,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "229"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                517,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "chart",
+            "content": {
+                "image_source": {
+                    "path": "images/6ee9f60c61b335db07d576fbfb1d05f699ae8d7ed490e1b0dbd94abd840c9193.jpg"
+                },
+                "content": "",
+                "chart_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 2: Histograms of Jensen-Shannon Divergence for each intent-category pair. Values are packed around 0: property-distributions of edge weights conditioned on intents are close to unconditioned frequency priors."
+                    }
+                ],
+                "chart_footnote": []
+            },
+            "bbox": [
+                131,
+                85,
+                472,
+                271
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                366,
+                489,
+                430
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "To group the product listings into kinds of products, we take the fine-grained product categories from ARD (e.g. Kids’ Backpacks), and borrow the attributes under the relation PropertyOf in the original FolkScope KG as properties.<sup>1</sup>"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                430,
+                489,
+                511
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We compute the association strengths from selected user intents to common kinds of products by aggregation. Let "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "e ( I _ { i } , P _ { j } )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "be the connection of intent "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "I _ { i }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "with product listing "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "P _ { j } , P _ { j }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "belongs to a kind of products "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "K _ { k }"
+                    },
+                    {
+                        "type": "text",
+                        "content": ". The association strength for edges in the refactored KG are then computed as: "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\begin{array} { r } { e ^ { \\prime } ( I _ { i } , K _ { k } ) = \\sum _ { P _ { i ^ { \\prime } } \\in K _ { k } } p m i ( P _ { j } , K _ { k } ) * e ( I _ { i } , P _ { j } ) } \\end{array}"
+                    },
+                    {
+                        "type": "text",
+                        "content": "2"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                512,
+                489,
+                627
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "3.2 Statistical Analysis"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                638,
+                312,
+                653
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We identify two major weaknesses of FolkScope KG under the usage-centric paradigm: it is overspecific about categories of useful products, but under-specific about the required properties of these products within each category. Intents in FolkScope tend to be associated with products having vague properties from few categories, rather than specific kinds of products across a variety of categories."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                659,
+                490,
+                806
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Property-Ambiguity For each user intent, we look into the distribution of its edge weights among kinds of products from one category with different properties. We compare these posterior edgeweight distributions, conditioned on intent, with the prior distributions across differently-propertied kinds of products within that category. We calculate Jensen-Shannon Divergence (JSD) between these conditional and prior distributions (see Figure 2): for up to 20% of cases, JSD is < 0.1, where only 2% of cases have JSD > 0.5."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                815,
+                489,
+                848
+            ]
+        },
+        {
+            "type": "chart",
+            "content": {
+                "image_source": {
+                    "path": "images/4714d24ce79e6275604d92469e6d45b8e2108a6d1a43e4b3eb51ff16b39a2ea9.jpg"
+                },
+                "content": "",
+                "chart_caption": [
+                    {
+                        "type": "text",
+                        "content": "Figure 3: Histograms of category-entropy for each user intent. Values are concentrated at 0.0 and 0.7, meaning the intent is associated with only 1 / 2 categories."
+                    }
+                ],
+                "chart_footnote": []
+            },
+            "bbox": [
+                515,
+                83,
+                863,
+                269
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                507,
+                355,
+                887,
+                500
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "This shows, the KG’s edge weights among differently-propertied kinds of products within the same category are strongly predicted by their prior distribution, and are insensitive to the specific usages depicted by user intents. For example, for the user intent of outdoor barbecues, its edge weights distribution among different kinds of scrub brush products should depend on this specific usage scenario. In this case, a stiff bristle scrub brush may receive much higher weights than other kinds of scrub brushes, rather than having the distribution align more closely with the prior distribution of kinds of scrub brush products. We credit this to the mismatch between property and intent mining: each product listing may have multiple properties and serve multiple intents, but the mappings between these properties and intents are underspecified."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                501,
+                887,
+                791
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Category-Rigidity In the refactored KG, we calculate the category diversity by measuring how diverse the edge weights are w.r.t. categories for one user intent. For each user intent, we add up its edge weights to kinds of products grouped by product categories (e.g. edge weights to stiff bristle scrub brush and scrub brush with wooden handle are added together), and compute the entropy of the converted category distribution."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                807,
+                887,
+                920
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>1</sup>These attributes do not fit the criteria for usage user intents, but they are acquired through generic LLM prompted summarization, and thus are borrowed as product properties."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                857,
+                489,
+                895
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>2</sup>The pmi term penalizes product listings with multiple kinds of products (e.g. multiple properties in one listing)."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                894,
+                487,
+                921
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "230"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                517,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                85,
+                489,
+                117
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Figure 3 shows the entropy meta-distributions: entropy values are concentrated in 2 narrow ranges, [0, 0.02) and [0.68, 0.70). We notice that an entropy in [0, 0.02) indicates that the associations about this intent are focused on only one product category; [0.68, 0.70) indicates that the associations are focused on two product categories. Therefore, from Figure 3 we can conclude that over 80% of the intents are associated with only one or two categories. This category-rigidity in FolkScope hampers its ability to recommend diverse kinds of products, as we will discuss in §4.2."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                117,
+                490,
+                311
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4 The Product Recovery Benchmark"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                112,
+                322,
+                448,
+                338
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.1 Benchmark Design"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                348,
+                312,
+                363
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Following our intent understanding paradigm in §2, we introduce a usage-centric evaluation framework, which aims to recover kinds of products based on retrieved user intents. Under this framework, an intent understanding method first predicts a profile of user intents for a product listing (using product description, user reviews, etc.). Then, using solely the predicted intent as input, the method recovers useful kinds of products based on its knowledge of E-Commerce demands (e.g. in symbolic KGs or LLMs). The predictions are compared against: 1) bought-product-recovery: kinds of product to which the current product belongs; 2) co-boughtproduct-recovery: kinds of co-bought products that belong to other categories."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                368,
+                490,
+                611
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We take bought-product-recovery as our main evaluation setup, since it focuses on intent-to-kindsof-product associations. We also include the cobought-product-recovery setup to validate statistical findings on cross-category recommendation performance. Compared to the product recommendation evaluation in Yu et al. (2023), this framework marginalizes factors inciting co-buy behaviour (e.g. brand loyalty, geolocation, etc.)."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                611,
+                490,
+                756
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We instantiate the proposed evaluation framework with a product recovery benchmark, based on the ARD (Ni et al., 2019), using available resources. We utilise the pool of product listings in ARD, enriched with product descriptions, category information, anonymized user purchase records and reviews. We additionally borrow kinds of products from refactored FolkScope, as in §3.1.<sup>3</sup>"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                756,
+                490,
+                885
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/2bde8ab6dc7c558a92794ee1cf4c22a4f6b5ee0376e556d69597177180fd4044.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 1: "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\bf { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "for bought-product-recovery task."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Models</td><td>Clothing</td><td>Electronics</td></tr><tr><td>FolkScope</td><td>0.192</td><td>0.263</td></tr><tr><td>FolkScope - properties</td><td>0.116</td><td>0.166</td></tr><tr><td>FolkScope + GPT</td><td>0.187</td><td>0.257</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                512,
+                83,
+                897,
+                168
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Evaluation metric Following prior work (Chen and Wang, 2013), we measure success by Mean Reciprocal Rank (MRR) of gold kinds of products in the predicted distributions as shown in Eq. 2. In case multiple gold kinds of products are assigned for a product listing, we calculate the "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "using the highest-ranking hit."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                221,
+                885,
+                335
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathrm { R R } _ { \\mathrm { m a x } } ( l ) = \\operatorname* { m a x } _ { c \\in C _ { \\mathrm { g o l d } } ( l ) } \\left( \\mathrm { r a n k } ( c ) ^ { - 1 } \\right)\\tag{1}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/9f1f40513f6a7298fff1183e618053597bbd04a5aa1f960c16e4a01381e87d9a.jpg"
+                }
+            },
+            "bbox": [
+                566,
+                350,
+                823,
+                378
+            ]
+        },
+        {
+            "type": "equation_interline",
+            "content": {
+                "math_content": "\\mathrm { M R R } _ { \\operatorname* { m a x } } = \\frac { \\sum _ { l \\in L } \\mathrm { R R } _ { \\operatorname* { m a x } } ( l ) } { | L | }\\tag{2}",
+                "math_type": "latex",
+                "image_source": {
+                    "path": "images/7efbd9725398175d7ddc6528e5d8859bcc90e4c019c3c8c4c99126212f43870b.jpg"
+                }
+            },
+            "bbox": [
+                584,
+                386,
+                805,
+                423
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "where RR represents the Reciprocal Rank, "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "C _ { \\mathrm { g o l d } } ( l )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "are the gold clusters for the listing l and L is the set of all listings in the benchmark."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                430,
+                885,
+                479
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "4.2 Experiments and Results"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                491,
+                754,
+                506
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We evaluate the FolkScope KG (refactored in §3.1) with the Product Recovery benchmark. We offer the baseline results in Table 1, and highlight below the impact of weaknesses discussed in §3.2."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                511,
+                885,
+                577
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Property-Ambiguity To understand how property ambiguity affects FolkScope performance, we compare it with another prior property baseline derived from it: for each evaluation entry, we corrupt the FolkScope predictions by replacing the property in the predicted kinds of products based on the property popularity. The popularity of a property is defined as the frequency with which it appears in the product listings that belong to the same fine-grained category (e.g. scrub brush) as the evaluation entry (kinds of products). To avoid making duplicate predictions after substitution, if multiple kinds of products from the same category are predicted, we draw properties top-down w.r.t. popularity for each prediction."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                587,
+                887,
+                829
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "From Table 1, we observe that FolkScope properties reached respectable performance with only moderate regression from FolkScope predictions. This limited MRR gap shows the impact of property-ambiguity, where performance gains could be expected with better property alignment."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                829,
+                885,
+                863
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>3</sup>Our elicitation procedure is corpus-agnostic, we empirically select ARD as it is the largest available dataset; we"
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                892,
+                489,
+                920
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "acknowledge that re-using information from FolkScope may grant it an unfair advantage, however, we show below, that it nevertheless suffers from the aforementioned weaknesses and fails to perform intent understanding effectively."
+                    }
+                ]
+            },
+            "bbox": [
+                509,
+                870,
+                885,
+                920
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "231"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                515,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                85,
+                490,
+                151
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Category-Rigidity To validate the categoryrigidity observation in §3.2, we also evaluate the FolkScope KG in the co-bought-product-recovery setup, where we specifically use it to predict kinds of co-bought products in other categories."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                172,
+                489,
+                254
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this setup, we observe low "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "of 0.077 and 0.033 for Clothing and Electronics domains, respectively: the FolkScope KG cannot effectively recommend superficially distinct kinds of products connected with the same user intents."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                256,
+                489,
+                337
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Notably, between the two domains, FolkScope reaches a slightly higher "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "in Clothing. This is consistent with our findings in Figure 3, where category-entropy values are slightly more spread than in Electronics (i.e. category rigidity is less severe)."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                342,
+                489,
+                439
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "LLM Rerank We also evaluate LLM performance on usage-centric intent understanding using our benchmark, using GPT-3.5-turbo (Brown et al., 2020). Ideally, we would like the LLM to predict useful kinds of products end-to-end. However, due to the difficulty of reliably matching LLM predictions with gold kinds of products<sup>4</sup>, we instead adopt a re-ranking paradigm, where we prompt the LLM to re-rank the top-10 kinds of products predicted by FolkScope."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                461,
+                490,
+                624
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "As Table 1 shows, we observe no clear benefit with LLM-reranking. We investigate this failure by looking into where hits are met in the predictions. From Table 2, we find that most hits are either at first or not in the top 10. These polarized distributions leave little room for re-ranking to take effect."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                627,
+                489,
+                740
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We raise the warning that dataset artefacts from the common source corpus (AWD) could be behind this abnormally high hit-at-1 rate (compared with the "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "value), where the reported MRR<sub>max</sub> values may have been inflated. Due to the lack of another large E-Commerce Reviews corpus, we leave further investigations for future work."
+                    }
+                ]
+            },
+            "bbox": [
+                110,
+                744,
+                489,
+                858
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/0a26b5e364ecf0333671a23ec81525de4aeba23b784a2bf03f8919bc09e6dd82.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 2: The ratio of hit being the first in the prediction list and not in the top-10 of the prediction list."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td></td><td>Clothing</td><td>Electronics</td></tr><tr><td>hit@1</td><td>16%</td><td>22%</td></tr><tr><td>hit &gt; 10</td><td>73%</td><td>63%</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                561,
+                82,
+                831,
+                152
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "5 Discussions and Conclusion"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                219,
+                783,
+                236
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this paper, we revisit intent understanding from a usage-centric perspective, as a natural language reasoning task, to detect superficially distinct kinds of products useful for common usage intents. We developed a Product Recovery benchmark, and investigated two weaknesses of the SOTA FolkScope KG in supporting usage-centric intent understanding: Property Ambiguity and Category-Rigidity."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                247,
+                887,
+                376
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We advocate for adopting the usage-centric intent understanding paradigm, and for considering user reviews, in addition to co-buy records. Desired product properties and their respective intents are likely to co-occur in product reviews, relieving property-ambiguity; the same usage intents tend to be described consistently in user reviews across different categories, relieving category-rigidity."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                376,
+                887,
+                506
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "As for future work, one idea is to use our proposed benchmarks to test some entailment graphs in E-commerce. We might further investigate some abstract inference capabilities that are related to conceptual understanding."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                507,
+                887,
+                588
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Limitations"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                601,
+                616,
+                618
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "In this paper, we have proposed to study E-Commerce intent understanding from a usagecentric perspective. Due to the lack of consistent task definition and limited computational budget, we are only able to analyse one SOTA intent understanding KG (namely FolkScope) and one SOTA LLM. We encourage more research attention on the usage-centric E-commerce intent understanding task for a more diverse landscape."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                629,
+                887,
+                774
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We have established that weaknesses of Property Ambiguity and Category Rigidity exist in the SOTA KG, and we have offered a principled hypothesis that utilizing genuine user reviews could help with these weaknesses. However, due to limits to the scope of this paper, we do not provide empirical evidence for this hypothesis and leave it as a promising direction of future work."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                774,
+                887,
+                903
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We note that as this paper is related to recommendation, there exists risks that methods developed on the Product Recovery Benchmark may be used to bias customer decisions; on the other hand, we also note that our task definition is purely natural language and does not involve any individual product listings, therefore it would not bias customer choices among directly competing listings of the same kinds of products."
+                    }
+                ]
+            },
+            "bbox": [
+                527,
+                904,
+                887,
+                920
+            ]
+        },
+        {
+            "type": "page_footnote",
+            "content": {
+                "page_footnote_content": [
+                    {
+                        "type": "text",
+                        "content": "<sup>4</sup>In Appendix B, we include an LLM-only baseline using GPT-4 as matching metric, where we find it underperforming FolkScope baseline, and find GPT-4 metric over permissive."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                881,
+                489,
+                920
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "232"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                517,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": []
+            },
+            "bbox": [
+                112,
+                85,
+                489,
+                214
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "Acknowledgements"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                228,
+                287,
+                244
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We would like to thank the reviewers for their valuable comments and suggestions. This work was partly funded by a Mozilla PhD scholarship at Informatics Graduate School and by the University of Edinburgh Huawei Laboratory."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                256,
+                489,
+                337
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "References"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                115,
+                366,
+                215,
+                381
+            ]
+        },
+        {
+            "type": "list",
+            "content": {
+                "list_type": "reference_list",
+                "list_items": [
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Antoine Bosselut, Hannah Rashkin, Maarten Sap, Chaitanya Malaviya, Asli Celikyilmaz, and Yejin Choi. 2019. COMET: Commonsense Transformers for Automatic Knowledge Graph Construction. In Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics, pages 4762– 4779, Florence, Italy. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Tom B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. 2020. Language Models are Few-Shot Learners. arXiv:2005.14165 [cs]. ArXiv: 2005.14165."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Li Chen and Feng Wang. 2013. Preference-based clustering reviews for augmenting e-commerce recommendation. Knowledge-Based Systems, 50:44–59."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Shumin Deng, Chengming Wang, Zhoubo Li, Ningyu Zhang, Zelin Dai, Hehong Chen, Feiyu Xiong, Ming Yan, Qiang Chen, Mosha Chen, Jiaoyan Chen, Jeff Z. Pan, Bryan Hooi, and Huajun Chen. 2023. Construction and applications of billion-scale pre-trained multimodal business knowledge graph. In Proc. of the 2023 IEEE 39th International Conference on Data Engineering (ICDE)."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xiao Ding, Ting Liu, Junwen Duan, and Jian-Yun Nie. 2015. Mining User Consumption Intention from Social Media Using Domain Adaptive Convolutional Neural Network. Proceedings of the AAAI Conference on Artificial Intelligence, 29(1). Number: 1."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Btissam Er-Rahmadi, Arturo Oncevay, Yuanyi Ji, and Jeff Z Pan. 2023. KATIE: A System for Key Attributes Identification in Product Knowledge Graph Construction. In Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIRIR 2023)."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Zhenyun Hao, Jianing Hao, Zhaohui Peng, Senzhang Wang, Philip S. Yu, Xue Wang, and Jian Wang. 2022. Dy-hien: Dynamic evolution based deep hierarchical intention network for membership prediction. In Proceedings ofthe Fifteenth ACM International Conference on Web Search and Data Mining, WSDM ’22, page 363–371, New York, NY, USA. Association for Computing Machinery."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Wenyu Huang, André Melo, and Jeff Z Pan. 2024. A Large-scale Offer Alignment Model for Partitioning Filtering and Matching Product Offers. In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIRIR 2024)."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Xusheng Luo, Le Bo, Jinhang Wu, Lin Li, Zhiy Luo, Yonghua Yang, and Keping Yang. 2021. AliCoCo2: Commonsense Knowledge Extraction, Representation and Application in E-commerce. In Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery & Data Mining, pages 3385–3393, Virtual Event Singapore. ACM."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Jianmo Ni, Jiacheng Li, and Julian McAuley. 2019. Justifying Recommendations using Distantly-Labeled Reviews and Fine-Grained Aspects. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing (EMNLP-IJCNLP), pages 188–197, Hong Kong, China. Association for Computational Linguistics."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Maarten Sap, Ronan Le Bras, Emily Allaway, Chandra Bhagavatula, Nicholas Lourie, Hannah Rashkin, Brendan Roof, Noah A. Smith, and Yejin Choi. 2019. ATOMIC: An Atlas of Machine Commonsense for If-Then Reasoning. Proceedings ofthe AAAI Conference on Artificial Intelligence, 33:3027–3035."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Changlong Yu, Weiqi Wang, Xin Liu, Jiaxin Bai, Yangqiu Song, Zheng Li, Yifan Gao, Tianyu Cao, and Bing Yin. 2023. FolkScope: Intention Knowledge Graph Construction for E-commerce Commonsense Discovery. ArXiv:2211.08316 [cs]."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Chenwei Zhang, Wei Fan, Nan Du, and Philip S. Yu. 2016. Mining user intentions from medical queries: A neural network based heterogeneous jointly modeling approach. In Proceedings of the 25th International Conference on World Wide Web, WWW ’16, page 1373–1384, Republic and Canton of Geneva, CHE. International World Wide Web Conferences Steering Committee."
+                            }
+                        ]
+                    },
+                    {
+                        "item_type": "text",
+                        "item_content": [
+                            {
+                                "type": "text",
+                                "content": "Susan Zhang, Stephen Roller, Naman Goyal, Mikel Artetxe, Moya Chen, Shuohui Chen, Christopher De-"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "bbox": [
+                117,
+                391,
+                489,
+                497
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "233"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                929,
+                517,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "wan, Mona Diab, Xian Li, Xi Victoria Lin, Todor Mihaylov, Myle Ott, Sam Shleifer, Kurt Shuster, Daniel Simig, Punit Singh Koura, Anjali Sridhar, Tianlu Wang, and Luke Zettlemoyer. 2022. Opt: Open pretrained transformer language models."
+                    }
+                ]
+            },
+            "bbox": [
+                131,
+                85,
+                490,
+                153
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "A Implementation Details"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                173,
+                357,
+                190
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "A.1 Benchmark data split"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                198,
+                336,
+                215
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We follow Yu et al. (2023), and we split product instance in FolkScope KG into training, validation and test splits with respective portions of 80%, 10% and 10%. Please refer to Table 3 for detailed statistics. Note that Clothing stands for the “Clothing, Shoes and Jewelry” domain in the Amazon Reviews Dataset, and Electronics simply stands for the “Electronics” domain in the Amazon Reviews Dataset."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                218,
+                489,
+                365
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/d3b219b305d49a4ed74328c0c425ca171b96f5372ed1d375ac74fdda7a8ff124.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 3: Number of product listings in the training, validation and test set. Please note that we drop product listings that lack related kinds of products, so the ratio of the number of instances across the splits are not exactly equal to 8:1:1."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Categories</td><td>Train</td><td>Validation</td><td>Test</td></tr><tr><td>Clothing</td><td>30296</td><td>2027</td><td>2088</td></tr><tr><td>Electronics</td><td>85086</td><td>7853</td><td>7900</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                115,
+                373,
+                482,
+                439
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "A.2 GPT-3.5-turbo Re-ranking"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                551,
+                376,
+                568
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "For each product listing l, when there is no predicted kind of products given a set of related user intents, we mark the "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { R R } _ { \\operatorname* { m a x } } ( l )"
+                    },
+                    {
+                        "type": "text",
+                        "content": "as 0 both before and after re-ranking."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                573,
+                489,
+                637
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "A.2.1 Re-ranking Prompt"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                645,
+                334,
+                661
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "A product is suitable for the following purposes:"
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                664,
+                450,
+                696
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{Intents}"
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                697,
+                220,
+                713
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Please rank the following categories in order of likelihood that the product belongs to them (most likely to least likely):"
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                733,
+                452,
+                797
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{kinds of products list} ..."
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                799,
+                342,
+                814
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Answer:"
+                    }
+                ]
+            },
+            "bbox": [
+                151,
+                815,
+                218,
+                829
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "1."
+                    }
+                ]
+            },
+            "bbox": [
+                151,
+                831,
+                169,
+                845
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We fill Intents with a set of mined user intents and kinds of products list with the top 10 predictions for kinds of products."
+                    }
+                ]
+            },
+            "bbox": [
+                114,
+                872,
+                490,
+                920
+            ]
+        },
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/184a21c3fdab9f4b49c5eed3aa2ee124a48f57080bcc8c25ddc2a51ba1ecdbe0.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 4: "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\bf { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "score when evaluating using GPT-4 as the judge for matching. Values for GPT-3.5-turbo and our baseline refactored FolkScope KG are both higher in absolute values due to the more benign matching criterion; the LLM baseline with GPT-3.5-turbo does not outperform the KG baseline."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td></td><td>Clothing</td><td>Electronics</td></tr><tr><td>GPT-3.5-turbo</td><td>0.511</td><td>0.543</td></tr><tr><td>FolkScope</td><td>0.527</td><td>0.671</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                537,
+                82,
+                855,
+                153
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Note that in this setting and in § B.1.1, we still use the term “category” in LLM prompts to refer to kinds of products, because during preliminary experiments we found that LLMs do not respond well to the term “kind of product”."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                281,
+                885,
+                363
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "B GPT End-to-End Evaluation"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                374,
+                796,
+                391
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We perform an additional experiment to directly predict kinds of products in an end-to-end setup, with an LLM, for our proposed product recovery task. Again, we use GPT-3.5-turbo as the LLM and design the zero-shot prompt as in §B.1.1. However, due to the absence of the complete ontology of the Amazon Reviews Dataset, it is challenging for GPT-3.5-turbo to predict the exact ground truth kinds of products. To sidestep the difficulty of evaluating whether the predicted strings are semantically identical to the ground truth labels, we use GPT-4 to judge whether there is a match between predicted and ground truth labels. The relevant prompt is specified in §B.1.2. The detailed evaluation results is presented in Table 4."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                400,
+                885,
+                643
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "From Table 4, we can observe that GPT-3.5- turbo does not outperform the FolkScope KG baseline on the product recovery benchmark. Compared to the strict string matching results in Table 1, GPT-4 evaluation has a significantly more permissive criterion on matching, yielding much higher "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { M R R } _ { \\operatorname* { m a x } }"
+                    },
+                    {
+                        "type": "text",
+                        "content": "values. We find many of these “matched” verdicts by GPT-4 to be spurious (see Table 6), and conclude that GPT-4 cannot easily achieve reliable matching for the product recovery benchmark, and more robust criteria are needed before replacing the exact match criterion."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                643,
+                887,
+                837
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "B.1 Prompt Examples"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                847,
+                702,
+                863
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "B.1.1 Kinds of Products Prediction"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                868,
+                801,
+                884
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Intents:"
+                    }
+                ]
+            },
+            "bbox": [
+                546,
+                889,
+                610,
+                903
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{intents}"
+                    }
+                ]
+            },
+            "bbox": [
+                546,
+                904,
+                613,
+                920
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "234"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                517,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/8491f28a46eb8ccdd79861d82cd76f4b39a0abf44161291d8b613ae83c780e2a.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 5: API costs of our LLM-related experiments. For the LLM Rerank experiment, we re-rank all the data samples in the test set while for the End-to-End evaluation, we only sample 1000 data samples in the test set."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Experiment</td><td>Clothing</td><td>Electronics</td></tr><tr><td>LLM Rerank</td><td>3.86 $</td><td>1.38 $</td></tr><tr><td>LLM End-to-End</td><td>15.57 $</td><td>14.56$</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                131,
+                82,
+                470,
+                152
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Given the intents, please predict the top 10 kinds of products that will be useful for these intents."
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                268,
+                452,
+                316
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "A kind of product is the concatenation of a fine-grained category from the Amazon Review Dataset and a useful property. For example: Clothing, Shoes & Jewelry|Men|Watches|Wrist Watches ### leather."
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                317,
+                453,
+                412
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Kinds of products:"
+                    }
+                ]
+            },
+            "bbox": [
+                151,
+                413,
+                294,
+                430
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "B.1.2 Prediction Evaluation"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                460,
+                351,
+                475
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Here is a list of predicted categories:"
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                480,
+                425,
+                497
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{prediction}"
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                498,
+                245,
+                513
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Validate each prediction based on the ground truth categories[T/F]."
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                513,
+                450,
+                545
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Each prediction can be considered true when it is similar to one of the ground truth categories."
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                545,
+                452,
+                592
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Ground truth categories:"
+                    }
+                ]
+            },
+            "bbox": [
+                151,
+                594,
+                336,
+                609
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "{ground truth}"
+                    }
+                ]
+            },
+            "bbox": [
+                149,
+                609,
+                262,
+                626
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "C Computational Budget"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                639,
+                351,
+                656
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "C.1 Main Experiments"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                114,
+                667,
+                312,
+                682
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "All the benchmark construction and evaluation has been performed using 2 x Intel(R) Xeon(R) Gold 6254 CPUs @ 3.10GHz."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                689,
+                489,
+                738
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "FolkScope KG Refactoring We converted all the intents generated by FolkScope without applying any of its proposed filters based on the graph evaluation results on the validation set. The whole graph generation for both domains takes around 24 hours in total."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                747,
+                489,
+                845
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "FolkScope Intents Evaluation We need around 71 and 6 hours for evaluating the intents for the test set of the Clothing and Electronics domain respectively."
+                    }
+                ]
+            },
+            "bbox": [
+                112,
+                856,
+                489,
+                921
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "C.2 LLM Experiments"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                84,
+                709,
+                101
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "We mainly use GPT-3.5-turbo and GPT-4 for our LLM-related experiments. Please refer to Table 5 for details about the relevant costs. For both models, we keep the default query parameters from OpenAI, and set the temperature to 0 to promise reproducability."
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                105,
+                885,
+                203
+            ]
+        },
+        {
+            "type": "title",
+            "content": {
+                "title_content": [
+                    {
+                        "type": "text",
+                        "content": "D Artifact Licenses"
+                    }
+                ],
+                "level": 2
+            },
+            "bbox": [
+                509,
+                214,
+                697,
+                229
+            ]
+        },
+        {
+            "type": "paragraph",
+            "content": {
+                "paragraph_content": [
+                    {
+                        "type": "text",
+                        "content": "Amazon Reviews Dataset: Limited license for academic research purposes and for non-commercial use (subject to Amazon.com Conditions of Use) FolkScope: MIT license"
+                    }
+                ]
+            },
+            "bbox": [
+                507,
+                239,
+                887,
+                304
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "235"
+                    }
+                ]
+            },
+            "bbox": [
+                485,
+                928,
+                517,
+                942
+            ]
+        }
+    ],
+    [
+        {
+            "type": "table",
+            "content": {
+                "image_source": {
+                    "path": "images/fa6d83c8fd68b8119875b4ae7cbe0d4bafa7046d2f0b430bbfd029829fb46d4a.jpg"
+                },
+                "table_caption": [
+                    {
+                        "type": "text",
+                        "content": "Table 6: Here we list two examples that GPT-4 validate with "
+                    },
+                    {
+                        "type": "equation_inline",
+                        "content": "\\mathrm { R R } _ { \\mathrm { m a x } } = 1"
+                    },
+                    {
+                        "type": "text",
+                        "content": ". In the first example, it validates the first prediction as true by matching the “property” part of the ground truth 3 with the main category of prediction 1. In the second example, the “property” part of prediction 1 is too general compared to all the ground truth kinds of products, but it still validates it as true."
+                    }
+                ],
+                "table_footnote": [],
+                "html": "<table><tr><td>Ground truth kinds of products</td></tr><tr><td>1. Clothing, Shoes &amp; JewelrylCostumes &amp; AccessorieslMenlAccessories ### Wandering Gunman</td></tr><tr><td>2. Clothing, Shoes &amp; JewelrylCostumes &amp; AccessorieslMenlAccessories ### Holster</td></tr><tr><td>3. Clothing, Shoes &amp; JewelrylCostumes &amp; AccessorieslMenlAccessories ### Western</td></tr><tr><td>GPT-3.5-turbo prediction</td></tr><tr><td>1. Clothing, Shoes &amp; JewelrylMenlCostumeslWestern ### authentic</td></tr><tr><td>Ground truth kinds of products</td></tr><tr><td>1. Clothing, Shoes &amp; JewelrylWomenlJewelrylEarringslStud ### Jewelry</td></tr><tr><td>2. Clothing, Shoes &amp; JewelrylWomenlJewelrylEarringslStud ### Gemstone</td></tr><tr><td>3. Clothing, Shoes &amp; JewelrylWomenlJewelrylEarringslStud ### Sterling Silver</td></tr><tr><td>GPT-3.5-turbo prediction</td></tr><tr><td>1. Clothing, Shoes &amp; JewelrylWomenlEarringslStud Earrings ### elegant and beautiful</td></tr></table>",
+                "table_type": "simple_table",
+                "table_nest_level": 1
+            },
+            "bbox": [
+                115,
+                318,
+                855,
+                607
+            ]
+        },
+        {
+            "type": "page_number",
+            "content": {
+                "page_number_content": [
+                    {
+                        "type": "text",
+                        "content": "236"
+                    }
+                ]
+            },
+            "bbox": [
+                484,
+                928,
+                517,
+                942
+            ]
+        }
+    ]
+]
