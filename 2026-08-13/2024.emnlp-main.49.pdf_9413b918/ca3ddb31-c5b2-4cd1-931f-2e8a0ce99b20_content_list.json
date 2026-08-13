@@ -1,0 +1,2749 @@
+[
+    {
+        "type": "text",
+        "text": "Overcome Noise and Bias: Segmentation-Aided Multi-Granularity Denoising and Debiasing for Enhanced Quarduples Extraction in Dialogue",
+        "text_level": 1,
+        "bbox": [
+            114,
+            84,
+            882,
+            127
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Xianlong Luo<sup>1,2</sup> Meng Yang <sup>1,2</sup>\\* Yihao Wang<sup>1,2</sup>",
+        "bbox": [
+            275,
+            136,
+            722,
+            154
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "<sup>1</sup>School of Computer Science and Engineering, Sun Yat-Sen University <sup>2</sup>Key Laboratory of Machine Intelligence and Advanced Computing (SYSU), Ministry of Education, China luoxlong@mail2.sysu.edu.cn, yangm6@mail.sysu.edu.cn, wangyh357@mail2.sysu.edu.cn",
+        "bbox": [
+            184,
+            153,
+            813,
+            239
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Abstract",
+        "text_level": 2,
+        "bbox": [
+            262,
+            260,
+            342,
+            277
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Dialogue Aspect-based Sentiment Quadruple analysis (DiaASQ) extends ABSA to more complex real-world scenarios (i.e., dialogues), which makes existing generation methods encounter heightened noise and order bias challenges, leading to decreased robustness and accuracy. To address these, we propose the Segmentation-Aided multi-grained Denoising and Debiasing (SADD) method. For noise, we propose the Multi-Granularity Denoising Generation model (MGDG), achieving word-level denoising via sequence labeling and utterancelevel denoising via topic-aware dialogue segmentation. Denoised Attention in MGDG inte grates multi-grained denoising information to help generate denoised output. For order bias, we first theoretically analyze its direct cause as the gap between ideal and actual training objectives and propose a distribution-based solution. Since this solution introduces a one-to-many learning challenge, our proposed Segmentationaided Order Bias Mitigation (SOBM) method utilizes dialogue segmentation to supplement order diversity, concurrently mitigating this challenge and order bias. Experiments demonstrate SADD’s effectiveness, achieving state-ofthe-art results with a 6.52% F1 improvement.",
+        "bbox": [
+            141,
+            286,
+            462,
+            674
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "1 Introduction",
+        "text_level": 2,
+        "bbox": [
+            115,
+            683,
+            260,
+            699
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Dialogue Aspect-based Sentiment Quadruple Extraction task (DiaASQ) (Li et al., 2023a) is a subtask of Aspect-based Sentiment Analysis (ABSA), aiming to extract sentiment quadruples in dialogues, i.e., Target: mentioned objects, Aspect: components of targets, Opinion: expressions conveying comments, and Sentiment: polarity of targets. Recently, Li et al. (2023a) proposed a discriminative model to control the information fusion among utterances, ultimately classifying different elements separately. However, this method fails to utilize the connections between tuple elements fully. Generative methods (Zhang et al., 2021a,b; Mao et al., 2022; Gou et al., 2023) succeeded in framing ABSA as a text-to-text task with robust generalization capabilities and fully leverage element connections, which inspired us.",
+        "bbox": [
+            112,
+            708,
+            490,
+            902
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "image",
+        "img_path": "images/7e6349a2aa4e1e8ea29f6e9cfed6a62d2a9774d66f09d86838fa6b3227b33a16.jpg",
+        "image_caption": [
+            "Figure 1: Noise refers to irrelevant words in dialogue (highlighted in orange), which lead the model to generate incorrect quadruples. Order Bias occurs when the model erroneously learns non-existent tuple order dependencies (highlighted in yellow boxes). Through denoising and debiasing, our SADD method enhances the performance of quadruple extraction."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            514,
+            261,
+            878,
+            423
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            564,
+            885,
+            646
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "However, generative methods still face two significant challenges: Noise and Order Bias, as illustrated in Fig 1. 1. Noise is extraneous words in dialogues that interfere with the quadruple generation process, as illustrated by the orange words in Fig. 1. These extraneous words often disrupt the predicted quadruples; for instance, the terms ’brightness’ and ’low’ interfere with previous methods, leading to an incorrect quadruple. 2. Order Bias is an irrational causal relationship caused by the fixed order of quadruple labels, like the yellow relationships in Fig. 1. As shown in Fig. 1, we formulate Diaasq task as a text-to-text problem: Input text  “Q1, Q2” (just like Fig. 1) , where the label is a sequence of tuples. However, the order between the tuples does not inherently exist, and the generation of Q2 should not be conditioned on",
+        "bbox": [
+            507,
+            649,
+            887,
+            922
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "page_footnote",
+        "text": "\\* Corresponding author.",
+        "bbox": [
+            136,
+            907,
+            289,
+            921
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "footer",
+        "text": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 839–856 November 12-16, 2024 ©2024 Association for Computational Linguistics",
+        "bbox": [
+            168,
+            945,
+            830,
+            973
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "page_number",
+        "text": "839",
+        "bbox": [
+            485,
+            928,
+            517,
+            941
+        ],
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Q1. This labeling scheme compels previous models to establish an order dependency from Q2 to Q1 (‘xr->iPhone’) and a causal relationship between the input and the order of tuples. However, such order dependency and causal relationships do not actually exist. These incorrect constraints hinder the model’s generalization. A further explanation of noise and bias is shown in Appendix A.1. To address these, we propose a novel Segmentation-Aided multi-granularity Denoising and Debiasing (SADD) method, including the following modules.",
+        "bbox": [
+            112,
+            85,
+            489,
+            262
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Denoising: Specifically, we first propose a novel Multi-Granularity Denoising Generation (MGDG) module to reduce noise at the word and utterance levels. As shown in Fig. 1, our MEDG module identifies and eliminates the noise \"Especially in ... before.\", thereby achieving denoising. At the word level, we employ sequence labeling to label tuple elements. At the utterance level, we adopt topic-aware dialogue segmentation to achieve topiccentric utterance clustering, followed by generating topic masks based on clusters. Finally, we merge probability from the sequence labeling task and topic masks from the segmentation task into the decoder’s denoised attention to generate denoised output. By emphasizing in-tuple and topic-related elements, denoised attention effectively makes the model more accurate and robust in tuple extraction tasks.",
+        "bbox": [
+            112,
+            262,
+            489,
+            551
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Our Topic-Aware Dialog Segmentation (TADS) differs from previous segmentation methods by explicitly introducing fine-grained topics information. Unlike existing methods (Wu et al., 2020a; Xie et al., 2021) that directly analyze complex contexts between utterances, we establish fine-grained relations between topic words and utterance sentences by cross-attention interaction, ultimately indirectly analyzing relationships between sentences. These improve models’ robustness and accuracy in the segmentation of complex dialogue.",
+        "bbox": [
+            112,
+            551,
+            490,
+            730
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Debiasing: For the second challenge, we begin with theoretically analyzing the direct cause of order bias: the gap between the ideal and actual training objectives. By further analyzing the gap and the Maximum Likelihood Estimation (MLE) from a distribution perspective, we find a solution to augment order diversity at the data level, yet this poses a one-to-many learning problem. To solve these challenges, we propose a Segmentation-aided Order Bias Mitigation (SOBM) method to tackle order bias as shown in the lower part of Fig. 1. We leverage dialogue segmentation to generate multiple inputs that meet a specific criterion. We then pair these inputs with various feasible labels to create new samples, thereby increasing the diversity of tuple orders. The SOBM narrows the gap between ideal and actual training objectives, thereby mitigating order bias in the generation method.",
+        "bbox": [
+            112,
+            730,
+            490,
+            923
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            887,
+            181
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "In summary, our contributions are as follows:",
+        "bbox": [
+            527,
+            183,
+            868,
+            198
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "1. We introduce a novel multi-granularity denoising generation model to mitigate interference noise through word-level sequence labeling and utterance-level topic masks.",
+        "bbox": [
+            509,
+            199,
+            885,
+            263
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "2. We propose a topic-aware dialogue segmentation model to streamline context analysis and establish fine-grained relationships between utterances by introducing topic words as a bridge.",
+        "bbox": [
+            507,
+            265,
+            887,
+            329
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "3. We uncover the direct cause of order bias and mitigate its impact by enhancing the data distribution through dialogue segmentation.",
+        "bbox": [
+            509,
+            330,
+            885,
+            379
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "4. Our SADD method is validated on the widely used dataset and achieves state-of-the-art performance with a 6.52% F1 improvement.",
+        "bbox": [
+            509,
+            380,
+            885,
+            428
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "2 Related Works",
+        "text_level": 2,
+        "bbox": [
+            509,
+            442,
+            675,
+            457
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Aspect-Based Sentiment Analysis (Thet et al., 2010) primarily focuses on short texts (i.e., 1 or 2 sentences text) like reviews and emphasizes sentiment interpretability. ABSA methods analyze elements such as target (Li et al., 2019a,b), target categories (Zhang et al., 2021a), specific aspects, direct opinions (Peng et al., 2020) and so on. Quadruple extraction, involving four key elements, is a more comprehensive sentiment analysis task. Mainstream ABSA methods include sequence labeling (Wu et al., 2020b; Chen et al., 2022; Liang et al., 2023) and generative methods (Gao et al., 2022; Yu et al., 2023; Gou et al., 2023), with the latter known for robustness and generalization. However, existing ABSA models face challenges in dealing with complex textual content and structures when applied to dialogue texts, highlighting the need for advancements in this domain.",
+        "bbox": [
+            507,
+            470,
+            887,
+            760
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Dialogue Segmentation aims to segment a dialogue into pieces based on topics discussed, enhancing comprehension for downstream tasks (Zhong et al., 2022). Existing unsupervised Deep Learning(DL) methods use a pre-trained model without fine-tuning for segmentation (Xu et al., 2021b; Devlin et al., 2019; Xing and Carenini, 2021). DLbased methods directly analyze the context of two utterances and predict their relationships with finetuned CLS tokens, like TOD-BERT (Wu et al.,",
+        "bbox": [
+            507,
+            762,
+            889,
+            922
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "page_number",
+        "text": "840",
+        "bbox": [
+            485,
+            929,
+            517,
+            942
+        ],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "2020a) and RetroTS-T5 (Xie et al., 2021). However, analyzing two utterances directly can be challenging, especially with complex contexts involving multiple topics or lacking explicit topics.",
+        "bbox": [
+            112,
+            84,
+            490,
+            149
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Previous Methods for Addressing Tuple Order Bias mainly focused on addressing the order bias by modifying the model. They used nonautoregressive transformers (Sui et al., 2021; Tan et al., 2021) or set up multiple output heads (Ye et al., 2021) to generate results in an unordered manner. However, these methods have limited the generality of the model. \"Set\" (Li et al., 2023b) adjusts the loss function to force the model to minimize overall loss for all feasible labels globally. However, this approach actually forces models to learn a one-to-many mapping, hindering them from converging to optimal performance.",
+        "bbox": [
+            110,
+            151,
+            490,
+            361
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "3 Task Definition",
+        "text_level": 2,
+        "bbox": [
+            114,
+            378,
+            282,
+            393
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "The input of the DiaASQ task is a n-utterance and N-word dialogue $\\mathrm { D } { = } \\{ u _ { 1 } , \\ldots , u _ { n } \\}$ , where $u _ { i }$ represents the i-th utterance. DiaASQ aims to extract all quadruples (target, aspect, opinion, sentiment) from the dialogue, where the target, aspect, and opinion are sub-strings of D, and sentiment $\\in$ $\\{ p o s , n e g , o t h e r \\}$ . In the example \"I didn’t buy it since my friend said the Xiaomi 11 has poor battery life,\" the corresponding quadruple is (Xiaomi 11, battery life, poor, neg).",
+        "bbox": [
+            112,
+            407,
+            489,
+            570
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "4 Method",
+        "text_level": 2,
+        "bbox": [
+            114,
+            586,
+            218,
+            601
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "In the DiaASQ task, generation models face two significant challenges: noise and order bias. To mitigate noise, we propose a novel Multi-Granularity Denoising Generation approach involving sequence labeling, topic-aware dialogue segmenting, and denoising generation, as shown in Fig. 2. By employing sequence labeling and topicaware dialogue segmentation, we acquire denoising information at both the utterance and word levels. Then, we integrate this multi-grained denoising information to guide the model in generating quadruples more accurately and robustly. For order bias, we uncover its cause as the gap between the actual and the ideal training objective. We propose a novel Segmentation-aided Order Bias Mitigation (SOBM) method to narrow the gap with dialog segmentation. This method simultaneously addresses both the one-to-many training challenge and the order bias.",
+        "bbox": [
+            110,
+            617,
+            492,
+            922
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "4.1 Multi-Granularity Denoising Generation",
+        "text_level": 2,
+        "bbox": [
+            509,
+            84,
+            878,
+            101
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Due to the extensive content and intricate structure of dialogues, the model is susceptible to noise. To address noise, we propose a novel Multi-Granularity Denoising Generation method to reduce the noise at the word and utterance levels. Specifically, we leverage sequence labeling to mitigate noise at the word levels, and employ topic-aware dialogue segmentation to cluster sentences with the same topics, thereby eliminating noise from irrelevant sentences. We generate denoised outputs with the decoder’s denoised attention which combines multi-grained information.",
+        "bbox": [
+            507,
+            107,
+            887,
+            299
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "4.1.1 Labeling for Word-level Denoising",
+        "text_level": 2,
+        "bbox": [
+            509,
+            309,
+            847,
+            324
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Word-level denoising identifies and emphasizes quadruple elements to reduce noise. For a dialogue $D _ { \\colon }$ we concatenate all utterances and encode them using the generation model’s encoder: $e { = } \\mathrm { E n c o d e r } ( [ u _ { 1 } ; \\dots ; u _ { n } ] )$ Then, we employ a classification layer to label the quadruple elements in e with a loss $\\mathcal { L } _ { l a b e l i n g }$ . Each word $e _ { i }$ in $e$ is classified into one of four categories (None, Target, Aspect, Opinion) using $p _ { i } { = } \\mathrm { S o f t m a x } ( W _ { 1 } * e _ { i } + b _ { 1 } )$ where $p _ { i } \\in \\mathbb { R } ^ { 4 }$ . This process classifies all words in e to generate $P \\in \\mathbb { R } ^ { N \\times 4 }$",
+        "bbox": [
+            507,
+            329,
+            885,
+            506
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "4.1.2 Topic-aware Dialogue Segmentation for Utterance-level Denoising",
+        "text_level": 2,
+        "bbox": [
+            509,
+            516,
+            882,
+            548
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Existing dialog segmentation methods directly analyze the complex context between utterances to determine their relationship, i.e., whether they belong to the same topic. However, these methods can struggle with complex utterance contexts, especially those involving multiple topics or lacking explicit topic mentions. To simplify the context analysis, we indirectly establish fine-grained relationships between utterances by examining their relationships with the same topic. This employs topics as bridges, streamlining the contextual analysis and enhancing the model’s robustness in complex contexts. Moreover, we utilize cross-attention for fine-grained information fusion between topics and utterances, which helps resolve semantic-level coreferences for topics (Experiment 5.3.3).",
+        "bbox": [
+            507,
+            552,
+            887,
+            809
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "Fine-grained Interaction We designate those words labeled as \"Target\" (in section 4.1.1) as the primary \"topics\" of the utterances because the target words are the cores of the quadruples and are highly relevant to the utterance topics. The topic embedding $t _ { i }$ for i-th topic (i.e., target) is selected from e according to its position. All topic embeddings are concatenated into $\\mathbf { T } _ { t p } { = } [ t _ { 1 } ; \\dots ; t _ { k } ] { \\in } \\mathbb { R } ^ { k \\times { d i m } }$ . The utterance embedding $e _ { u _ { i } }$ for i-th utterance $u _ { i }$ is directly extracted from e without pooling. $e _ { u _ { i } } \\in \\mathbb { R } ^ { | u _ { i } | \\times \\hat { d } i m }$ , where $| u _ { i } |$ means the number of words in $u _ { i }$ . Feed them to cross-attention layers $( \\mathbf { T } _ { t p }$ as Query, $u _ { i }$ as Key and Value): O=softmax $\\left( \\frac { \\mathbf { \\bar { T } } _ { t p } \\mathbf { \\Phi } ( e _ { u _ { i } } ) ^ { \\prime } } { \\sqrt { d i m } } \\right) e _ { u _ { i } }$ , where $O \\in \\mathbb { R } ^ { k \\times d i m }$ . Pass O to a classification layer to predict whether $u _ { i }$ has fine-grained associations (e.g. discussing relations) with $\\{ t _ { 1 } , \\ldots , t _ { k } \\}$ concurrently, with loss $\\mathcal { L } _ { t o p i c }$ . During training, the positions of the \"Target\" words are determined by the ground truth; during testing, they are determined by the predictions of the preceding module.",
+        "bbox": [
+            507,
+            809,
+            887,
+            923
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "page_number",
+        "text": "841",
+        "bbox": [
+            485,
+            929,
+            515,
+            942
+        ],
+        "page_idx": 2
+    },
+    {
+        "type": "image",
+        "img_path": "images/c60f594416b49dc9fc8a6792ef8d7a83646898b7845d5a9e72f2b2bd6d4767b5.jpg",
+        "image_caption": [
+            "Figure 2: (a) Overview of the MGDG model. (b) Topic-aware Dialogue Segmentation module utilizes cross-attention to explore fine-grained correlations between utterances and topics, facilitating topic-centric clustering of utterances. Subsequently, we create a topic mask for each cluster. (c) The Denoising-Constrained Generation module integrates the denoising information into cross-attention to guide generation, resulting in denoised outputs."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            126,
+            83,
+            872,
+            306
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            401,
+            489,
+            637
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Topic Mask Applying these steps to all utterances $\\{ u _ { 1 } , \\ldots , u _ { n } \\}$ , we predict the relationships between all utterances and $\\{ t _ { 1 } , \\ldots , t _ { k } \\}$ . If both $u _ { i }$ and $u _ { j }$ discuss $t _ { v } ,$ these two utterances can be grouped into the same v-th cluster. In this way, we establish fine-grained relations between utterances and aggregate utterances with the same topic into topic-centric clusters. Based on these clusters, we generate topic masks. Each topic mask $\\boldsymbol { m } ^ { ( i ) } \\in \\mathbb { R } ^ { N }$ masks out all utterances not in the i-th cluster.",
+        "bbox": [
+            112,
+            637,
+            489,
+            799
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "4.1.3 Denoising-Constrained Generation",
+        "text_level": 2,
+        "bbox": [
+            114,
+            806,
+            450,
+            822
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Denoised Attention Learning irrelevant context can lead attention mechanisms to focus on harmful information. To mitigate this, we restrict the attention scope and adjust its weight to maintain global interaction features while minimizing interaction with harmful data. When generating quadruples related to k-th topic, we incorporate its corresponding topic mask $\\bar { \\mathbf { \\chi } } _ { m } ( k ) \\mathbf { \\chi } _ { \\in } \\mathbb { R } ^ { N }$ and the probabilities $\\bar { P } \\in \\bar { \\mathbb { R } ^ { N \\times 4 } }$ from section 4.1.1 into decoder’s crossattention:",
+        "bbox": [
+            112,
+            826,
+            489,
+            923
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            401,
+            885,
+            463
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "equation",
+        "img_path": "images/1384bab6349fa9196ffc4edba29b4bb961168a6048060fecf4ce964d88dbe2dc.jpg",
+        "text": "$$\n\\hat { P _ { j } } = 1 { - } P _ { j , 0 } ; r _ { j } = \\left( 1 { + } \\hat { P _ { j } } \\right) \\cdot m _ { j } ^ { ( k ) }\n$$",
+        "text_format": "latex",
+        "bbox": [
+            559,
+            473,
+            831,
+            499
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "equation",
+        "img_path": "images/0f5010081d5b42f695c6f1962bb5480c6986de276305419960d1b767d959f4b5.jpg",
+        "text": "$$\nw ^ { \\prime } { _ i } = \\frac { r _ { j } \\cdot \\exp { ( w _ { i , j } } ) } { \\sum _ { j } r _ { j } \\cdot \\exp { ( w _ { i , j } } ) }\\tag{1}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            559,
+            502,
+            749,
+            537
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "(2)",
+        "bbox": [
+            858,
+            510,
+            882,
+            524
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "where $P _ { j , 0 }$ denotes probabilities of the input dialogue’s j-th word belonging to the \"None\" category, $\\hat { P _ { j } } \\in \\mathbb { R } ^ { N }$ denotes probabilities of j-th input word being quadruple elements, $m _ { j } ^ { ( k ) } \\in \\{ 0 , 1 \\}$ indicates whether the j-th word is masked $\\boldsymbol { r } \\in \\mathbb { R } ^ { N }$ is multigranularity denoising information, w $\\in \\mathbb { R } ^ { N \\times N }$ is the original cross-attention weights, $w _ { i , j }$ signifies the weight of the i-th generated token relative to the j-th input token, and $w ^ { \\prime } { } _ { i }$ is the weights after adjusted to incorporate the multi-granularity denoising information. During training, the topic masks are replaced by ground truth masks; during testing, we employ the predicted topic masks.",
+        "bbox": [
+            507,
+            546,
+            885,
+            762
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Multi-granularity denoising To ensure the compatibility of our method with pre-trained models, we can directly replace the cross-attention in pretrained generation models’ decoders with the Denoised Attention. Train this generation task with a loss $\\mathcal { L } _ { g e n e r a t i o n }$ The topic mask $m _ { i }$ enables utterance-level denoising by constraining crossattention scope to utterances within i-th topic cluster. This diminishes noisy utterances that do not mention the potential ’targets’. The probabilities",
+        "bbox": [
+            507,
+            762,
+            887,
+            923
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "page_number",
+        "text": "842",
+        "bbox": [
+            485,
+            928,
+            517,
+            942
+        ],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "P facilitate word-level denoising by guiding the model to prioritize words identified as quadruple elements by the sequence labeling module. This effectively reduces noise from non-quadruple words. This multi-granularity denoising approach controls attention scope and adjusts attention weight to reduce noise, thereby enhancing extraction accuracy and robustness.",
+        "bbox": [
+            112,
+            84,
+            489,
+            212
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Overall loss $\\mathcal { L } { = } \\mathcal { L } _ { l a b e l i n g } { + } \\mathcal { L } _ { t o p i c } { + } \\mathcal { L } _ { g e n e r a t i o n } .$",
+        "bbox": [
+            131,
+            214,
+            468,
+            231
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "4.2 Order Bias Mitigation",
+        "text_level": 2,
+        "bbox": [
+            114,
+            242,
+            336,
+            258
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Although previous works have shown the effectiveness of generative extraction methods, they often overlooked the accompanying issue of order bias, as shown in Figure 1. Existing solutions for order bias exhibit poor generalizability and scalability. To address order bias and ensure strong generalizability, we begin with a theoretical analysis revealing that the gap between practical and ideal training objectives leads to order bias. By further analyzing the gap and MLE from a distribution perspective, we find a data-driven solution to narrow the gap. However, this solution faces a one-to-many training challenge. To address this, we leverage dialog segmentation to enrich the order diversity within the data distribution, thereby mitigating the one-tomany training issue and order bias.",
+        "bbox": [
+            112,
+            263,
+            490,
+            524
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "4.2.1 Ideal-Actual Training Gap",
+        "text_level": 2,
+        "bbox": [
+            114,
+            532,
+            386,
+            549
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Ideal Training Objective According to Appendix B.2.1, the MLE loss for generative methods is :",
+        "bbox": [
+            112,
+            552,
+            487,
+            585
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/6a5a3049b02ad47b0529550ad24067860b0a2555462f199e7bc49815574b3e08.jpg",
+        "text": "$$\n\\operatorname* { m i n } _ { \\theta } - \\mathrm { E } _ { x \\sim p ( x ) } \\left[ \\mathrm { E } _ { y \\sim p ( y | x ) } \\left[ \\log p _ { \\theta } ( y | x ) \\right] \\right]\\tag{3}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            154,
+            598,
+            443,
+            619
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "where p represents the data distribution, and $p ( x )$ denotes the probability of x occurring in the natural language context. When training a generative model for DiaASQ, for each input x, the associated ideal goal S is an unordered set of quadruples. By concatenating the quadruples in S in all possible permutation orders Π, we get a set of all feasible labels $( \\Pi ( { \\mathbb S } ) { = } \\{ \\pi _ { 1 } ( { \\mathbb S } ) , \\pi _ { 2 } ( { \\mathbb S } ) , \\dots \\} )$ . According to Appendix B.2.1, for each sample with input as $x ,$ the ideal training loss (MLE) needs learning all feasible labels:",
+        "bbox": [
+            112,
+            633,
+            489,
+            810
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/843b845a2eac41a154cbb6a8f180a0461bc661cd968e811b0d189c001086dc06.jpg",
+        "text": "$$\n\\begin{array} { r } { \\operatorname* { m i n } _ { \\theta } \\left[ - p ( x ) \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } p ( y | x ) \\log \\left( p _ { \\theta } ( y | x ) \\right) \\right] } \\end{array}\\tag{4}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            129,
+            820,
+            448,
+            846
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Actual Training Objective Neural network systems often struggle with learning one-to-many mappings (Vargas et al., 2017; Berner et al., 2021; Mukhamediev et al., 2022; Taye, 2023) because multiple labels imply multiple descending gradients, making it difficult for the model to adjust parameters and converge to optimal performance. Consequently, when constructing a training dataset, only one label $\\pi _ { k } ( \\mathbb { S } ) \\in \\Pi ( \\mathbb { S } )$ corresponds to each input x. Thus, the actual training objective is:",
+        "bbox": [
+            112,
+            858,
+            490,
+            922
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            887,
+            183
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/7b247b0012086ac797b6844430b2f847dbc7cba32ab0dc8ca2114891a0b24924.jpg",
+        "text": "$$\n\\operatorname* { m i n } _ { \\theta } \\left[ - p ( x ) p ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\log \\left( p _ { \\theta } ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\right) \\right]\\tag{5}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            526,
+            192,
+            843,
+            216
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Following the calculations in Appendix B.3, the Ideal-Actual Training Gap $\\Delta$ between the ideal training loss $( \\mathbf { M L E } _ { i d e a l } )$ and the actual training loss $( \\mathbf { M L E } _ { a c t u a l } )$ is:",
+        "bbox": [
+            507,
+            225,
+            884,
+            291
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/2b4f5583688d5bb0e0656fa9adfd960ccea1765f2f394082ae07fa90becd44f4.jpg",
+        "text": "$$\n\\Delta = \\mathrm { M L E } _ { i d e a l } - \\mathrm { M L E } _ { a c t u a l }\\tag{6}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            527,
+            303,
+            751,
+            321
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/5b2f8c44239e62648b20a9bafdfe407f1e11a3a162f608ee2f349a0069f01259.jpg",
+        "text": "$$\n= \\frac { - p ( x ) } { | \\mathbb { S } | } \\left[ \\sum _ { y \\in ( \\Pi ( \\mathbb { S } ) - \\{ \\pi _ { k } ( \\mathbb { S } ) \\} ) } \\log p _ { \\theta } ( y | x ) \\right] \\neq 0\\tag{7}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            527,
+            323,
+            845,
+            374
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "where S is the number of elements in S. The difference in Eq. (7) cannot be approximated to $0 ,$ indicating a gap between the actual and ideal training objectives. Clearly, the ideal training objective needs learning all feasible labels $\\Pi ( \\mathbb { S } )$ to capture the unordered nature of quadruples. However, in practice, the model is trained on only one feasible label $\\pi ( \\mathbb { S } )$ , neglecting training with other feasible labels. This may lead the model to learn non-existent order biases and spurious causal relationships between input and order.",
+        "bbox": [
+            507,
+            382,
+            887,
+            561
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "4.2.2 Segmentation-aided Order Bias Mitigation",
+        "text_level": 2,
+        "bbox": [
+            509,
+            569,
+            820,
+            601
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Idea and Challenge Inspired by the MLE insights from the distribution perspective in Appendix B.2.1, a straightforward idea to narrow the gap is to augment the dataset with feasible label samples, allowing the model to learn more feasible labels to approximate the ideal training objective:",
+        "bbox": [
+            507,
+            605,
+            885,
+            702
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "equation",
+        "img_path": "images/1eb5c43024c2cffb4511b2d4da00e7b49e0b6e4695733fc8e3a44d04553a7868.jpg",
+        "text": "$$\n\\operatorname* { m i n } _ { \\theta } - \\left[ p _ { \\mathrm { a u g } } ( x ) \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } p _ { \\mathrm { a u g } } ( y | x ) \\log \\left( \\frac { p _ { \\mathrm { a u g } } ( y | x ) } { p _ { \\theta } ( y | x ) } \\right) \\right]\\tag{8}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            529,
+            712,
+            830,
+            752
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "where $ { p _ { \\mathrm { a u g } } }$ represents the data distribution after augmenting with feasible labels. However, as mentioned earlier, it’s challenging for a model to learn multiple outputs y for a single input x.",
+        "bbox": [
+            507,
+            760,
+            885,
+            826
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Order Diversity Augmentation: To address this issue, we propose constructing an input set $A g ( x )$ for $x \\ ( x { \\in } A g ( x ) )$ . Each ${ \\hat { x } } \\in A g ( x )$ shares the same quadruples and similar semantics with x. Then we pair ${ \\hat { x } } \\in A g ( x )$ with feasible labels $y \\in \\Pi ( \\mathbb { S } )$ in a one-to-one manner to create new samples $( { \\hat { x } } , y )$ . For the original sample with input x, the objective in this augmented distribution is:",
+        "bbox": [
+            507,
+            826,
+            885,
+            923
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "page_number",
+        "text": "843",
+        "bbox": [
+            485,
+            928,
+            517,
+            942
+        ],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            114,
+            85,
+            487,
+            117
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "equation",
+        "img_path": "images/451da3147ec46e1aeebf2abd984d8185fdc49165a88422b61712e2b575424c7c.jpg",
+        "text": "$$\n\\begin{array} { r } { \\operatorname* { m i n } _ { \\theta } - \\left[ \\sum _ { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } p _ { \\mathrm { a u g } } ( \\hat { x } ) p _ { \\mathrm { a u g } } ( y | \\hat { x } ) \\log \\left( \\frac { p _ { \\mathrm { a u g } } ( y | \\hat { x } ) } { p _ { \\theta } ( y | \\hat { x } ) } \\right) \\right] } \\end{array}\\tag{9}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            126,
+            130,
+            453,
+            149
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Clearly, in this augmented dataset, the training objective can approximate the ideal objective, as demonstrated in Appendix B.3.1.",
+        "bbox": [
+            112,
+            160,
+            487,
+            208
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "AI rewriting tools (such as ChatGPT) and traditional data augmentation methods struggle to generate dialogue inputs with the same quadruples and similar semantics without human intervention, as shown in Appendix B.1.1 and Experiment C.6. We propose a cost-effective solution based on dialogue segmentation to address this problem, which divides the dialogue into segments based on their semantic topics, ensuring they are semantically isolated. These segments are then rearranged and concatenated in all possible orders to form an augmented dialogue input set like $A g ( x )$ . Each input in this set shares similar semantics because rearranging semantically independent segments does not affect the overall semantics. Each input in this set contains the same quadruples, as all the words remain unchanged. We then pair these inputs with multiple feasible labels to create new samples, thereby increasing order diversity and enhancing the data distribution. In this augmented dataset, as mentioned earlier, the actual training objective closely approximates the ideal training objective, thus alleviating order bias. For simplicity, our dialog segmentation scheme is based on the inherent reply thread structure (shown in section 5.1) within the dataset. It works because utterances connected by reply relationships often share similar semantic topics, making them inseparable, while others are separable.",
+        "bbox": [
+            112,
+            209,
+            490,
+            676
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "image",
+        "img_path": "images/8cad03a56a6988ee70a93b64ae2a468c6f2731e7fbdbabf3d8260c43faa9b4c8.jpg",
+        "image_caption": [
+            "Figure 3: Example of Reply thread in a dialog."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            131,
+            687,
+            468,
+            757
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "5 Experiments",
+        "text_level": 2,
+        "bbox": [
+            114,
+            810,
+            260,
+            827
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "5.1 Experimental Settings",
+        "text_level": 2,
+        "bbox": [
+            114,
+            837,
+            341,
+            853
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Dataset The Diaasq dataset (Li et al., 2023a) comprises both English(EN) and Chinese(ZH) datasets and provides dialogue texts with reply threads. A reply thread is a collection of utterances linked by reply relationships, as shown in Fig. 3. More detail is in Appendix C.1.",
+        "bbox": [
+            112,
+            858,
+            489,
+            922
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            884,
+            116
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Metrics We use micro F1 for the pair extraction task and both Micro F1 and Identification F1 (Barnes et al., 2021) for the quadruple extraction task, following the dataset creators’ recommendations. Micro F1 considers tuples with all words correct as TP and any incorrect word as FP. Identification F1 is similar but ignores sentiment elements.",
+        "bbox": [
+            507,
+            117,
+            887,
+            229
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Baselines We compared with generative models like ParaPhrase (Zhang et al., 2021a) and discriminative models like CRF-ExtractClassify (CEC)(Cai et al., 2021), SpERT(Eberts and Ulges, 2020), Span-ASTE(Xu et al., 2021a), and MvI(Li et al., 2023a). ParaPhrase(Zhang et al., 2021a) introduces a novel paraphrase modeling paradigm to frame the ASQP task as a paraphrase generation process. MvI (Li et al., 2023a) uses multi-view information to control information fusion and then extracts quadruples by decoding Tagging Grid.",
+        "bbox": [
+            507,
+            230,
+            885,
+            407
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Settings We use BART (Lewis et al., 2020) (440M) for both EN and ZH datasets. We train the model for 10 epochs (2 hours) on 4 3090 GPUs with a batch size of 5 and a learning rate of 5e-5. The ratio of the three losses is 1:1:1. The number of cross-attention layers is 3(Appendix C.8). More detail is in Appendix C.3. All reported results are averaged over multiple runs.",
+        "bbox": [
+            507,
+            407,
+            885,
+            537
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "5.2 Main Result",
+        "text_level": 2,
+        "bbox": [
+            509,
+            546,
+            655,
+            562
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "The results are presented in Table 1. In the quadruple extraction task, our SADD method achieves a maximum improvement of 5.56% micro F1 and 6.52% Iden F1 in the EN dataset compared to the previous best model(MvI), demonstrating the effectiveness of our method. Because discriminative models are not influenced by bias, our method’s major advantage over them lies in denoising. With the multi-granularity denoising generation module, we achieve up to a 6.52% Iden F1 improvement compared to the best discriminative method(MvI) on the EN dataset. Compared to generative models, our method’s greatest strength lies in order bias mitigation. With the segmentation-aided order bias mitigation module, we achieve up to a 16.56% Iden F1 improvement compared to the ParaPhrase in the EN dataset. Further insights into the impact of order bias on the results can be found in the Appendix C.5. In the Pair Extraction task, our model achieved an average 3.19% micro F1 improvement in all datasets over the previous best approaches. This underscores the effectiveness of our method in enhancing extraction performance across various tasks, indicating its generalizability. By employing topic-aware dialogue segmentation to form targetcentric clusters, our model effectively diminishes noise from quadruples with different targets during aspect and opinion extraction tasks associated with a specific target (TA, TO task). Furthermore, in aspect-opinion pair extraction (AO task), our model primarily benefits from the sequence labeling probability, which diminishes non-quadruple noise.",
+        "bbox": [
+            507,
+            568,
+            887,
+            922
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "page_number",
+        "text": "844",
+        "bbox": [
+            485,
+            929,
+            517,
+            942
+        ],
+        "page_idx": 5
+    },
+    {
+        "type": "table",
+        "img_path": "images/ba619f0f7606343120002388489ac503afe995e060d584d469096d9737d67ed7.jpg",
+        "table_caption": [
+            "Table 1: Main Results. ’D’ denotes discriminative methods, while ’G’ indicates generation methods. T-A means the target-aspect pair extraction task, T-O refers to target-opinion, and A-O refers to aspect-opinion."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=\"3\">Type</td><td rowspan=\"3\">Method</td><td colspan=\"4\">EN</td><td colspan=\"4\">ZH</td></tr><tr><td colspan=\"3\">Pair Extraction(F1)</td><td colspan=\"2\">Quadruple(F1)</td><td colspan=\"2\">Pair Extraction(F1)</td><td colspan=\"2\">Quadruple(F1)</td></tr><tr><td>T-A</td><td>T-O</td><td>A-O</td><td>Micro</td><td>Iden T-A</td><td>T-O</td><td>A-0</td><td>Micro</td><td>Iden</td></tr><tr><td rowspan=\"4\">D.</td><td>CEC</td><td>34.31</td><td>20.94</td><td>19.21</td><td>11.59</td><td>12.80</td><td>32.47 26.78</td><td></td><td>18.90 8.81</td><td>9.25</td></tr><tr><td>SpERT</td><td>28.33</td><td>21.39</td><td>23.64</td><td>13.07 13.38</td><td>38.05</td><td>31.28</td><td>21.89</td><td>13.00</td><td>14.19</td></tr><tr><td>Span-ASTE</td><td>42.19</td><td>30.44</td><td>45.90</td><td>26.99</td><td>28.34 44.13</td><td>34.46</td><td>32.21</td><td>27.42</td><td>30.85</td></tr><tr><td>MvI</td><td>47.91</td><td>45.58</td><td>44.27</td><td>33.31</td><td>36.80 48.61</td><td>43.31</td><td>45.44</td><td>34.94</td><td>37.51</td></tr><tr><td rowspan=\"2\">G.</td><td>ParaPhrase</td><td>37.22</td><td>32.19</td><td>30.78</td><td>24.54</td><td>26.76</td><td>37.81</td><td>34.32</td><td>27.76</td><td>23.27</td><td>27.98</td></tr><tr><td>ŠADD (Ours)</td><td>50.82</td><td>49.64</td><td>49.70</td><td>38.87</td><td>43.32</td><td>51.13</td><td>46.72</td><td>47.87</td><td>37.80</td><td>41.05</td></tr></table>",
+        "bbox": [
+            157,
+            120,
+            840,
+            247
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            272,
+            490,
+            449
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "5.3 Analysis",
+        "text_level": 2,
+        "bbox": [
+            114,
+            463,
+            230,
+            479
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "5.3.1 Ablation Study",
+        "text_level": 2,
+        "bbox": [
+            114,
+            487,
+            295,
+            502
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "table",
+        "img_path": "images/e129b18d24fabf89a3ac9df155ead2a3e30b9268c6fd6622a625cd975f357758.jpg",
+        "table_caption": [
+            "Table 2: Ablation studies of MGDG and SOBE components on DiaASQ Dataset."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=\"2\">Method</td><td colspan=\"2\">Components</td><td colspan=\"2\">EN</td><td colspan=\"2\">ZH</td></tr><tr><td>MGDG</td><td>SOBM</td><td>Micro</td><td>Iden</td><td>Micro</td><td>Iden</td></tr><tr><td>Baseline</td><td></td><td></td><td>29.31</td><td>32.30</td><td>30.45</td><td>33.64</td></tr><tr><td>+MGDG</td><td>√</td><td></td><td>36.35</td><td>40.64</td><td>35.76</td><td>39.21</td></tr><tr><td>+SOBM</td><td></td><td>√</td><td>34.96</td><td>37.86</td><td>35.70</td><td>38.39</td></tr><tr><td>SADD (Ours)</td><td>√</td><td>√</td><td>38.36</td><td>42.94</td><td>37.80</td><td>41.05</td></tr></table>",
+        "bbox": [
+            119,
+            560,
+            484,
+            631
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "We conducted an ablation study to validate the effectiveness of our Multi-Granularity Denoising Generation (MGDG) and Segmentation-aided Order Bias Mitigation (SOBM) components, detailed in Table 2. Compared to the baseline, integrating the MGDG module brings a maximum 8.34% Iden F1 improvement in the EN dataset. It indicates that the MGDG module significantly enhances tuple extraction accuracy and robustness by reducing noise. We also compared our MGDG module with existing segmentation methods in Section 5.3.3. Furthermore, the integrated SOBM module brings a maximum 5.65% micro F1 improvement in the EN dataset compared to the baseline. It demonstrates the effectiveness of SOBM in mitigating order bias. We also compared our SOBM module with existing debias methods in Section 5.3.4 and investigated the effects of different data augmentation strategies in the SOBM in Appendix C.6.",
+        "bbox": [
+            110,
+            649,
+            492,
+            923
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "table",
+        "img_path": "images/5253719f0c206d2208f55544e7525837e600c3f90febaafc0b7932ce69e97569.jpg",
+        "table_caption": [
+            "Table 3: The proportion of errors attributed to noise"
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=1 colspan=1></td><td rowspan=1 colspan=1>MvI</td><td rowspan=1 colspan=1>SADD(our)</td><td rowspan=1 colspan=1>∆</td></tr><tr><td rowspan=1 colspan=1>Proportion</td><td rowspan=1 colspan=1>79.88</td><td rowspan=1 colspan=1>48.67</td><td rowspan=1 colspan=1>-31.21</td></tr></table>",
+        "bbox": [
+            559,
+            294,
+            833,
+            324
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            349,
+            884,
+            381
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "5.3.2 Statistics and Case Studies",
+        "text_level": 2,
+        "bbox": [
+            509,
+            390,
+            781,
+            406
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "We conducted a comparative analysis between our proposed method and the SOTA method (MvI) regarding the proportion of errors attributed to noise, as shown in Table 3. The significant proportion of errors, amounting to 79.88%, underscores the inadequacy of previous methods in handling noise effectively, thereby highlighting the necessity for denoising techniques. Furthermore, our denoising approach resulted in a notable reduction of 31.21% in the proportion of errors attributed to noise, affirming our method’s effectiveness. Figure 4 presents several case studies where the previous SOTA method (MvI) failed to provide good predictions, whereas our model demonstrated superior performance. The two examples primarily illustrate how noise leads to an increase in irrelevant quadruples and a decline in quadruple quality. In the first example, due to the interference of noisy words like \"Meizu 18\", \"machine,\" \"backup,\" and \"main,\" MvI produced several erroneous and irrelevant quadruples. In the second example, the MvI model’s prediction of the quadruple \"(mate series, appearance, much better, pos)\" is compromised by the noise word \"p series,\" leading to the erroneous generation of \"(p series, appearance, much better, pos)\" instead. Noise detrimentally affects the quality of predicted quadruples. In contrast, our model remains unaffected by such disturbances.",
+        "bbox": [
+            507,
+            410,
+            887,
+            862
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "5.3.3 Further Ablation Study on TADS",
+        "text_level": 2,
+        "bbox": [
+            509,
+            870,
+            833,
+            887
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "To assess the effectiveness of the Topic-aware Dialogue Segmentation (TADS) method, we compare it with existing methods detailed in Appendix C.7, as shown in Table 4. Compared to TOD-BERT(Wu et al., 2020a) , our methods achieved a maximum of 6.23 % Iden F1 improvement in the ZH dataset. This underscores the effectiveness of incorporating topic information to simplify contex tual analysis, enhancing segmentation accuracy and robustness by avoiding the direct analysis of complex utterances. Compared to TSP, our methods achieved a maximum of 3.74% Iden F1 improve ment in the ZH dataset. This demonstrates that utilizing cross-attention to mine fine-grained associations can enhance the model’s robustness in complex situations, such as utterances with multi ple topics and implicit topics. Compared to SMGD, our methods achieved a maximum 12.1% Iden F1 improvement in the EN dataset. This highlights that the pre-labeling topic words are necessary for the topic-aware dialogue segmentation module. The SMGD method, which segments dialogues with out pre-labeling topics, struggles to analyze com plex context interactions between utterances. In contrast, our method benefits from pre-labeling topics, which simplifies contextual analysis by fo cusing only on interactions between topics and ut terances. Compared to RT, our methods achieved a maximum 3.96% Iden F1 improvement in the EN dataset. This indicates that our method can handle utterances related to multiple topics, thereby performing more accurate dialogue segmentation and denoising without removing any topic-related information. Compared to TWM, our methods achieved a maximum 6.74% Iden F1 improvement in the EN dataset. This demonstrates that utilizing cross-attention to mine fine-grained associations can help resolve topic-level coreferences.",
+        "bbox": [
+            507,
+            890,
+            887,
+            922
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "page_number",
+        "text": "845",
+        "bbox": [
+            485,
+            929,
+            517,
+            942
+        ],
+        "page_idx": 6
+    },
+    {
+        "type": "image",
+        "img_path": "images/c713917964c2ccb243e7b11959eb625a666daa41b7df0fa672f712fcd6afb709.jpg",
+        "image_caption": [
+            "Figure 4: Case Study. The orange words represent the noise that causes errors in the MvI model."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            117,
+            83,
+            880,
+            253
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            110,
+            303,
+            490,
+            885
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "table",
+        "img_path": "images/e897fde69d30572eb796f26e3f57a4fec524f1ab2766d67cac0314389f747fbd.jpg",
+        "table_caption": [
+            "Table 4: Result of various dialogue segmentation methods combined with SOBM and MGDG. NN means the method is totally a Neural Network method."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=\"2\">Method</td><td rowspan=\"2\">NN</td><td colspan=\"2\">Components</td><td colspan=\"2\">EN</td><td colspan=\"2\">ZH</td></tr><tr><td>Topic</td><td>Fine-grain</td><td>Micro</td><td>Iden</td><td>Micro</td><td>Iden</td></tr><tr><td>TOD-BERT</td><td>√</td><td></td><td></td><td>34.76</td><td>38.42</td><td>32.12</td><td>34.82</td></tr><tr><td>TSP</td><td>√</td><td>√</td><td></td><td>36.30</td><td>40.18</td><td>34.30</td><td>37.31</td></tr><tr><td>SMGD</td><td>√</td><td></td><td>√</td><td>27.67</td><td>31.22</td><td>28.39</td><td>30.87</td></tr><tr><td>RT</td><td></td><td></td><td></td><td>35.78</td><td>39.36</td><td>35.36</td><td>38.51</td></tr><tr><td>TWM</td><td></td><td>√</td><td></td><td>32.85</td><td>36.58</td><td>31.78</td><td>36.00</td></tr><tr><td>TADS (Ours)</td><td>√</td><td>√</td><td>√</td><td>38.87</td><td>43.32</td><td>37.80</td><td>41.05</td></tr></table>",
+        "bbox": [
+            514,
+            354,
+            878,
+            438
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "table",
+        "img_path": "images/dc9f6256a7cc132b618fcf60cb1afbde0a758857a21e6d52676fddf25e5fe7da.jpg",
+        "table_caption": [
+            "Table 5: Results of Methods Addressing Order Bias."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=\"2\">Method</td><td colspan=\"2\">EN</td><td colspan=\"2\">ZH</td></tr><tr><td>Micro</td><td>Iden</td><td>Micro</td><td>Iden</td></tr><tr><td>Set</td><td>31.83</td><td>35.26</td><td>29.81</td><td>33.52</td></tr><tr><td>SOBM(Ours)</td><td>34.96</td><td>37.86</td><td>35.70</td><td>38.39</td></tr></table>",
+        "bbox": [
+            532,
+            476,
+            862,
+            535
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "5.3.4 Further Ablation Study on SOBM",
+        "text_level": 2,
+        "bbox": [
+            509,
+            558,
+            840,
+            574
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "To evaluate the effectiveness of our debiasing solution, we compare it with an existing method called Set (Li et al., 2023b) introduced in Section 2 , as shown in Table 5. Our method outperforms Set by a maximum of 5.89% micro F1 in the ZH dataset, highlighting its effectiveness in mitigating order bias. In contrast to Set’s struggle with one-to-many learning at the loss level, our approach augments inputs to avoid learning one-to-many mappings and mitigate order bias at the data level, thereby improving performance and generalizability.",
+        "bbox": [
+            507,
+            579,
+            885,
+            757
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "6 Conclusion",
+        "text_level": 2,
+        "bbox": [
+            509,
+            768,
+            643,
+            783
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "This paper introduces a novel Segmentation-Aided multi-grained Denoising and Debiasing (SADD) model for denoising and debiasing in the DiaASQ task. For noise, we propose a Multi-Granularity Denoising Generation(MGDG) model to denoise at both word and utterance levels with denoised attention. For order bias, we analyze its direct causes and propose a distribution-based solution.",
+        "bbox": [
+            507,
+            793,
+            885,
+            922
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "page_number",
+        "text": "846",
+        "bbox": [
+            485,
+            929,
+            517,
+            942
+        ],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "We then introduce the Segmentation-aided Order Bias Mitigation (SOBM) method, which utilizes dialogue segmentation to increase order diversity, thereby simultaneously alleviating the challenges of one-to-many learning and order bias. Extensive experiments show SADD’s SOTA performance.",
+        "bbox": [
+            112,
+            85,
+            489,
+            183
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "7 Limitations",
+        "text_level": 2,
+        "bbox": [
+            114,
+            192,
+            250,
+            209
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "1. A limitation we encountered is the increased training time due to the augmented dataset.",
+        "bbox": [
+            129,
+            218,
+            487,
+            252
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "2. The BART model encounters challenges when processing long-text inputs, particularly in dialogue scenarios, due to the increasing time complexity of attention mechanisms as the input length grows. This results in higher time overhead compared to short-text ABSA. More efficient attention mechanisms tailored for long textual inputs in dialogue contexts need to be developed to mitigate this issue.",
+        "bbox": [
+            127,
+            261,
+            489,
+            407
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "3. We didn’t fully utilize the inherent information in the DiaASQ dataset, such as speaker information or reply relationships, which could improve the model’s comprehension of dialogue content.",
+        "bbox": [
+            127,
+            417,
+            490,
+            499
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "8 Ethics Statement",
+        "text_level": 2,
+        "bbox": [
+            114,
+            510,
+            297,
+            525
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "In all our experiments, we utilized pre-existing datasets widely used in previous research. While analyzing experimental results, We made diligent efforts to maintain fairness and honesty, ensuring that our work did not cause harm to any individuals.",
+        "bbox": [
+            112,
+            536,
+            489,
+            615
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Regarding broader impacts, this work can contribute to further research in sentiment analysis and the utilization of generative methods for simplifying and automating the extraction of user opinions in real-world applications. However, it’s noteworthy that this work utilizes fine-tuning large-scale pre-trained language models for generating sentiment triplets. Since the large-scale pre-training corpora originate from the internet, predicted sentiment polarity may be subject to unintended biases associated with gender, race, and intersectional identities (Tan and Celis, 2019). Large pre-trained language models often inherit biases present in their training data, potentially leading to biased sentiment analysis results, particularly when evaluating texts from underrepresented or marginalized groups, thereby perpetuating and amplifying societal prejudices. It is crucial for the natural language processing community to consider these biases more extensively. Fortunately, these issues are actively being addressed within the research community, including efforts to standardize datasets and methodologies.",
+        "bbox": [
+            112,
+            617,
+            490,
+            923
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            885,
+            148
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "We obtained licenses for all artifacts used in our study, and our data was obtained from opensource repositories. Our use of existing artifacts is consistent with their intended use. Our method’s specific intended use is to extract quadruples from dialogues and is compatible with the original access conditions. We read and checked each sample to ensure that the data used does not contain information that names or uniquely identifies individual people or offensive content.",
+        "bbox": [
+            507,
+            149,
+            887,
+            311
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "9 Acknowledgment",
+        "text_level": 2,
+        "bbox": [
+            509,
+            323,
+            695,
+            340
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "This work was supported by the National Natural Science Foundation of China No.62176271) and Guangdong Basic and Applied Basic Research Foundation (Grant no. 2024A1515011692).",
+        "bbox": [
+            507,
+            350,
+            885,
+            414
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "References",
+        "text_level": 2,
+        "bbox": [
+            510,
+            442,
+            610,
+            458
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Jinze Bai, Shuai Bai, Yunfei Chu, Zeyu Cui, Kai Dang, Xiaodong Deng, Yang Fan, Wenbin Ge, Yu Han, Fei Huang, et al. 2023. Qwen technical report. arXiv preprint arXiv:2309.16609.",
+            "Jeremy Barnes, Robin Kurtz, Stephan Oepen, Lilja Øvrelid, and Erik Velldal. 2021. Structured sentiment analysis as dependency graph parsing. In Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers), pages 3387–3402, Online. Association for Computational Linguistics.",
+            "Julius Berner, Philipp Grohs, Gitta Kutyniok, and Philipp Petersen. 2021. The modern mathematics of deep learning. CoRR, abs/2105.04026.",
+            "Hongjie Cai, Rui Xia, and Jianfei Yu. 2021. Aspectcategory-opinion-sentiment quadruple extraction with implicit aspects and opinions. In Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers), pages 340–350, Online. Association for Computational Linguistics.",
+            "Hao Chen, Zepeng Zhai, Fangxiang Feng, Ruifan Li, and Xiaojie Wang. 2022. Enhanced multi-channel graph convolutional network for aspect sentiment triplet extraction. In Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 2974–2985, Dublin, Ireland. Association for Computational Linguistics."
+        ],
+        "bbox": [
+            510,
+            467,
+            884,
+            520
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "page_number",
+        "text": "847",
+        "bbox": [
+            485,
+            929,
+            515,
+            941
+        ],
+        "page_idx": 8
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Tim Dettmers, Artidoro Pagnoni, Ari Holtzman, and Luke Zettlemoyer. 2024. Qlora: Efficient finetuning of quantized llms. Advances in Neural Information Processing Systems, 36.",
+            "Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2019. BERT: Pre-training of deep bidirectional transformers for language understanding. In Proceedings of the 2019 Conference of the North American Chapter ofthe Associationfor Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers), pages 4171–4186, Minneapolis, Minnesota. Association for Computational Linguistics.",
+            "Markus Eberts and Adrian Ulges. 2020. Span-based joint entity and relation extraction with transformer pre-training. In ECAI 2020 - 24th European Conference on Artificial Intelligence, 29 August-8 September 2020, Santiago de Compostela, Spain, August 29 - September 8, 2020 - Including 10th Conference on Prestigious Applications of Artificial Intelligence (PAIS 2020), volume 325 of Frontiers in Artificial Intelligence and Applications, pages 2006–2013. IOS Press.",
+            "Tianhao Gao, Jun Fang, Hanyu Liu, Zhiyuan Liu, Chao Liu, Pengzhang Liu, Yongjun Bao, and Weipeng Yan. 2022. LEGO-ABSA: A prompt-based task assemblable unified generative framework for multi-task aspect-based sentiment analysis. In Proceedings of the 29th International Conference on Computational Linguistics, pages 7002–7012, Gyeongju, Republic of Korea. International Committee on Computational Linguistics.",
+            "Zhibin Gou, Qingyan Guo, and Yujiu Yang. 2023. Mvp: Multi-view prompting improves aspect sentiment tuple prediction. In Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2023, Toronto, Canada, July 9-14, 2023, pages 4380–4397. Association for Computational Linguistics.",
+            "Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. 2021. Lora: Low-rank adaptation of large language models. arXiv preprint arXiv:2106.09685.",
+            "Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Veselin Stoyanov, and Luke Zettlemoyer. 2020. BART: denoising sequence-to-sequence pre-training for natural language generation, translation, and comprehension. In Proceedings ofthe 58th Annual Meeting of the Association for Computational Linguistics, ACL 2020, Online, July 5-10, 2020, pages 7871–7880. Association for Computational Linguistics.",
+            "Bobo Li, Hao Fei, Fei Li, Yuhan Wu, Jinsong Zhang, Shengqiong Wu, Jingye Li, Yijiang Liu, Lizi Liao, Tat-Seng Chua, and Donghong Ji. 2023a. Diaasq: A benchmark of conversational aspect-based sentiment quadruple analysis. In Findings of the Association",
+            "for Computational Linguistics: ACL 2023, Toronto, Canada, July 9-14, 2023, pages 13449–13467. Association for Computational Linguistics.",
+            "Jiangnan Li, Yice Zhang, Bin Liang, Kam-Fai Wong, and Ruifeng Xu. 2023b. Set learning for generative information extraction. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, EMNLP 2023, Singapore, December 6-10, 2023, pages 13043–13052. Association for Computational Linguistics.",
+            "Xin Li, Lidong Bing, Piji Li, and Wai Lam. 2019a. A unified model for opinion target extraction and target sentiment prediction. In The Thirty-Third AAAI Conference on Artificial Intelligence, AAAI 2019, The Thirty-First Innovative Applications of Artificial Intelligence Conference, IAAI 2019, The Ninth AAAI Symposium on Educational Advances in Artificial Intelligence, EAAI 2019, Honolulu, Hawaii, USA, January 27 - February 1, 2019, pages 6714–6721. AAAI Press.",
+            "Zheng Li, Xin Li, Ying Wei, Lidong Bing, Yu Zhang, and Qiang Yang. 2019b. Transferable end-to-end aspect-based sentiment analysis with selective adversarial learning. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing, EMNLP-IJCNLP 2019, Hong Kong, China, November 3-7, 2019, pages 4589–4599. Association for Computational Linguistics.",
+            "Shuo Liang, Wei Wei, Xian-Ling Mao, Yuanyuan Fu, Rui Fang, and Dangyang Chen. 2023. STAGE: span tagging and greedy inference scheme for aspect sentiment triplet extraction. In Thirty-Seventh AAAI Conference on Artificial Intelligence, AAAI 2023, Thirty-Fifth Conference on Innovative Applications ofArtificial Intelligence, IAAI 2023, Thirteenth Symposium on Educational Advances in Artificial Intelligence, EAAI 2023, Washington, DC, USA, February 7-14, 2023, pages 13174–13182. AAAI Press.",
+            "Yue Mao, Yi Shen, Jingchao Yang, Xiaoying Zhu, and Longjun Cai. 2022. Seq2path: Generating sentiment tuples as paths of a tree. In Findings of the Association for Computational Linguistics: ACL 2022, Dublin, Ireland, May 22-27, 2022, pages 2215–2225. Association for Computational Linguistics.",
+            "Ravil I. Mukhamediev, Yelena Popova, Yan Kuchin, Elena Zaitseva, Almas Kalimoldayev, Adilkhan Symagulov, Vitaly Levashenko, Farida Abdoldina, Viktors Gopejenko, Kirill Yakunin, Elena Muhamedijeva, and Marina Yelis. 2022. Review of artificial intelligence and machine learning technologies: Classification, restrictions, opportunities and challenges. Mathematics, 10(15).",
+            "Haiyun Peng, Lu Xu, Lidong Bing, Fei Huang, Wei Lu, and Luo Si. 2020. Knowing what, how and why: A near complete solution for aspect-based sentiment analysis. In The Thirty-Fourth AAAI Conference on Artificial Intelligence, AAAI 2020, The"
+        ],
+        "bbox": [
+            115,
+            85,
+            487,
+            140
+        ],
+        "page_idx": 9
+    },
+    {
+        "type": "page_number",
+        "text": "848",
+        "bbox": [
+            485,
+            929,
+            517,
+            941
+        ],
+        "page_idx": 9
+    },
+    {
+        "type": "list",
+        "sub_type": "ref_text",
+        "list_items": [
+            "Thirty-Second Innovative Applications ofArtificial Intelligence Conference, IAAI 2020, The Tenth AAAI Symposium on Educational Advances in Artificial Intelligence, EAAI 2020, New York, NY, USA, February 7-12, 2020, pages 8600–8607. AAAI Press.",
+            "Dianbo Sui, Chenhao Wang, Yubo Chen, Kang Liu, Jun Zhao, and Wei Bi. 2021. Set generation networks for end-to-end knowledge base population. In Proceedings ofthe 2021 Conference on Empirical Methods in Natural Language Processing, pages 9650–9660, Online and Punta Cana, Dominican Republic. Association for Computational Linguistics.",
+            "Yi Chern Tan and L. Elisa Celis. 2019. Assessing social and intersectional biases in contextualized word representations. In Advances in Neural Information Processing Systems 32: Annual Conference on Neural Information Processing Systems 2019, NeurIPS 2019, December 8-14, 2019, Vancouver, BC, Canada, pages 13209–13220.",
+            "Zeqi Tan, Yongliang Shen, Shuai Zhang, Weiming Lu, and Yueting Zhuang. 2021. A sequence-to-set network for nested named entity recognition. In Proceedings ofthe Thirtieth International Joint Conference on Artificial Intelligence, IJCAI 2021, Virtual Event /Montreal, Canada, 19-27 August 2021, pages 3936–3942. ijcai.org.",
+            "Mohammad Mustafa Taye. 2023. Understanding of machine learning with deep learning: Architectures, workflow, applications and future directions. Comput., 12(5):91.",
+            "Tun Thura Thet, Jin-Cheon Na, and Christopher S. G. Khoo. 2010. Aspect-based sentiment analysis of movie reviews on discussion boards. J. Inf. Sci., 36(6):823–848.",
+            "Rocio Vargas, Amir Mosavi, and Ramon Ruiz. 2017. Deep learning: a review.",
+            "Chien-Sheng Wu, Steven C.H. Hoi, Richard Socher, and Caiming Xiong. 2020a. TOD-BERT: Pre-trained natural language understanding for task-oriented dialogue. In Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP), pages 917–929, Online. Association for Computational Linguistics.",
+            "Zhen Wu, Chengcan Ying, Fei Zhao, Zhifang Fan, Xinyu Dai, and Rui Xia. 2020b. Grid tagging scheme for aspect-oriented fine-grained opinion extraction. In Findings ofthe Associationfor Computational Linguistics: EMNLP 2020, pages 2576–2585, Online. Association for Computational Linguistics.",
+            "Huiyuan Xie, Zhenghao Liu, Chenyan Xiong, Zhiyuan Liu, and Ann Copestake. 2021. TIAGE: A benchmark for topic-shift aware dialog modeling. In Findings of the Association for Computational Linguistics: EMNLP 2021, pages 1684–1690, Punta Cana, Dominican Republic. Association for Computational Linguistics.",
+            "Linzi Xing and Giuseppe Carenini. 2021. Improving unsupervised dialogue topic segmentation with utterance-pair coherence scoring. In Proceedings of the 22nd Annual Meeting of the Special Interest Group on Discourse and Dialogue, pages 167– 177, Singapore and Online. Association for Computational Linguistics.",
+            "Lu Xu, Yew Ken Chia, and Lidong Bing. 2021a. Learning span-level interactions for aspect sentiment triplet extraction. In Proceedings ofthe 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers), pages 4755–4766, Online. Association for Computational Linguistics.",
+            "Yi Xu, Hai Zhao, and Zhuosheng Zhang. 2021b. Topicaware multi-turn dialogue modeling. In Thirty-Fifth AAAI Conference on Artificial Intelligence, AAAI 2021, Thirty-Third Conference on Innovative Applications of Artificial Intelligence, IAAI 2021, The Eleventh Symposium on Educational Advances in Artificial Intelligence, EAAI 2021, Virtual Event, February 2-9, 2021, pages 14176–14184. AAAI Press.",
+            "Jiacheng Ye, Tao Gui, Yichao Luo, Yige Xu, and Qi Zhang. 2021. One2Set: Generating diverse keyphrases as a set. In Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers), pages 4598–4608, Online. Association for Computational Linguistics.",
+            "Chengze Yu, Taiqiang Wu, Jiayi Li, Xingyu Bai, and Yujiu Yang. 2023. Syngen: A syntactic plug-and-play module for generative aspect-based sentiment analysis. In IEEE International Conference on Acoustics, Speech and Signal Processing ICASSP 2023, Rhodes Island, Greece, June 4-10, 2023, pages 1–5. IEEE.",
+            "Wenxuan Zhang, Yang Deng, Xin Li, Yifei Yuan, Lidong Bing, and Wai Lam. 2021a. Aspect sentiment quad prediction as paraphrase generation. In Proceedings ofthe 2021 Conference on Empirical Methods in Natural Language Processing, pages 9209– 9219, Online and Punta Cana, Dominican Republic. Association for Computational Linguistics.",
+            "Wenxuan Zhang, Xin Li, Yang Deng, Lidong Bing, and Wai Lam. 2021b. Towards generative aspect-based sentiment analysis. In Proceedings of the 59th Annual Meeting ofthe Associationfor Computational Linguistics and the 11th International Joint Conference on Natural Language Processing, ACL/IJCNLP 2021, (Volume 2: Short Papers), Virtual Event, August 1-6, 2021, pages 504–510. Association for Computational Linguistics.",
+            "Ming Zhong, Yang Liu, Yichong Xu, Chenguang Zhu, and Michael Zeng. 2022. Dialoglm: Pre-trained model for long dialogue understanding and summarization. In Thirty-Sixth AAAI Conference on Artificial Intelligence, AAAI 2022, Thirty-Fourth Confer-"
+        ],
+        "bbox": [
+            131,
+            85,
+            489,
+            152
+        ],
+        "page_idx": 10
+    },
+    {
+        "type": "page_number",
+        "text": "849",
+        "bbox": [
+            485,
+            929,
+            517,
+            941
+        ],
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "ence on Innovative Applications ofArtificial Intelligence, IAAI 2022, The Twelveth Symposium on Educational Advances in Artificial Intelligence, EAAI 2022 Virtual Event, February 22 - March 1, 2022, pages 11765–11773. AAAI Press.",
+        "bbox": [
+            131,
+            85,
+            489,
+            153
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "A Appedix for Introduction",
+        "text_level": 2,
+        "bbox": [
+            114,
+            165,
+            373,
+            181
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "A.1 Definition and Example of Noise and Bias Noise is words that interfere with the generation process when the model generates a certain quadruple.",
+        "bbox": [
+            112,
+            191,
+            489,
+            260
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Order Bias: Due to the constraints of seq2seq tasks, the model learns a nonexistent causal relationship from the input to the order of quadruples. The model ends up overfitting to a specific order we’ve arbitrarily defined, which affects its generalization ability. We term this as \"Order Bias.\"",
+        "bbox": [
+            112,
+            260,
+            490,
+            356
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Example:",
+        "bbox": [
+            132,
+            357,
+            210,
+            373
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Input ⋆: Utterance 1: . . . The battery of the iPhone was quite good and the system was smooth",
+        "bbox": [
+            112,
+            374,
+            487,
+            422
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Utterance 2: . . . The battery of Samsung phones is worse. . . . I also bought a Samsung phone for my girlfriend. . .",
+        "bbox": [
+            114,
+            423,
+            487,
+            469
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Utterance 3: . . . Xiaomi can also be considered, mainly because the price is very low. . .",
+        "bbox": [
+            114,
+            470,
+            489,
+            502
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "<sup>Output</sup> ♡<sup>:</sup>",
+        "bbox": [
+            132,
+            502,
+            215,
+            517
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "“iPhone” Quads: (iPhone, battery, quite good, POS), (iPhone, system, smooth, POS)",
+        "bbox": [
+            114,
+            519,
+            489,
+            551
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "“Samsung” Quads: (Samsung, battery, worse, NEG)",
+        "bbox": [
+            112,
+            552,
+            489,
+            583
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "“Xiaomi” Quads: (Xiaomi, price, very low, POS).",
+        "bbox": [
+            112,
+            585,
+            489,
+            615
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Example of Noise: Specifically, when the model generates the quadruple \" (iPhone, battery, quite good, POS)\", it selects words from the input ⋆. Words in the input ⋆ but not in the quadruple are the words that interfere with the generation process of the quadruple . So, these words are the noise (The definition of Noise). For instance, words such as \"bought\" and \"considered\" can introduce significant noise, potentially leading the model to generate incorrect quadruples.",
+        "bbox": [
+            112,
+            617,
+            489,
+            777
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Example of Bias: When we transform the quadruple extraction task into a text-to-text generation task, we need to design a sentence as the label. Considering the quadruples (Samsung, battery, worse, NEG) and (Xiaomi, price, very low, POS), we have to decide the order between them when constructing labels for the seq2seq task. Whether it’s “(Samsung, battery, worse, NEG) (Xiaomi, price, very low, POS)” or “(Xiaomi, price, very low, POS) (Samsung, battery, worse, NEG)”, the model is forced to learn the corresponding order and move away from the other orders. But in fact, any order is correct. This confusion leads the model to seek semantic clues from the input to find out why this order. The model attempts to find a nonexistent causal relationship between the input and the order of quadruples to find why this order exists. As a result, the model overfits to our arbitrarily defined order, impacting its generalization ability, thus leading to a bias.",
+        "bbox": [
+            110,
+            777,
+            490,
+            923
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            887,
+            262
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "B Appedix for Method",
+        "text_level": 2,
+        "bbox": [
+            509,
+            274,
+            724,
+            291
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "B.1 Appendix for section 4.1",
+        "text_level": 2,
+        "bbox": [
+            509,
+            299,
+            751,
+            315
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "B.1.1 Augment with Chatgpt",
+        "text_level": 2,
+        "bbox": [
+            509,
+            321,
+            756,
+            336
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "We aim to keep the quadruple elements unchanged while constructing semantically similar inputs. However, AI paraphrasing tools like ChatGPT 3.5 and ChatGPT 4 often fail to preserve the quadruple elements and may alter the original semantics. Firstly, there’s the issue of maintaining quadruple elements. ChatGPT often modifies the opinion part of the quadruples. Changing the quadruple elements renders the original labels incompatible with the input, resulting in a failed input construction. It is nearly impossible to determine whether the original quadruple elements remain unchanged through code analysis, as the appearance of characters in the text does not necessarily imply their association with the same quadruple or a quadruple relationship between them. Additionally, manually verifying whether quadruple elements have changed would require significant effort. Secondly, there’s the issue of preserving the original input’s semantics. ChatGPT also frequently alters semantics, disregarding certain parts of the content or even producing dialogues with entirely opposite meanings. We demonstrate some examples where ChatGPT rewriting resulted in changes to quadruple elements and altered semantics, as shown in Figure 8 and Figure 9. Therefore, AI rewriting tools like ChatGPT may not be suitable for our augmentation task.",
+        "bbox": [
+            507,
+            340,
+            887,
+            793
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "B.2 Appendix for section 4.2",
+        "text_level": 2,
+        "bbox": [
+            509,
+            802,
+            751,
+            818
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "B.2.1 From a Data Distribution Perspective: MLE Loss",
+        "text_level": 2,
+        "bbox": [
+            509,
+            822,
+            873,
+            853
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Currently, generative extraction models are primarily trained using Maximum Likelihood Estimation (MLE). Given the data distribution p and a parametric model with parameters θ, Maximum likelihood estimation (MLE) minimizes:",
+        "bbox": [
+            507,
+            858,
+            887,
+            922
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "page_number",
+        "text": "850",
+        "bbox": [
+            485,
+            929,
+            517,
+            942
+        ],
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            114,
+            85,
+            337,
+            99
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/8d615d380427de4a54515f362d69b0625730b7716ff09fe771fc1a65366bf165.jpg",
+        "text": "$$\nL _ { M L E } ( \\theta ) = - \\mathrm { E } _ { x \\sim p ( x ) } [ \\mathrm { E } _ { y \\sim p ( y | x ) } [ l o g p _ { \\theta } ( y | x ) ] ]\\tag{10}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            127,
+            114,
+            473,
+            134
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "where x represents the input context, y represents the generation label.",
+        "bbox": [
+            112,
+            162,
+            487,
+            193
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "It is well known that MLE can be seen as minimizing the Kullback-Leibler (KL) divergence between the data distribution $p$ and the modelestimated distribution $p _ { \\theta }$ . The equation below shows the relationship between MLE loss and KL divergence:",
+        "bbox": [
+            112,
+            195,
+            489,
+            291
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/8d8f58efbf5bc3bca774b7c40edde5789831dad42bae592f99a7758677cf4f60.jpg",
+        "text": "$$\nD _ { K L } ( p \\parallel p _ { \\theta } )\\tag{11}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            141,
+            305,
+            245,
+            323
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/d899103618504769c5b13c01fc39d2dcf59cf521f89890e93a521b0dc049c07b.jpg",
+        "text": "$$\n= \\sum _ { X } p ( x ) \\sum _ { Y } p ( y | x ) \\log \\left( { \\frac { p ( y | x ) } { p _ { \\theta } ( y | x ) } } \\right)\\tag{12}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            144,
+            325,
+            431,
+            365
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/b147370951c487e9d90fff35aedb83441f9ff294084d26792863bdecfad1cbcf.jpg",
+        "text": "$$\n= \\sum _ { X } p ( x ) \\sum _ { Y } p ( y | x ) \\log \\left( p ( y | x ) \\right)\\tag{13}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            144,
+            366,
+            408,
+            399
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/82b8f0f04ec576d755b8b074ad96dc9d27a599e446a5a3dc668f54b1219a64ec.jpg",
+        "text": "$$\n- \\sum _ { X } p ( x ) \\sum _ { Y } p ( y | x ) \\log \\left( p _ { \\theta } ( y | x ) \\right)\\tag{14}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            161,
+            400,
+            431,
+            435
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/cd7b37868d6cedfc6c3ce536778fba530bc74f9427afdb934ccc508c141aaa8a.jpg",
+        "text": "$$\n= - H + \\mathbf { M } \\mathbf { L } \\mathbf { E } ( \\theta )\\tag{15}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            146,
+            438,
+            285,
+            455
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "where H is the \"Entropy\" and is independent of model parameters $\\theta ,$ it can be disregarded in the training loss. Hence, MLE loss and KL divergence share the same minimum. By minimizing the MLE loss, we encourage the predicted distribution $p _ { \\theta }$ to align with the data distribution p closely.",
+        "bbox": [
+            112,
+            468,
+            489,
+            565
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Learning All Feasible Lables It is worth noting that Equation 12 indicated that we need to learn all feasible labels for the input. In many specific tasks, only one label y corresponds to a given input, with a probability $p ( y | x ) = 1$ , and the probabilities $p ( o t h e r | x )$ for other texts are all 0. However, in some tasks, there may be multiple labels $\\{ y 1 , y _ { 2 } , \\ldots \\}$ that match a given input, with probabilities $p ( y _ { 1 } | x ) , p ( y _ { 2 } | x ) , . .$ . all non-zero. Unfortunately, these probabilities are often immeasurable, which has led to prior research overlooking multiple feasible labels and instead focusing only on one label. Failing to learn all feasible labels fully, and instead focusing on just one, increases the risk of introducing bias into the model.",
+        "bbox": [
+            110,
+            565,
+            490,
+            809
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "B.3 Proof of Ideal-Actual Training Gap",
+        "text_level": 2,
+        "bbox": [
+            112,
+            820,
+            442,
+            837
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "We prove that, for each sample, the Ideal-Actual Training Gap $\\Delta .$ , i.e., the difference between the ideal MLE loss and the actual MLE loss is not zero, thereby demonstrating a disparity between the ideal training objective and the actual training objective.",
+        "bbox": [
+            110,
+            841,
+            489,
+            923
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Given one sample with input as $x$ and model parameter $\\theta ,$ the difference $\\Delta$ between the ideal MLE loss and the actual MLE loss is as follows:",
+        "bbox": [
+            507,
+            85,
+            884,
+            133
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/e15685728cdaaa8a3325d9edaa3ad08672c40759b5a67c5b6dab6b3a09225867.jpg",
+        "text": "$$\n\\begin{array} { l } { \\displaystyle \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } \\\\ { \\displaystyle \\quad = - \\left[ p ( x ) \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } p ( y | x ) \\log p _ { \\theta } ( y | x ) \\right] } \\\\ { \\displaystyle \\quad + \\left[ p ( x ) p ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\log p _ { \\theta } ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\right] } \\\\ { \\displaystyle = - p ( x ) \\left[ \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } p ( y | x ) \\log p _ { \\theta } ( y | x ) - p ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\log p _ { \\theta } ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\right] } \\end{array}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            509,
+            137,
+            880,
+            239
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "In this task, all feasible labels contain the same quadruples but in different orders. Moreover, all permutation orders are equivalent. Therefore, all labels are equivalent, resulting in equal probabilities for each label. That is, for $p ( y | x )$ , the probability of each feasible label $y \\in \\Pi ( \\mathbb { S } )$ is the same, so $\\begin{array} { r } { p ( y | x ) \\ = \\ \\frac { 1 } { | \\Pi ( \\mathbb { S } ) | } } \\end{array}$ , where Π(S) represents the number of elements in S. Of course, $\\begin{array} { r } { p ( \\pi _ { k } ( \\mathbb { S } ) | x ) = \\frac { 1 } { | \\Pi ( \\mathbb { S } ) | } } \\end{array}$ . Consequently, we can further simplify the above expression:",
+        "bbox": [
+            507,
+            246,
+            887,
+            407
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/7b75cef1837d68edd0126987dbeeb6cb8e9bf5027b41f81bee29ddefb2903ac8.jpg",
+        "text": "$$\n\\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l }\n$$",
+        "text_format": "latex",
+        "bbox": [
+            509,
+            416,
+            729,
+            432
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "equation",
+        "img_path": "images/0533c12e0a2ba5777e32a2ceb3eb5a6eed4d2b892d18885c9648cd4f6b520cb7.jpg",
+        "text": "$$\n\\begin{array} { l } { { \\displaystyle = - \\frac { p ( x ) } { | \\mathbb { S } | } \\left[ \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } \\log p _ { \\theta } ( y | x ) - \\log p _ { \\theta } ( \\pi _ { k } ( \\mathbb { S } ) | x ) \\right] } } \\\\ { { \\displaystyle = - \\frac { p ( x ) } { | \\mathbb { S } | } \\left[ \\sum _ { y \\in \\{ \\Pi ( \\mathbb { S } ) - \\{ \\pi _ { k } ( \\mathbb { S } ) \\} \\} } \\log p _ { \\theta } ( y | x ) \\right] } } \\\\ { { \\displaystyle \\geqslant 0 } } \\end{array}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            522,
+            434,
+            878,
+            548
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "In dialogue datasets, each sample contains more than one quadruple, so $\\Pi ( \\mathbb { S } ) \\ – \\{ \\pi _ { k } ( \\mathbb { S } ) \\} \\neq \\emptyset$ . Therefore, in this scenario, the Ideal-Actual training gap $\\Delta$ between the ideal MLE loss and the actual MLE loss cannot approximate 0. This indicates a gap between the ideal training objective and the actual training objective.",
+        "bbox": [
+            507,
+            557,
+            885,
+            670
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "B.3.1 Objective Approximation",
+        "text_level": 2,
+        "bbox": [
+            509,
+            677,
+            774,
+            694
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Our approach to supplementing necessary samples with various feasible labels involves the following steps: Firstly, construct an input set $A g ( x )$ where each input shares the same quadruple elements and exhibits similar semantics. Then, combine these inputs with multiple feasible labels to create samples. Within the augmented dataset, we will illustrate that the Ideal-Actual training gap $\\Delta$ between the ideal Maximum Likelihood Estimation (MLE) loss and the actual MLE loss for any given sample is approximately 0. This demonstration serves to indicate that the training objective on this augmented dataset can closely approximate the ideal training objective.",
+        "bbox": [
+            507,
+            696,
+            887,
+            922
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "page_number",
+        "text": "851",
+        "bbox": [
+            485,
+            929,
+            515,
+            942
+        ],
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Given one sample with input as x and model parameter $\\theta ,$ the gap $\\Delta$ between the ideal MLE loss and the actual MLE loss is as follows:",
+        "bbox": [
+            112,
+            84,
+            489,
+            133
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "equation",
+        "img_path": "images/32aa5e72c597085f622acff4a5b66366240e4f5a9160aabe6c24e3ed45050adb.jpg",
+        "text": "$$\n\\begin{array} { l } { { \\displaystyle \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } } \\\\ { ~ = - \\left[ p ( x ) \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } p ( y | x ) \\log p _ { \\theta } ( y | x ) \\right] } \\\\ { ~ + \\left[ \\displaystyle \\sum _ { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } p _ { \\mathrm { a u g } } ( \\hat { x } ) p _ { \\mathrm { a u g } } ( y | \\hat { x } ) \\log p _ { \\theta } ( y | \\hat { x } ) \\right] } \\end{array}\\tag{16}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            126,
+            145,
+            442,
+            239
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Because x and each ${ \\hat { x } } \\in A g ( x )$ are semantically similar, they occur with the same probability in natural language contexts. With a sufficiently large sample size in the dataset, under the guarantee of the \"Law of the Large Numbers,\" we can assert that $p ( x ) \\approx p _ { a u g } ( \\hat { x } )$ . Thus, we can simplify the above formula to:",
+        "bbox": [
+            112,
+            252,
+            489,
+            365
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "equation",
+        "img_path": "images/3cae48ae121292839e7a6339fea129fedd017ab8588071f6561555dec5904d53.jpg",
+        "text": "$$\n\\begin{array} { l } { \\displaystyle \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } \\\\ { \\displaystyle \\approx - p ( x ) \\left[ \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } p ( y | x ) \\log p _ { \\theta } ( y | x ) \\right. } \\\\ { \\displaystyle \\left. - \\sum _ { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } p _ { \\mathrm { a u g } } ( y | \\hat { x } ) \\log p _ { \\theta } ( y | \\hat { x } ) \\right] } \\\\ { \\displaystyle \\qquad ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } \\end{array}\\tag{17}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            127,
+            378,
+            443,
+            487
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "In this task, all feasible labels contain the same quadruples but in different orders. Moreover, all permutation orders are equivalent. Therefore, all labels are equivalent, resulting in equal probabilities for each label. That is, for $p ( y | x )$ , the probability of each feasible label $y \\in \\Pi ( \\mathbb { S } )$ is the same, so $\\begin{array} { r } { p ( y | x ) = \\frac { 1 } { | \\Pi ( \\mathbb { S } ) | } } \\end{array}$ . In the augmented dataset, xˆ and x share the same quadruple elements, implying that all feasible labels associated with them are the same. Furthermore, as our augmented dataset encompasses all feasible labels, we have $p _ { \\mathrm { a u g } } ( y | \\hat { x } ) =$ $\\frac { 1 } { | \\boldsymbol { \\Pi } ( \\mathbb { S } ) | }$ . Hence, $\\begin{array} { r } { p ( y | x ) = p _ { \\mathrm { a u g } } ( y | \\hat { x } ) = \\frac { 1 } { | \\Pi ( \\mathbb { S } ) | } } \\end{array}$ . This allows for further simplification of the above expression:",
+        "bbox": [
+            110,
+            500,
+            490,
+            727
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "equation",
+        "img_path": "images/559f1efdecf7447359596c7521d7b50b6c7976fd8bd9233dc94a57e99ab314bc.jpg",
+        "text": "$$\n\\begin{array} { r l r } {  { \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } } \\\\ & { } & { \\approx - \\frac { p ( x ) } { | \\mathbb { S } | } [ \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } \\log p _ { \\theta } ( y | x )  } \\\\ & { } & {  - \\sum _ { \\substack { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } } \\log ( p _ { \\theta } ( y | \\hat { x } ) ] } \\\\ & { } & {  ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) )  } \\end{array}\\tag{18}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            144,
+            740,
+            423,
+            860
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "An input x consists of two components: the quadruple elements $x _ { q }$ and the non-quadruple context $x _ { c } .$ Therefore, we can decompose x in the above equa-",
+        "bbox": [
+            110,
+            875,
+            490,
+            922
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "tion as follows:",
+        "bbox": [
+            509,
+            85,
+            628,
+            99
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "equation",
+        "img_path": "images/7ebea383940cfa3b90104bbf9162d8b1424cfa56ec1de1bc7abfd70f203db405.jpg",
+        "text": "$$\n\\begin{array} { l } { \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } \\\\ { \\approx - \\displaystyle \\frac { p ( x ) } { | \\mathbb { S } | } \\left[ \\displaystyle \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } \\log \\left[ p _ { \\theta } ( y | x _ { q } ) p _ { \\theta } ( y | x _ { o } ) \\right] \\right. } \\\\ { \\displaystyle - \\left. \\sum _ { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } \\log \\left[ p _ { \\theta } ( y | \\hat { x } _ { q } ) p _ { \\theta } ( y | \\hat { x } _ { o } ) \\right] \\right] } \\\\ { \\displaystyle \\qquad \\langle \\hat { x } , y | \\in \\langle A g ( x ) , \\Pi ( \\mathbb { S } ) \\rangle } \\end{array}\\tag{19}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            531,
+            109,
+            830,
+            210
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Here, $x _ { q }$ is correlated with the label $y ,$ while $x _ { c }$ is independent of the label y. So, we have",
+        "bbox": [
+            509,
+            218,
+            884,
+            252
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "equation",
+        "img_path": "images/9e5203d32d7bdc395e3c485aa62ce94f0e4913410411d249e2f544c8f279eda7.jpg",
+        "text": "$$\n\\begin{array} { l } { \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } \\\\ { \\displaystyle \\approx \\frac { p ( x ) \\log p _ { \\theta } ( y ) } { | \\mathbb { S } | } \\left[ - \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } \\log p _ { \\theta } ( y | x _ { q } ) + \\sum _ { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } \\log p _ { \\theta } ( y | \\hat { x } _ { q } ) \\right] } \\end{array}\\tag{20}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            509,
+            261,
+            880,
+            311
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "When constructing ${ \\hat { x } } ,$ we ensure that it shares the same quadruple elements as $x ,$ hence $\\hat { x } _ { q } = x _ { q }$ Consequently, log $( p _ { \\theta } ( y | \\hat { x } _ { q } ) ) ~ = ~ \\log \\left( p _ { \\theta } ( y | x _ { q } ) \\right)$ Hence, we can simplify the above expression to:",
+        "bbox": [
+            507,
+            322,
+            885,
+            387
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "equation",
+        "img_path": "images/3439b8d0db98c0225272421cacc0edcfedd702ee51aacc3a155873cd6900ccef.jpg",
+        "text": "$$\n\\begin{array} { l } { \\displaystyle \\Delta = M L E _ { i d e a l } - M L E _ { a c t u a l } } \\\\ { \\displaystyle \\approx \\frac { p ( x ) } { | \\mathbb { S } | } \\left[ - \\sum _ { y \\in \\Pi ( \\mathbb { S } ) } \\log p _ { \\theta } ( y | x _ { q } ) + \\sum _ { ( \\hat { x } , y ) \\in ( A g ( x ) , \\Pi ( \\mathbb { S } ) ) } \\log ( p _ { \\theta } ( y | x _ { q } ) \\right] } \\\\ { \\displaystyle \\approx 0 } \\end{array}\\tag{21}\n$$",
+        "text_format": "latex",
+        "bbox": [
+            509,
+            397,
+            880,
+            462
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "The above equation can be approximated to 0 because the variable y in Equation 21 can cover all feasible labels during actual training, aligning it with the ideal scenario. Therefore, in this case, the difference between the ideal MLE loss and the actual MLE loss can be approximated to 0. This indicates that when training the model in the augmented dataset, the actual training objective can closely approximate the ideal training objective.",
+        "bbox": [
+            507,
+            478,
+            887,
+            639
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "C Appendix for Experiment",
+        "text_level": 2,
+        "bbox": [
+            509,
+            650,
+            771,
+            668
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "C.1 Dataset Detail",
+        "text_level": 2,
+        "bbox": [
+            509,
+            675,
+            673,
+            692
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "The dataset used is called Diaasq, including both a Chinese and an English dataset. The dataset is divided into train/test/dev sets in an 8:1:1 ratio. Aside from the dialogue text, the dataset also includes important details such as the speaker for each utterance, dialogue reply relationships, and reply thread relationships. Every dialogue originates from a root utterance, and multiple speakers take part in responding to preceding utterances. Multithreaded and multi-turn dialogues form a tree structure based on reply relationships. In other words, dialogues are structured like trees, following reply relationships. Each reply thread consists of all the utterances along the path from a leaf node to the root node, as illustrated in Figure 5. The dataset labels consist of ground truth tuples and the positions of their element. The statistical information of the dataset is shown in Table 6.",
+        "bbox": [
+            507,
+            696,
+            887,
+            923
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "page_number",
+        "text": "852",
+        "bbox": [
+            485,
+            928,
+            517,
+            942
+        ],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            112,
+            84,
+            489,
+            149
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "image",
+        "img_path": "images/6a27fdbb5dc7e361f97317ea50de60300892e7ed0a361c99bdc30571a02e86bb.jpg",
+        "image_caption": [
+            "Figure 5: Reply threads. $\" 2 \"  \" 1 \"$ means utterance \"2\" replies to utterance \"1\"."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            121,
+            164,
+            473,
+            331
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "C.2 Detail of Metrics",
+        "text_level": 2,
+        "bbox": [
+            114,
+            416,
+            299,
+            430
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "We use micro F1 for the pair extraction task and both micro F1 and identification F1 for the quadruple extraction task, as stated in (Barnes et al., 2021). In micro F1, predicted tuples with all correct words are considered true positives (TP), while tuples with any incorrect word are considered false positives (FP). Tuples that were not predicted correctly are considered false negatives (FN). On the other hand, Identification F1 is similar to Micro F1, but it does not take sentiment elements into account.",
+        "bbox": [
+            112,
+            437,
+            490,
+            599
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "C.3 Detail of Experiment Setting",
+        "text_level": 2,
+        "bbox": [
+            114,
+            609,
+            391,
+            626
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "We use BART (Lewis et al., 2020) (440M) for both EN and ZH datasets. We train the model for ten epochs (2 hours) on 4 3090 GPUS with a batch size of 5 and a learning rate of 5e-5, while other layers employ a learning rate of 8e-5. We use 3 cross-attentithreen layers. During testing, the beam search size is set to 2. All reported results are averaged over multiple runs.",
+        "bbox": [
+            112,
+            631,
+            489,
+            762
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "C.4 Detail of Compared Baseline",
+        "text_level": 2,
+        "bbox": [
+            114,
+            772,
+            391,
+            788
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "CRF-ExtractClassify(CEC)(Cai et al., 2021) is a two-stage model that initially extracts aspectopinion pairs and then predicts category-sentiment based on the extracted aspect-opinion pairs. SpERT(Eberts and Ulges, 2020) is a span-based transformer model for joint entity and relation extraction, initially extracting spans, filtering them, and finally classifying relationships among the spans. Modify this model to support quadruple extraction classification. Span-ASTE(Xu et al., 2021a) is a span-based model that explicitly considers interactions between the entire span of targets and opinions when predicting sentiment relations. Modify the final stage of SpanASTE to enumerate triplets, aligning it with the DiaASQ task. Para-Phrase(Zhang et al., 2021a), an end-to-end generation approach, introduces a novel paraphrase modeling paradigm to frame the ASQP task as a paraphrase generation process. MvI(Li et al., 2023a) method leverages speaker information, reply relationships, and thread information in dialogues to control information fusion between dialogues. Finally, it extracts quadruples based on the decoding output of Grid Tagging.",
+        "bbox": [
+            112,
+            793,
+            492,
+            923
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            887,
+            344
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "C.5 More analysis for main Experiment Results",
+        "text_level": 2,
+        "bbox": [
+            509,
+            354,
+            840,
+            385
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "ParaPhrase is a generative model that outperforms the discriminative model Span-ASTE on short text datasets but falls short on dialogue datasets. This is because the dialogue dataset has an increasing number of tuples, which widens the gap between the actual and ideal training objectives, i.e., increasing gap in Π(S) and $\\pi _ { k } ( \\mathbb { S } )$ as indicated by Equation 4 and 5. This amplifies the order bias interference in ParaPhrase. In contrast, Span-ASTE remains unaffected by tuple order bias, resulting in a reversal of performance on dialogue datasets shown in Table 1.",
+        "bbox": [
+            507,
+            391,
+            887,
+            585
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "C.6 Augmentation Strategies in SOBM",
+        "text_level": 2,
+        "bbox": [
+            509,
+            595,
+            833,
+            611
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "To investigate the effectiveness of the augmentation strategy in SOBM, we compared it with other augmentation methods. By determining whether to shuffle the tuples in labels and the segmented fragments in inputs, we get various augmented datasets. We also compared SOBM with traditional data augmentation methods: synonyms, replacement, and deletion (SRD). The results are presented in Table 8. Compared to row 1, our method surpasses the first method by a maximum of 2.52 %(micro F1) on the EN dataset. The first method creates biased samples, while our method helps alleviate biases, improving the model’s robustness and generalizability. The second method is actually a type of standard data augmentation method. So, it outperforms the first method by a maximum of 1.04%(micro F1) in the ZH dataset. However, the comparison between rows 5 and 2 shows that our method outperforms the second method by a maximum of",
+        "bbox": [
+            507,
+            617,
+            887,
+            923
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "page_number",
+        "text": "853",
+        "bbox": [
+            485,
+            928,
+            517,
+            942
+        ],
+        "page_idx": 14
+    },
+    {
+        "type": "table",
+        "img_path": "images/54b6c9dd8f2bc4ecb8b440ed03c61377d94ec4c425d7ca1925e74ec3e745863a.jpg",
+        "table_caption": [
+            "Table 6: Statistical information of the Diaasq dataset."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=\"2\"></td><td colspan=\"3\">Pairs</td><td colspan=\"3\">Quadruples</td><td colspan=\"3\">Utterance Length</td><td colspan=\"3\">Dialogue Length</td></tr><tr><td>Pairt-a</td><td>Pairt-0</td><td></td><td>Paira-0</td><td>Quad Intra</td><td>Cross</td><td>Avg</td><td>Min</td><td>Max</td><td>Avg</td><td>Min</td><td>Max</td></tr><tr><td>EN</td><td>5894</td><td>7432</td><td>4994</td><td>5514</td><td>4287</td><td>1227</td><td>31</td><td>3</td><td>156</td><td>231</td><td>85</td><td>481</td></tr><tr><td>ZH</td><td>6041</td><td>7587</td><td>5358</td><td>5742</td><td>4467</td><td>1275</td><td>29</td><td>3</td><td>142</td><td>219</td><td>76</td><td>462</td></tr></table>",
+        "bbox": [
+            115,
+            108,
+            867,
+            195
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "table",
+        "img_path": "images/280a4fcb7435367a3d479844d55133acf48769ac1614c3541ad1384177e40ff0.jpg",
+        "table_caption": [
+            "Table 8: Result of different augmentation methods. TDA - Traditional Data Augment."
+        ],
+        "table_footnote": [],
+        "table_body": "<table><tr><td rowspan=\"2\">Method</td><td rowspan=\"2\">TDA</td><td colspan=\"2\">Shuffle</td><td colspan=\"2\">EN</td><td colspan=\"2\">ZH</td></tr><tr><td>Input</td><td>OutPut</td><td>Micro</td><td>Iden</td><td>Micro</td><td>Iden</td></tr><tr><td>w/o</td><td></td><td></td><td></td><td>36.35</td><td>41.64</td><td>35.76</td><td>39.21</td></tr><tr><td>In only</td><td></td><td>√</td><td></td><td>37.31</td><td>41.68</td><td>36.80</td><td>39.78</td></tr><tr><td>Out only</td><td></td><td></td><td>√</td><td>36.44</td><td>41.35</td><td>36.64</td><td>39.53</td></tr><tr><td>SRD</td><td>√</td><td></td><td>√</td><td>37.44</td><td>41.95</td><td>36.29</td><td>39.12</td></tr><tr><td>SOBM (Our)</td><td></td><td>√</td><td>√</td><td>38.87</td><td>43.32</td><td>37.80</td><td>41.05</td></tr></table>",
+        "bbox": [
+            117,
+            258,
+            482,
+            334
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "1.64%(Iden F1) in the EN dataset. This emphasizes that our approach isn’t merely an optional data augmentation technique but rather a necessary debiasing technique. Compared to row 3, our method outperforms the third method by a maximum of 2.43%(micro F1) in the EN dataset. The second method introduces a one-to-many learning challenge, while our method avoids this by pairing feasible labels with newly constructed inputs, facilitating models to converge to optimal performance. Compared to row 4, our method outperforms the fourth method by a maximum of 1.93%(Iden F1) in the EN dataset. This highlights the superiority of our augmentation technique over traditional methods in dialogue processing.",
+        "bbox": [
+            112,
+            360,
+            490,
+            604
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "C.7 Compared Dialogue Segmentation Methods",
+        "text_level": 2,
+        "bbox": [
+            114,
+            615,
+            435,
+            648
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Here is the detail of the compared dialogue segmentation methods:",
+        "bbox": [
+            114,
+            655,
+            489,
+            687
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "1. TOD-BERT (Wu et al., 2020a): This method directly classifies the utterance relationships without introducing topic information. The method interacts with the contextual information between two utterances, and the classification is performed on the fused contextual information to achieve dialogue segmentation. Pass the fused contextual information through an MLP layer and then classify to determine whether the two utterances share the same topic or whether they need to be segmented. This method is the most commonly used approach in existing works.",
+        "bbox": [
+            115,
+            689,
+            490,
+            900
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "2. Topic-Sentence Pair: This approach introduces \"topics\" and then performs classification on topic-utterance pairs, similar to our method. However, instead of using cross-attention for fine-grained information fusion, it uses a concatenation operation to pool information. Firstly, it performs average pooling on a topic word and on an utterance. Then, it concatenates the two pooled embeddings and passes them through an MLP layer for classification to determine whether the utterance belongs to the given topic. Apply this process to all the topics and utterances to finish the segmentation.",
+        "bbox": [
+            114,
+            906,
+            487,
+            922
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            529,
+            219,
+            887,
+            414
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "3. Simultaneously Multi-Granularity Denoising: This method incorporates sequence labeling and dialogue segmentation into the dialogue segmentation module. It doesn’t need to pre-label topics topics. Instead, it views each word in an utterance as a potential topic and categorizes the connection between each word and the utterance. Based on the classification results, the method identifies words linked to any sentence as topics, while those without connections are not considered topics. This approach achieves both topic-centric clustering and topic labeling simultaneously. However, this means that when we perform dialogue segmentation, there is no explicit guidance from topic information. Consequently, it must deal with the intricate contextual interactions between utterances.",
+        "bbox": [
+            509,
+            423,
+            887,
+            697
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "4. Reply Thread (RT): This method doesn’t employ neural networks. Instead, it directly uses the inherent reply thread structures (as shown in Section C.1) in the dataset as the final dialogue segmentation scheme. In this segmentation scheme, every utterance, except for the initial dialogue, is assigned to a single topiccentric cluster. However, this approach lacks finer segmentation granularity, as seen in cases where an utterance may relate to multiple topics, as illustrated by the black utterances in Fig. 2.",
+        "bbox": [
+            509,
+            705,
+            887,
+            883
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "5. Topic Word Match(TWM): This technique begins by labeling topic words within the utterances. Then, it utilizes string-matching algorithms to determine whether an utterance belongs to a specific topic. Specifically, it checks if an utterance contains the topic string at the string level. If the topic is found in the utterance, it’s considered to belong to that topic; otherwise, it’s not. However, this method is limited to establishing connections between an utterance and a topic only when the utterance explicitly mentions the topic at the string text level. When an utterance indirectly references a topic or discusses related content, such as using pronouns, this approach proves ineffective.",
+        "bbox": [
+            509,
+            890,
+            887,
+            923
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "page_number",
+        "text": "854",
+        "bbox": [
+            485,
+            928,
+            517,
+            942
+        ],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            134,
+            85,
+            490,
+            296
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "C.8 Hyparameter Experiment",
+        "text_level": 2,
+        "bbox": [
+            114,
+            304,
+            369,
+            321
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "chart",
+        "img_path": "images/3c37546516f6d7a6e743ead5b41dbe552f0fc21dc1da1fa252845dcf38a1059d.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 6: Results for the different number of cross attention layers."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            119,
+            338,
+            478,
+            526
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "We also investigated the impact of the number of cross-attention layers on model performance, keeping the batch size constant at four due to GPU memory limitations. The results are shown in Figure 6. The figure illustrates that increasing the number of cross-attention layers initially enhances model performance but then diminishes it. When there are fewer cross-attention layers, the model lacks sufficient interaction between topic and utterance information, limiting the exploration of their relationship. Conversely, an excessive number of cross-attention layers leads to overfitting due to a surplus of parameters and limited data, resulting in the incorporation of non-topic-related information during interaction.",
+        "bbox": [
+            112,
+            586,
+            490,
+            827
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "C.9 LLM’s performance",
+        "text_level": 2,
+        "bbox": [
+            114,
+            837,
+            326,
+            853
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "We experimented with various fine-tuning methods, fine-tuning the Qwen1.5(7B) (Bai et al., 2023) model on the English dataset. Fine-tuning methods include full parameters fine-tuning, Lora (Hu et al., 2021) fine-tuning, and Qlora (Dettmers et al., 2024) fine-tuning. The results are depicted in Fig. 7. Clearly, even with a smaller parameter setting, our approach outperforms the results of larger models.",
+        "bbox": [
+            112,
+            858,
+            490,
+            922
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "",
+        "bbox": [
+            507,
+            85,
+            887,
+            164
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "chart",
+        "img_path": "images/832c6a8826d092cae29a8e850eca5f3db81809ebb16c9361f40cb52f9f550349.jpg",
+        "content": "",
+        "chart_caption": [
+            "Figure 7: LLM’s Performance. The x-axis represents the logarithmic values of Lora’s rank number, and the y-axis represents the Iden F1 results."
+        ],
+        "chart_footnote": [],
+        "bbox": [
+            526,
+            190,
+            845,
+            334
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "page_number",
+        "text": "855",
+        "bbox": [
+            485,
+            928,
+            517,
+            942
+        ],
+        "page_idx": 16
+    },
+    {
+        "type": "image",
+        "img_path": "images/bb5b17a2abbd9469e1dc6833a2bd403417f0b34cab957cd3fcda837906f177ba.jpg",
+        "image_caption": [
+            "Figure 9: Chatgpt example 2."
+        ],
+        "image_footnote": [],
+        "bbox": [
+            112,
+            124,
+            872,
+            845
+        ],
+        "page_idx": 17
+    },
+    {
+        "type": "page_number",
+        "text": "856",
+        "bbox": [
+            485,
+            929,
+            517,
+            942
+        ],
+        "page_idx": 17
+    }
+]
