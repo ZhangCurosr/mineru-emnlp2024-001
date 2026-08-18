@@ -4,5 +4,30 @@
  "title": "In-context-Contrastive-Learning-for-Event-Causality-Identifi",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:24",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/a39728a8-5ccd-428c-8017-8fb2f4c349da.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/a39728a8-5ccd-428c-8017-8fb2f4c349da.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:22:24",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Event Causality Identification",
+    "In-context Learning",
+    "Contrastive Learning",
+    "Prompt Learning",
+    "ECI",
+    "Natural Language Understanding"
+   ],
+   "field": "事件因果推理",
+   "innovations": [
+    "提出ICCL框架，结合上下文学习与对比学习增强ECI任务",
+    "利用事件偏移向量构建对比损失，显式区分正负示例语义",
+    "简单cloze模板+虚拟词替代复杂多提示设计，降低工程复杂度"
+   ],
+   "benchmarks": [
+    "EventStoryLine Corpus (ESC)",
+    "Causal-TimeBank Corpus (CTB)"
+   ]
+  }
+ }
 }

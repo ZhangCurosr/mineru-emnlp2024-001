@@ -4,5 +4,33 @@
  "title": "How-do-Large-Language-Models-Learn-In-Context-Query-and-Key",
  "token": "sk-JMLCbBCEj...",
  "created_at": "2026-08-13 05:39:51",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/dd3594b8-1c08-47f7-a847-66a3d8cb612d.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/dd3594b8-1c08-47f7-a847-66a3d8cb612d.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:21:12",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "in-context learning",
+    "mechanistic interpretability",
+    "query-key two towers",
+    "majority label bias",
+    "recency bias",
+    "causal tracing"
+   ],
+   "field": "大语言模型可解释性与上下文学习机制",
+   "innovations": [
+    "识别仅占1%的in-context heads并证明其因果决定性",
+    "提出value-output提取标签特征、query-key双塔计算相似度的ICL机制假设",
+    "基于头级机制解释并缓解多数标签偏差与近因偏差"
+   ],
+   "benchmarks": [
+    "Financ",
+    "AGnews",
+    "Amazon",
+    "ETHOS",
+    "SST2"
+   ]
+  }
+ }
 }

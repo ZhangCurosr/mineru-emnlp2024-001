@@ -4,5 +4,31 @@
  "title": "I-Need-Help-Evaluating-LLM-s-Ability-to-Ask-for-Users-Suppor",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:26",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0728b531-19ba-4d79-a240-95a2802d55a3.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0728b531-19ba-4d79-a240-95a2802d55a3.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:21:16",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM主动求助",
+    "Text-to-SQL",
+    "人机协作评估",
+    "Delta-Burden Curve",
+    "BIRD",
+    "不确定性校准",
+    "大模型交互"
+   ],
+   "field": "大语言模型交互与评估",
+   "innovations": [
+    "提出AUDBC与DBC曲线量化性能提升与用户负担的权衡",
+    "揭示外部执行反馈对LLM准确求助决策的关键作用",
+    "解耦并分别评估LLM的求助识别能力与支持利用能力"
+   ],
+   "benchmarks": [
+    "BIRD",
+    "Execution Accuracy"
+   ]
+  }
+ }
 }

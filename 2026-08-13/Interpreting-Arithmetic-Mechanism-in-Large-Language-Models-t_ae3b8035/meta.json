@@ -4,5 +4,31 @@
  "title": "Interpreting-Arithmetic-Mechanism-in-Large-Language-Models-t",
  "token": "sk-JMLCbBCEj...",
  "created_at": "2026-08-13 05:39:51",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/c29dfceb-76a5-4db3-a671-2cc65373b6e1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/c29dfceb-76a5-4db3-a671-2cc65373b6e1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:22:21",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "mechanistic interpretability",
+    "arithmetic reasoning",
+    "comparative neuron analysis",
+    "LoRA mechanism",
+    "model pruning",
+    "gender bias editing"
+   ],
+   "field": "大语言模型可解释性",
+   "innovations": [
+    "提出CNA方法定位算术关键神经元",
+    "构建四阶段内部逻辑链",
+    "揭示LoRA放大FFN系数的机制"
+   ],
+   "benchmarks": [
+    "2-digit arithmetic dataset",
+    "Llama-7B",
+    "GPT-J"
+   ]
+  }
+ }
 }

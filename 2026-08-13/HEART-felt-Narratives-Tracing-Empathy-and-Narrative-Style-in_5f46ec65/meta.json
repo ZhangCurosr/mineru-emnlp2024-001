@@ -4,5 +4,31 @@
  "title": "HEART-felt-Narratives-Tracing-Empathy-and-Narrative-Style-in",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:27",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/aabbe038-2564-4ed2-bed6-34bcec6f6dfd.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/aabbe038-2564-4ed2-bed6-34bcec6f6dfd.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:20:33",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "叙事共情",
+    "LLM叙事分析",
+    "HEART分类体系",
+    "结构方程模型",
+    "情感生动性",
+    "众包研究"
+   ],
+   "field": "计算社会科学/自然语言处理",
+   "innovations": [
+    "提出HEART理论驱动的叙事风格分类体系，首次系统化量化叙事风格对共情的影响",
+    "验证GPT-4在复杂主观叙事特征提取上达到人类专家水平，优于传统词典方法",
+    "揭示vividness of emotions通过narrative transportation影响共情的实证路径及个性化机制"
+   ],
+   "benchmarks": [
+    "HEARTful Stories Dataset",
+    "EMPATHICSTORIES",
+    "EMPATHICSTORIES++"
+   ]
+  }
+ }
 }

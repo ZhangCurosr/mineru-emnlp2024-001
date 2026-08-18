@@ -4,5 +4,32 @@
  "title": "HELPD-Mitigating-Hallucination-of-LVLMs-by-Hierarchical-Feed",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:22",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/551f1a68-ee92-46f9-8b36-7bfcc5cd2e81.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/551f1a68-ee92-46f9-8b36-7bfcc5cd2e81.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:20:17",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "大视觉语言模型",
+    "多模态幻觉",
+    "层次化反馈学习",
+    "视觉增强惩罚解码",
+    "LVLM",
+    "幻觉缓解"
+   ],
+   "field": "多模态大模型幻觉缓解",
+   "innovations": [
+    "提出层次化反馈学习框架，融合对象级与句子级幻觉反馈，通过少量训练显著降低LVLM幻觉",
+    "设计视觉增强惩罚解码策略，将视觉注意力纳入惩罚项，平衡图文模态对生成的影响",
+    "构建轻量级即插即用框架，与任意LVLM兼容，在多个基准上实现超15%幻觉降低"
+   ],
+   "benchmarks": [
+    "POPE",
+    "CHAIR",
+    "GAVIE",
+    "MMHal-Bench"
+   ]
+  }
+ }
 }

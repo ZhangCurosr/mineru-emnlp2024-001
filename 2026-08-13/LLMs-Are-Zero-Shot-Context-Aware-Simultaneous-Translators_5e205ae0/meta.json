@@ -4,5 +4,31 @@
  "title": "LLMs-Are-Zero-Shot-Context-Aware-Simultaneous-Translators",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:39:29",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4dd6a91a-8334-44ac-962b-4cfdeac8bf97.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4dd6a91a-8334-44ac-962b-4cfdeac8bf97.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:22:58",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "simultaneous machine translation",
+    "zero-shot translation",
+    "large language models",
+    "context-aware translation",
+    "response priming",
+    "background information injection"
+   ],
+   "field": "零样本同时机器翻译",
+   "innovations": [
+    "零样本使用指令微调 LLM 执行 SiMT，无需微调与复杂分段策略",
+    "轻量背景信息注入显著提升技术与术语密集场景翻译质量",
+    "响应预激进机制约束输出空间并稳定提升多语言 BLEU"
+   ],
+   "benchmarks": [
+    "TED-TST-2024",
+    "FLEURS",
+    "AMBIEVAL"
+   ]
+  }
+ }
 }

@@ -4,5 +4,29 @@
  "title": "EmphAssess-a-Prosodic-Benchmark-on-Assessing-Emphasis-Transf",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:58",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/54231429-db30-4e20-9c53-857c1da02368.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/54231429-db30-4e20-9c53-857c1da02368.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:16:55",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "EmphAssess",
+    "Prosody Evaluation",
+    "Speech-to-Speech Translation",
+    "Emphasis Classification",
+    "Self-Supervised Learning",
+    "Benchmark"
+   ],
+   "field": "语音韵律分析与评估",
+   "innovations": [
+    "提出首个针对S2S模型局部强调传递的自动化基准EmphAssess，支持多语言及自由输出评估",
+    "开源多语言词级强调分类模型EmphaClass，基于XLS-R微调，展现跨语言潜力",
+    "设计模块化评估流水线，集成WhisperX、SimAlign对齐与分类，实现端到端P/R/F1度量"
+   ],
+   "benchmarks": [
+    "EmphAssess"
+   ]
+  }
+ }
 }

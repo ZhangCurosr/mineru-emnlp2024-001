@@ -4,5 +4,36 @@
  "title": "Alignment-Enhanced-Decoding-Defending-Jailbreaks-via-Token-L",
  "token": "sk-5WOIsMt5v...",
  "created_at": "2026-08-13 05:39:43",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/58ccc1a5-00a7-466b-bab0-c03fe900e903.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/58ccc1a5-00a7-466b-bab0-c03fe900e903.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:16:16",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "jailbreak防御",
+    "大模型安全",
+    "对齐增强解码",
+    "Competitive Index",
+    "自适应解码",
+    "LLM安全性"
+   ],
+   "field": "大语言模型安全与对齐",
+   "innovations": [
+    "首次提出Competitive Index量化模型目标竞争风险",
+    "无需训练的运行时token级概率分布自适应修正",
+    "结合模型自我评估logits的动态对齐增强解码框架"
+   ],
+   "benchmarks": [
+    "AdvBench",
+    "MMLU",
+    "GMS8K",
+    "Alpaca",
+    "GCG",
+    "Auto-DAN",
+    "ICA",
+    "Refusal_Suppression"
+   ]
+  }
+ }
 }

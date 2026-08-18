@@ -4,5 +4,31 @@
  "title": "Evaluating-D-MERIT-of-Partial-annotation-on-Information-Retr",
  "token": "sk-nY8L7ieIq...",
  "created_at": "2026-08-13 05:39:45",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b39594d2-40c7-42e2-958c-cbfd4d782d34.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b39594d2-40c7-42e2-958c-cbfd4d782d34.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:17:07",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "信息检索",
+    "部分标注",
+    "评估偏差",
+    "证据检索",
+    "D-MERIT",
+    "Kendall-τ",
+    "TREC"
+   ],
+   "field": "信息检索评估",
+   "innovations": [
+    "构建追求完全标注的 passage retrieval 评估集 D-MERIT",
+    "系统性量化部分标注对检索系统排序评估的误导性",
+    "提出标注数量与评估可靠性的权衡曲线"
+   ],
+   "benchmarks": [
+    "D-MERIT",
+    "TREC Deep Learning"
+   ]
+  }
+ }
 }

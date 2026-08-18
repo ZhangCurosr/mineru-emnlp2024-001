@@ -4,5 +4,10 @@
  "title": "Integrating-Plutchik-s-Theory-with-Mixture-of-Experts-for-En",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:24",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/5b3502d8-0fac-49ea-85cf-2caf7ac7bb91.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/5b3502d8-0fac-49ea-85cf-2caf7ac7bb91.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:22:58",
+  "chunks": 1
+ }
 }

@@ -4,5 +4,33 @@
  "title": "ImageInWords-Unlocking-Hyper-Detailed-Image-Descriptions",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 04:50:54",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/17d9137f-7a63-468e-be87-978e596b17f4.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/17d9137f-7a63-468e-be87-978e596b17f4.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:21:31",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "图像描述",
+    "人机协同标注",
+    "视觉语言模型",
+    "主动学习",
+    "组合推理"
+   ],
+   "field": "多模态数据构建与评估",
+   "innovations": [
+    "提出 IIW 人机循环标注框架，VLM 种子生成+人工迭代优化",
+    "构建 9k 样本超详细图像描述数据集，显著优于 DCI/DOCCI/GPT-4V",
+    "开源 IIW-Eval 基准及多维度评估体系"
+   ],
+   "benchmarks": [
+    "IIW-Eval",
+    "ARO",
+    "SVO-Probes",
+    "Winoground",
+    "LOCNAR",
+    "XM3600"
+   ]
+  }
+ }
 }

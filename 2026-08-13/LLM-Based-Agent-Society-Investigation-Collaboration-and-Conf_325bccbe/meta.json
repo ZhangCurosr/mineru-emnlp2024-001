@@ -4,5 +4,32 @@
  "title": "LLM-Based-Agent-Society-Investigation-Collaboration-and-Conf",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 04:50:55",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/84e27ef0-a67b-4bc4-8955-9d28ec1bcdc2.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/84e27ef0-a67b-4bc4-8955-9d28ec1bcdc2.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:22:43",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM Agent",
+    "Social Deduction Game",
+    "Avalon",
+    "Multi-Agent System",
+    "Social Behavior",
+    "Collaboration",
+    "Confrontation"
+   ],
+   "field": "多智能体社会行为模拟",
+   "innovations": [
+    "首次系统量化LLM代理在社交推理游戏中的六大社会行为",
+    "提出包含记忆-分析-规划-行动-学习的端到端Avalon智能体框架"
+   ],
+   "benchmarks": [
+    "CGAgent",
+    "Win Rate",
+    "Quest Engagement Rate",
+    "Failure Vote Rate"
+   ]
+  }
+ }
 }

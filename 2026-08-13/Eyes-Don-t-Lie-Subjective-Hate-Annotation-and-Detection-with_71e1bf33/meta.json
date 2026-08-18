@@ -4,5 +4,10 @@
  "title": "Eyes-Don-t-Lie-Subjective-Hate-Annotation-and-Detection-with",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 04:50:57",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/469d1785-acf3-48a4-96b2-d40ed7d22403.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/469d1785-acf3-48a4-96b2-d40ed7d22403.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:18:52",
+  "chunks": 1
+ }
 }

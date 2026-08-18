@@ -4,5 +4,32 @@
  "title": "FIZZ-Factual-Inconsistency-Detection-by-Zoom-in-Summary-and",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 04:50:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/51f9eac9-473d-4299-9919-4908ee3bda42.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/51f9eac9-473d-4299-9919-4908ee3bda42.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:18:06",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "摘要事实一致性",
+    "原子事实分解",
+    "自然语言推理",
+    "指代消解",
+    "大语言模型",
+    "文本摘要评估"
+   ],
+   "field": "自然语言处理-文本摘要评估",
+   "innovations": [
+    "基于原子事实分解的摘要'放大'+自适应文档粒度扩展的'缩小'双策略",
+    "双端指代消解显著提升NLI判断精度",
+    "以最小蕴涵分为最终得分实现高精度可解释评估"
+   ],
+   "benchmarks": [
+    "AGGREFACT-FTSOTA",
+    "AGGREFACT-EXFORMER",
+    "AGGREFACT-OLD",
+    "RoSE"
+   ]
+  }
+ }
 }

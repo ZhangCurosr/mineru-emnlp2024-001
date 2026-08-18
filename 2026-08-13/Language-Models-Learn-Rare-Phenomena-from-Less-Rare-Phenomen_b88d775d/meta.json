@@ -4,5 +4,29 @@
  "title": "Language-Models-Learn-Rare-Phenomena-from-Less-Rare-Phenomen",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:25",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/665826b6-3bdd-4272-afce-d598af7eeb36.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/665826b6-3bdd-4272-afce-d598af7eeb36.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:23:24",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "罕见构式学习",
+    "语言模型泛化",
+    "反事实语料",
+    "句法可接受度",
+    "BabyLM",
+    "构式语法"
+   ],
+   "field": "语言模型句法学习",
+   "innovations": [
+    "首次提供语言模型从相关常见构式泛化学习罕见AANN的存在性证明",
+    "设计了可复用的反事实语料操控实验范式以进行句法学习的因果推断"
+   ],
+   "benchmarks": [
+    "Mahowald (2023) AANN接受度测试集",
+    "BabyLM-strict训练语料"
+   ]
+  }
+ }
 }

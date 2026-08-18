@@ -4,5 +4,39 @@
  "title": "Instruction-Pre-Training-Language-Models-are-Supervised-Mult",
  "token": "sk-zybFjYcVd...",
  "created_at": "2026-08-13 05:39:38",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/915d7d67-52a4-4a9c-ae30-c734e88c24bb.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/915d7d67-52a4-4a9c-ae30-c734e88c24bb.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:21:50",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "instruction pre-training",
+    "supervised multitask learning",
+    "synthetic data generation",
+    "language model pre-training",
+    "instruction synthesizer",
+    "few-shot learning"
+   ],
+   "field": "语言模型预训练",
+   "innovations": [
+    "提出 Instruction Pre-Training 框架，将大规模合成指令-响应对嵌入预训练语料实现监督式多任务预训练",
+    "构建基于 7B 开源模型的指令合成器，通过多轮推理低成本生成 2 亿条多样化指令对",
+    "证明预训练阶段注入监督信号可显著提升数据效率并加速后续指令微调"
+   ],
+   "benchmarks": [
+    "MMLU",
+    "ARC-e/c",
+    "BoolQ",
+    "SIQA",
+    "WinoGrande",
+    "PIQA",
+    "OBQA",
+    "HellaSwag",
+    "PubMedQA",
+    "ConvFinQA",
+    "FiQA SA"
+   ]
+  }
+ }
 }

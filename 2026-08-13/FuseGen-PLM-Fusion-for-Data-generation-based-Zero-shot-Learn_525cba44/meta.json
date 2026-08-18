@@ -4,5 +4,35 @@
  "title": "FuseGen-PLM-Fusion-for-Data-generation-based-Zero-shot-Learn",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:31",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/76a964e3-2858-4125-b8de-a9e8cc7f5cfd.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/76a964e3-2858-4125-b8de-a9e8cc7f5cfd.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:19:29",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "zero-shot learning",
+    "data generation",
+    "PLM fusion",
+    "small task-specific model",
+    "cross-model variability",
+    "self-boosting weight adjustment"
+   ],
+   "field": "低资源零样本数据生成",
+   "innovations": [
+    "跨模型变异性 + 影响力函数的上下文样本选择",
+    "自增强权重调整（SWA）避免昂贵双层优化"
+   ],
+   "benchmarks": [
+    "IMDb",
+    "SST-2",
+    "Yelp",
+    "QNLI",
+    "MNLI",
+    "AgNews",
+    "SQuAD",
+    "MarkedNews"
+   ]
+  }
+ }
 }

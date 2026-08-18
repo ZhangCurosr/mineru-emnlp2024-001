@@ -4,5 +4,31 @@
  "title": "LONGEMBED-Extending-Embedding-Models-for-Long-Context-Retrie",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:05",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/902b06fb-75cc-4c08-addc-9db2d454467d.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/902b06fb-75cc-4c08-addc-9db2d454467d.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:23:05",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "text embedding",
+    "long context retrieval",
+    "context window extension",
+    "RoPE",
+    "position encoding",
+    "dense retrieval"
+   ],
+   "field": "长上下文文本检索",
+   "innovations": [
+    "系统探索零样本上下文扩展策略在 Embedding 模型上的适用性，可将输入长度扩展数倍",
+    "通过公平对比揭示 RoPE 相比 APE 在长上下文扩展方面的显著优越性",
+    "构建 LONGEMBED 评测基准，解决现有基准中文档过短和目标信息分布偏置的问题"
+   ],
+   "benchmarks": [
+    "LONGEMBED",
+    "BEIR",
+    "LoCo"
+   ]
+  }
+ }
 }

@@ -4,5 +4,33 @@
  "title": "KB-Plugin-A-Plug-and-play-Framework-for-Large-Language-Model",
  "token": "sk-nY8L7ieIq...",
  "created_at": "2026-08-13 05:39:44",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0040ec1d-b0eb-4601-b300-380c64e0a485.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0040ec1d-b0eb-4601-b300-380c64e0a485.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:22:36",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "程序诱导",
+    "低资源知识图谱",
+    "大语言模型",
+    "可插拔模块",
+    "迁移学习",
+    "KBQA"
+   ],
+   "field": "知识图谱问答",
+   "innovations": [
+    "提出schema plugin通过自监督三元组补全将KB模式信息编码进LLM参数",
+    "设计多源KB协同训练的PI plugin实现免微调跨KB程序诱导",
+    "即插即用框架使小模型Llama2-7B媲美或超越大模型基线方法"
+   ],
+   "benchmarks": [
+    "WebQSP",
+    "GraphQ",
+    "GrailQA",
+    "MetaQA",
+    "SoAyBench"
+   ]
+  }
+ }
 }

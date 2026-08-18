@@ -4,5 +4,10 @@
  "title": "Fairer-Preferences-Elicit-Improved-Human-Aligned-Large-Langu",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:39:30",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0c8a3fc8-95e7-4a47-adc2-8bc7def783e4.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0c8a3fc8-95e7-4a47-adc2-8bc7def783e4.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:18:17",
+  "chunks": 1
+ }
 }

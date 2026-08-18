@@ -4,5 +4,33 @@
  "title": "Enhancing-Advanced-Visual-Reasoning-Ability-of-Large-Languag",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:39:35",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/f3b302d4-d144-43ea-b29d-909560b2bd2d.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/f3b302d4-d144-43ea-b29d-909560b2bd2d.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:16:46",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "复杂视觉推理",
+    "多模态上下文学习",
+    "上下文感知图像描述",
+    "Chain-of-Comparison",
+    "Vision-Language Models",
+    "Large Language Models"
+   ],
+   "field": "多模态复杂视觉推理",
+   "innovations": [
+    "双循环自精炼上下文感知图像描述生成机制(CaID)，无需投影层",
+    "多模态双域融合ICL示例选择策略(CVR-ICL)",
+    "四步Chain-of-Comparison定量评估方法"
+   ],
+   "benchmarks": [
+    "WinoGAViL",
+    "Winoground",
+    "Whoops",
+    "VCR",
+    "NYCCC"
+   ]
+  }
+ }
 }

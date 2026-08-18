@@ -4,5 +4,32 @@
  "title": "FLIRT-Feedback-Loop-In-context-Red-Teaming",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:04",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6dba7191-33df-4ca3-b848-b5b45c762590.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6dba7191-33df-4ca3-b848-b5b45c762590.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:18:40",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "red teaming",
+    "in-context learning",
+    "text-to-image safety",
+    "adversarial prompts",
+    "stable diffusion",
+    "automated vulnerability testing"
+   ],
+   "field": "生成模型安全与对齐",
+   "innovations": [
+    "提出FLIRT反馈循环上下文红队框架，实现黑盒模型的自动化对抗提示生成",
+    "设计FIFO/LIFO/Scoring/Scoring-LIFO四种上下文更新策略，支持攻击效果、多样性与低毒性的多目标可控优化",
+    "系统性验证Safe SD系列模型漏洞及攻击跨模型迁移与过滤器绕过能力"
+   ],
+   "benchmarks": [
+    "Stable Diffusion (v1-4)",
+    "Safe Stable Diffusion (Weak/Medium/Strong/Max)",
+    "GPT-Neo 2.7B",
+    "Q16/NudeNet/TOXIGEN安全评估套件"
+   ]
+  }
+ }
 }

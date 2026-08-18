@@ -4,5 +4,30 @@
  "title": "Exploring-Union-and-Intersection-of-Visual-Regions-for-Gener",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:09",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/a93097f1-5ed8-493f-b85d-cb2d9bc5b1a1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/a93097f1-5ed8-493f-b85d-cb2d9bc5b1a1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:17:33",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "视觉问答",
+    "多模态生成",
+    "选择题VQA",
+    "联合生成",
+    "区域多样性",
+    "数据增强"
+   ],
+   "field": "多模态视觉问答",
+   "innovations": [
+    "提出ReBo框架，通过循环多模态编码器联合生成多样化QAD",
+    "引入边界框组合评分(IoU/UoT)引导QAD关注不同视觉区域以减少冗余",
+    "验证生成QAD可有效增强现有VQA模型性能"
+   ],
+   "benchmarks": [
+    "Visual7W",
+    "A-OKVQA"
+   ]
+  }
+ }
 }

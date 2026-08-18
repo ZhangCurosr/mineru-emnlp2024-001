@@ -4,5 +4,30 @@
  "title": "Impeding-LLM-assisted-Cheating-in-Introductory-Programming-A",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:40:01",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b8295fcf-3252-4cfb-b56b-7ffec5db6921.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b8295fcf-3252-4cfb-b56b-7ffec5db6921.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:21:24",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM作弊防御",
+    "对抗扰动",
+    "编程教育",
+    "黑盒攻击",
+    "学术诚信",
+    "代码生成"
+   ],
+   "field": "AI赋能教育的安全与诚信",
+   "innovations": [
+    "首次系统性将黑盒对抗扰动应用于教育场景阻止LLM辅助作弊",
+    "提出Efficacy度量结合SHAP代理模型指导最小化扰动选择",
+    "用户研究揭示未察觉细微扰动保持高防御效力的关键发现"
+   ],
+   "benchmarks": [
+    "CS1/CS2编程作业集(58题)",
+    "5个LLM基线性能评估(GPT-3.5/Copilot/Mistral/CodeLlama/CodeRL)"
+   ]
+  }
+ }
 }

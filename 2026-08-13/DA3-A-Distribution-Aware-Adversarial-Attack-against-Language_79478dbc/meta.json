@@ -4,5 +4,10 @@
  "title": "DA3-A-Distribution-Aware-Adversarial-Attack-against-Language",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:20",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/080805b8-b7ad-4966-bc3e-37500de7effb.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/080805b8-b7ad-4966-bc3e-37500de7effb.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:16:03",
+  "chunks": 1
+ }
 }

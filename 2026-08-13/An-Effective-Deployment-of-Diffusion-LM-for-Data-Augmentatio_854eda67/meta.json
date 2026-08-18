@@ -4,5 +4,30 @@
  "title": "An-Effective-Deployment-of-Diffusion-LM-for-Data-Augmentatio",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:19",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/37c59043-81a7-4144-8e0b-5956fc35ab44.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/37c59043-81a7-4144-8e0b-5956fc35ab44.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:16:54",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "数据增强",
+    "扩散语言模型",
+    "情感分类",
+    "低资源NLP",
+    "文本分类"
+   ],
+   "field": "低资源自然语言处理",
+   "innovations": [
+    "基于扩散LM重构强标签相关token实现多样化且一致性的伪样本生成",
+    "提出标记感知噪声调度与标记感知提示策略平衡多样性与一致性"
+   ],
+   "benchmarks": [
+    "SMP2020-EWECT",
+    "India-COVID-X",
+    "SenWave",
+    "SST-2"
+   ]
+  }
+ }
 }

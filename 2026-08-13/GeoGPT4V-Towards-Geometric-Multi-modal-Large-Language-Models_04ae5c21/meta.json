@@ -4,5 +4,29 @@
  "title": "GeoGPT4V-Towards-Geometric-Multi-modal-Large-Language-Models",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:06",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2c8f4d18-d2f9-4a84-88d0-17c930ecf966.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2c8f4d18-d2f9-4a84-88d0-17c930ecf966.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 14:19:54",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "多模态大模型",
+    "几何推理",
+    "数据生成",
+    "图文对齐",
+    "课程学习"
+   ],
+   "field": "多模态数学推理",
+   "innovations": [
+    "提出通过简化问题和代码生成图像实现图文对齐的自动化数据生成流水线",
+    "构建并开源高质量、难度递进的几何多模态训练数据集 GeoGPT4V",
+    "利用带CoT的VLM评分来过滤和筛选合成图像，保证数据质量"
+   ],
+   "benchmarks": [
+    "MathVista",
+    "MathVision"
+   ]
+  }
+ }
 }
