@@ -4,5 +4,30 @@
  "title": "QUIK-Towards-End-to-end-4-Bit-Inference-on-Generative-Large",
  "token": "sk-5WOIsMt5v...",
  "created_at": "2026-08-13 06:51:50",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6eb42151-ce8a-416b-b19a-90cff88d9079.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6eb42151-ce8a-416b-b19a-90cff88d9079.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:15:46",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Post-Training Quantization",
+    "4-bit Inference",
+    "LLM Acceleration",
+    "Mixed-Precision",
+    "GPU Kernel Optimization"
+   ],
+   "field": "大模型低比特推理与系统优化",
+   "innovations": [
+    "异常值感知混合量化：将难量化列分离为FP16/INT8保留，基数部分统一INT4",
+    "GPTQ列置换误差聚集策略：将量化误差导向全精度列以提升4W4A精度",
+    "融合量化/解量化EPilogue的定制GPU核：消除冗余显存读写实现近理论INT4加速"
+   ],
+   "benchmarks": [
+    "WikiText2",
+    "LM Evaluation Harness (PIQA/WinoGrande/HellaSwag/Arc)",
+    "OPT/LLaMA-2/Falcon 系列端到端吞吐与显存峰值"
+   ]
+  }
+ }
 }

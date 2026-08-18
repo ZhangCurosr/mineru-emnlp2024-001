@@ -4,5 +4,32 @@
  "title": "Large-Language-Models-for-Data-Annotation-and-Synthesis-A-Su",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:26",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/38f4d39c-ec4c-4dc2-9c64-9f429d6f9c10.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/38f4d39c-ec4c-4dc2-9c64-9f429d6f9c10.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:10:55",
+  "chunks": 4,
+  "meta": {
+   "keywords": [
+    "大语言模型",
+    "数据标注",
+    "数据合成",
+    "CoT推理",
+    "RLAIF",
+    "多智能体",
+    "综述"
+   ],
+   "field": "LLM应用与数据工程",
+   "innovations": [
+    "系统性梳理LLM数据标注与合成工具链，填补综述空白",
+    "提出五维方法分类框架并量化对比成本效能",
+    "构建评估-筛选-利用完整闭环视角"
+   ],
+   "benchmarks": [
+    "成本效益对比",
+    "方法分类覆盖率",
+    "跨文献结果汇总"
+   ]
+  }
+ }
 }

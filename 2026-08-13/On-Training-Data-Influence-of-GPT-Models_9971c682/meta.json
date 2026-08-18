@@ -4,5 +4,31 @@
  "title": "On-Training-Data-Influence-of-GPT-Models",
  "token": "sk-OZiRtsQic...",
  "created_at": "2026-08-13 05:39:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/21ca0c8f-0425-49ea-8da1-86db557c0a3e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/21ca0c8f-0425-49ea-8da1-86db557c0a3e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:13:39",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Training Data Attribution",
+    "GPT",
+    "Training Dynamics Simulation",
+    "Influence Functions",
+    "Instruction Tuning",
+    "Markov Process Modeling"
+   ],
+   "field": "训练数据归因与可解释性",
+   "innovations": [
+    "提出GPTfluence，首次系统性地将训练数据影响分析扩展到GPT自回归生成模型",
+    "基于n阶马尔可夫过程和预训练编码器特征模拟，突破Simfluence仅预测test loss且无法泛化的局限",
+    "支持test loss、BLEU、ROUGE-L等多指标轨迹预测，覆盖NLU和NLG任务"
+   ],
+   "benchmarks": [
+    "FLAN (RTE, SST-2, BoolQ, WebNLG, WMT-16 DE/EN)",
+    "Pythia model series (14M-2.8B)",
+    "GPTDynamics dataset"
+   ]
+  }
+ }
 }

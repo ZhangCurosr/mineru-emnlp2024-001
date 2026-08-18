@@ -4,5 +4,31 @@
  "title": "Learning-Interpretable-Legal-Case-Retrieval-via-Knowledge-Gu",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:39:30",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/22b7fa33-2ee8-44a1-bc22-a345612f0343.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/22b7fa33-2ee8-44a1-bc22-a345612f0343.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:10:19",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "legal case retrieval",
+    "knowledge-guided reformulation",
+    "large language model",
+    "dual-level contrastive learning",
+    "MaxSim",
+    "interpretable retrieval",
+    "long document retrieval"
+   ],
+   "field": "法律信息检索",
+   "innovations": [
+    "提出KGCR两步提示框架，利用罪名-法条法律知识引导LLM将法律案例重构为结构化子事实",
+    "基于子事实的MaxSim聚合实现高效可解释的法律案例相关性建模",
+    "设计双级对比学习与启发式子事实级标签派生策略缓解标注稀缺"
+   ],
+   "benchmarks": [
+    "LeCaRD",
+    "LeCaRDv2"
+   ]
+  }
+ }
 }

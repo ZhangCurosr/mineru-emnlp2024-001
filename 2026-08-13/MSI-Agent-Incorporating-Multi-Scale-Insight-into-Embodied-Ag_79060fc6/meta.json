@@ -4,5 +4,10 @@
  "title": "MSI-Agent-Incorporating-Multi-Scale-Insight-into-Embodied-Ag",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:40:24",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/5b226818-5769-441c-a974-1a911135ff2f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/5b226818-5769-441c-a974-1a911135ff2f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:10:57",
+  "chunks": 1
+ }
 }

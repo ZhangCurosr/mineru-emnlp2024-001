@@ -4,5 +4,32 @@
  "title": "Rethinking-Pruning-Large-Language-Models-Benefits-and-Pitfal",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 03:49:31",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8b501093-0de8-46a4-96ac-514460bd2047.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8b501093-0de8-46a4-96ac-514460bd2047.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:16:34",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM pruning",
+    "reconstruction error",
+    "model compression",
+    "post-training optimization",
+    "overfitting mitigation",
+    "calibration data"
+   ],
+   "field": "大语言模型高效推理",
+   "innovations": [
+    "提出BR/GP/CR三种重构技术将累积误差降低87%-94%",
+    "首次揭示重构误差最小化的利益与过拟合陷阱",
+    "引入自生成校准数据策略平衡重构质量与泛化能力"
+   ],
+   "benchmarks": [
+    "LLaMA-7B",
+    "OPT-125M",
+    "Wiki/PTB/C4 perplexity",
+    "Zero-shot: BoolQ/RTE/HellaSwag/Winogrande/ARC/OpenbookQA"
+   ]
+  }
+ }
 }

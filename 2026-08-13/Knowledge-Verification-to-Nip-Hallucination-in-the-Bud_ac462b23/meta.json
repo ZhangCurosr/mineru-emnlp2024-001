@@ -4,5 +4,34 @@
  "title": "Knowledge-Verification-to-Nip-Hallucination-in-the-Bud",
  "token": "sk-zybFjYcVd...",
  "created_at": "2026-08-13 05:39:40",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/959ccd3c-67ae-4470-bf53-fdf8b078d275.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/959ccd3c-67ae-4470-bf53-fdf8b078d275.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:09:53",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "知识一致性对齐",
+    "LLM幻觉",
+    "指令微调",
+    "数据策展",
+    "知识验证",
+    "拒绝响应"
+   ],
+   "field": "大语言模型对齐与可信生成",
+   "innovations": [
+    "提出KCA框架，通过自动生成测验检测指令微调数据与基础LLM之间的知识不一致",
+    "设计Open-Book/Discard/Refusal三种校准策略，在降低幻觉的同时保持有用性",
+    "证明知识不一致比例与幻觉率呈强正相关，并提供跨模型/跨数据集的量化证据"
+   ],
+   "benchmarks": [
+    "LIMAEval",
+    "VicunaEval",
+    "WizardLMEval",
+    "TruthfulQA",
+    "MS MARCO",
+    "ACI-Bench"
+   ]
+  }
+ }
 }

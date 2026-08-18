@@ -4,5 +4,31 @@
  "title": "QUITE-Quantifying-Uncertainty-in-Natural-Language-Text-in-Ba",
  "token": "sk-owp49a3rO...",
  "created_at": "2026-08-13 03:49:51",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/118fc315-f657-4556-ba1e-303c802d8e95.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/118fc315-f657-4556-ba1e-303c802d8e95.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:16:22",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Bayesian reasoning",
+    "uncertainty quantification",
+    "neuro-symbolic AI",
+    "ProbLog",
+    "words of estimative probability",
+    "causal inference"
+   ],
+   "field": "自然语言处理中的概率推理与不确定性建模",
+   "innovations": [
+    "提出QUITE数据集，支持分类变量与多样化自然语言表述的贝叶斯推理评估",
+    "首次微调LLM作为语义解析器生成ProbLog程序进行端到端神经符号推理",
+    "系统揭示LLMs在证据推理和解释排除任务上的系统性失败及神经符号方法的鲁棒性"
+   ],
+   "benchmarks": [
+    "QUITE",
+    "CLADDER",
+    "BLInD"
+   ]
+  }
+ }
 }

@@ -4,5 +4,32 @@
  "title": "Optimizing-Code-Retrieval-High-Quality-and-Scalable-Dataset",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:39:37",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/762482dc-e3d6-4cbf-b595-cde068afb5c1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/762482dc-e3d6-4cbf-b595-cde068afb5c1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:13:58",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "代码检索",
+    "数据集构建",
+    "大语言模型",
+    "函数调用关系",
+    "拓扑排序",
+    "对比学习"
+   ],
+   "field": "代码理解与检索",
+   "innovations": [
+    "基于拓扑排序的多级函数调用解耦标注算法",
+    "基于流行度的差异化第三方API文档收集策略"
+   ],
+   "benchmarks": [
+    "CoNaLa",
+    "SO-DS",
+    "StaQC",
+    "CoSQA",
+    "WebQueryTest"
+   ]
+  }
+ }
 }

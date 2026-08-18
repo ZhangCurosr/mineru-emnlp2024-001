@@ -4,5 +4,35 @@
  "title": "Rethinking-Token-Reduction-for-State-Space-Models",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 03:49:38",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/682b838a-70e4-438e-b984-c7873059eef1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/682b838a-70e4-438e-b984-c7873059eef1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:16:38",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "State Space Model",
+    "Token Reduction",
+    "Mamba",
+    "Post-training Optimization",
+    "Token Pruning",
+    "Token Merging",
+    "Efficient Inference"
+   ],
+   "field": "高效大模型推理",
+   "innovations": [
+    "首次揭示SSM上token reduction失效机理并提出UTRC统一框架",
+    "基于clipped hidden state sum的token重要性度量适配SSM高维通道空间",
+    "hybrid pruning-merging混合策略配合intra-layer跨分支对齐设计"
+   ],
+   "benchmarks": [
+    "LAMBADA",
+    "HellaSwag",
+    "PIQA",
+    "Arc-E",
+    "Arc-C",
+    "WinoGrade"
+   ]
+  }
+ }
 }

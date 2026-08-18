@@ -4,5 +4,32 @@
  "title": "In-Search-of-the-Long-Tail-Systematic-Generation-of-Long-Tai",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:40:30",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e34a3f4f-8a86-4a98-b381-36cfe5e84d69.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e34a3f4f-8a86-4a98-b381-36cfe5e84d69.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:09:34",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "长尾分布",
+    "推理知识生成",
+    "符号规则",
+    "自然语言推理",
+    "大模型评估",
+    "数据生成",
+    "factuality verification"
+   ],
+   "field": "大语言模型评估与泛化",
+   "innovations": [
+    "提出LINK框架实现系统化长尾推理知识生成",
+    "构建LINT数据集（108K语句）首次评估LLM长尾推理泛化",
+    "发现GPT-4长尾性能下降21%且人类使用搜索引擎无显著下降"
+   ],
+   "benchmarks": [
+    "LINT",
+    "Entailment Classification",
+    "Natural Language Inference"
+   ]
+  }
+ }
 }

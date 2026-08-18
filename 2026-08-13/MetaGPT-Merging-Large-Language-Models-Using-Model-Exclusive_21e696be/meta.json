@@ -4,5 +4,33 @@
  "title": "MetaGPT-Merging-Large-Language-Models-Using-Model-Exclusive",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:17",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/769c054b-b964-457b-8ce6-a1255e4b4435.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/769c054b-b964-457b-8ce6-a1255e4b4435.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:06",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "模型合并",
+    "任务算术",
+    "多任务学习",
+    "大语言模型",
+    "无数据合并"
+   ],
+   "field": "大语言模型高效微调与合并",
+   "innovations": [
+    "首次推导任务算术的性能上界并给出闭式最优解",
+    "基于NTK线性化和任务向量正交性假设实现数据无关的最优合并",
+    "证明方法与Ties/DARE正交可组合"
+   ],
+   "benchmarks": [
+    "WinoGrande",
+    "AGIEval",
+    "GSM8K",
+    "MATH",
+    "MBPP",
+    "HumanEval"
+   ]
+  }
+ }
 }

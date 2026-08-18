@@ -4,5 +4,34 @@
  "title": "Prefixing-Attention-Sinks-can-Mitigate-Activation-Outliers-f",
  "token": "sk-dY4OBV5wM...",
  "created_at": "2026-08-13 04:49:51",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e9997cd5-ad9c-47d9-914d-13e2a19a16e3.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e9997cd5-ad9c-47d9-914d-13e2a19a16e3.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:15:02",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM量化",
+    "激活异常值",
+    "per-tensor量化",
+    "注意力sink",
+    "CushionCache",
+    "前缀微调",
+    "W8A8量化",
+    "post-training quantization"
+   ],
+   "field": "大语言模型高效推理与量化",
+   "innovations": [
+    "提出CushionCache通过贪心搜索+量化感知前缀微调主动缓解激活异常值，使per-tensor静态量化达到接近FP16性能",
+    "首次证明attention sink token的角色可被显式构造的prefix KV cache替代，从根本上改变激活分布",
+    "CushionCache与SmoothQuant/AWQ/QuaRot/KIVI等现有方法正交兼容，可无缝叠加提升各类量化方案性能"
+   ],
+   "benchmarks": [
+    "WikiText-2",
+    "LLM Evaluation Harness (LAMBADA, HellaSwag, PIQA, WinoGrande, OpenBookQA, RTE, COPA)",
+    "MMLU",
+    "GSM8K"
+   ]
+  }
+ }
 }

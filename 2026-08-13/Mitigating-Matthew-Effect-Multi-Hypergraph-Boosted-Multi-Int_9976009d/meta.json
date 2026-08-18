@@ -4,5 +4,32 @@
  "title": "Mitigating-Matthew-Effect-Multi-Hypergraph-Boosted-Multi-Int",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 05:39:34",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/97fc300b-65bb-4ac7-89ae-92decebf0775.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/97fc300b-65bb-4ac7-89ae-92decebf0775.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:28",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Conversational Recommendation",
+    "Matthew Effect",
+    "Hypergraph",
+    "Multi-Interest",
+    "Self-Supervised Learning",
+    "Motif Analysis"
+   ],
+   "field": "对话推荐系统",
+   "innovations": [
+    "首次构建三元通道（group/joint/purchase）× 三级别（item/entity/word）超图以学习多兴趣缓解CRS中的马太效应",
+    "提出端到端HiCore框架将多级多兴趣同时注入对话生成与推荐排序双任务",
+    "引入InfoNCE自监督对比学习增强超图兴趣表征的区分性与泛化能力"
+   ],
+   "benchmarks": [
+    "REDIAL",
+    "TG-REDIAL",
+    "OpenDialKG",
+    "DuRecDial"
+   ]
+  }
+ }
 }

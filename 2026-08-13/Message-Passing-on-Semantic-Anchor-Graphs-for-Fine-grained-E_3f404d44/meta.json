@@ -4,5 +4,34 @@
  "title": "Message-Passing-on-Semantic-Anchor-Graphs-for-Fine-grained-E",
  "token": "sk-5WOIsMt5v...",
  "created_at": "2026-08-13 05:39:42",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b2ceec57-8b99-4101-90bf-f9dfbda02ec4.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b2ceec57-8b99-4101-90bf-f9dfbda02ec4.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:11:39",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "细粒度情感分类",
+    "语义锚点图",
+    "图神经网络",
+    "消息传递",
+    "情感表征学习",
+    "NLP"
+   ],
+   "field": "细粒度情感分类",
+   "innovations": [
+    "端到端学习共享语义锚点并构建全局对齐的锚点图",
+    "设计内容投影器与时序投影器将token语义与词序关系编码为图结构",
+    "在锚点图上执行GCN消息传递以融合多维情感表征"
+   ],
+   "benchmarks": [
+    "Empathetic Dialogue",
+    "GoEmotion",
+    "CancerEmo",
+    "ISEAR",
+    "GoEmotion-EK",
+    "EmoInt"
+   ]
+  }
+ }
 }

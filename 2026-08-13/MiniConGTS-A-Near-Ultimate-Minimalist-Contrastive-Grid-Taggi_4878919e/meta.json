@@ -4,5 +4,32 @@
  "title": "MiniConGTS-A-Near-Ultimate-Minimalist-Contrastive-Grid-Taggi",
  "token": "sk-nY8L7ieIq...",
  "created_at": "2026-08-13 05:39:43",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2f13beb1-5dcb-4284-97aa-df73b2c6fd9c.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2f13beb1-5dcb-4284-97aa-df73b2c6fd9c.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:00",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "ASTE",
+    "Grid Tagging Scheme",
+    "Contrastive Learning",
+    "Aspect-Based Sentiment Analysis",
+    "Information Extraction",
+    "Minimalist Design"
+   ],
+   "field": "方面情感分析",
+   "innovations": [
+    "提出仅需5类标签的极简GTS标记方案，实现最少类别下的完整三元组覆盖",
+    "首创token级对比学习策略增强预训练表征，与极简GTS协同优化",
+    "首次系统评估GPT-4在ASTE任务上的few-shot/CoT性能，揭示LLM在此结构化任务上的局限"
+   ],
+   "benchmarks": [
+    "SemEval 14Res",
+    "SemEval 14Lap",
+    "SemEval 15Res",
+    "SemEval 16Res"
+   ]
+  }
+ }
 }

@@ -4,5 +4,30 @@
  "title": "Oddballs-and-Misfits-Detecting-Implicit-Abuse-in-Which-Ident",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:40:25",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/39e3c5d8-1fa1-46cd-8a24-938544a7af32.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/39e3c5d8-1fa1-46cd-8a24-938544a7af32.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:13:12",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Implicit Abuse Detection",
+    "Othering",
+    "Social Norms",
+    "Large Language Models",
+    "Dataset Construction",
+    "Hate Speech"
+   ],
+   "field": "自然语言处理-内容安全/仇恨言论检测",
+   "innovations": [
+    "提出并定义'偏离规范'这一新型隐性辱骂子类型",
+    "构建首个针对7类身份群体的双源（构造+Twitter）标注数据集",
+    "提出基于GPT-4语义增强的微调策略以克服数据稀疏性"
+   ],
+   "benchmarks": [
+    "Constructed Norm-Compliance Dataset",
+    "Twitter Implicit Abuse Dataset"
+   ]
+  }
+ }
 }

@@ -4,5 +4,40 @@
  "title": "MoDULA-Mixture-of-Domain-Specific-and-Universal-LoRA-for-Mul",
  "token": "sk-5WOIsMt5v...",
  "created_at": "2026-08-13 05:39:42",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e7e93a74-7ba3-4403-8d78-a7c0b90201dc.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e7e93a74-7ba3-4403-8d78-a7c0b90201dc.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:51",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "PEFT",
+    "LoRA",
+    "Mixture-of-Experts",
+    "多任务学习",
+    "参数高效微调",
+    "残差连接",
+    "可插拔性"
+   ],
+   "field": "大语言模型参数高效微调",
+   "innovations": [
+    "提出通用专家与域特定专家分离的三阶段训练范式",
+    "引入残差连接保持多任务学习中的通用能力",
+    "实现低成本可插拔多任务扩展，新增任务仅需训练新专家与路由器"
+   ],
+   "benchmarks": [
+    "GSM8K",
+    "Arithmetic",
+    "MathQA",
+    "HumanEval",
+    "MBPP",
+    "MedQA",
+    "MMLU",
+    "C-Eval",
+    "FinGPT-headline",
+    "Title-Optimization",
+    "Keyword-Recommendation"
+   ]
+  }
+ }
 }

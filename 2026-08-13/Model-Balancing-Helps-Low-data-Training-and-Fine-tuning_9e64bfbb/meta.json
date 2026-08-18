@@ -4,5 +4,33 @@
  "title": "Model-Balancing-Helps-Low-data-Training-and-Fine-tuning",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 05:39:32",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/54c3285a-259f-405f-ba36-0c8ee44f3eac.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/54c3285a-259f-405f-ba36-0c8ee44f3eac.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:59",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "低数据微调",
+    "重尾自正则化",
+    "层wise学习率调度",
+    "SciML",
+    "HT-SR理论",
+    "PDE求解"
+   ],
+   "field": "低资源机器学习",
+   "innovations": [
+    "基于HT-SR理论发现低数据训练导致层间PL_Alpha_Hill不均衡，并提出层wise学习率平衡方案",
+    "将TempBalance适配到Transformer blockwise和SciML任务，设计TB_Sigmoid调度函数",
+    "证明TempBalance可作为add-on与SAM/AdaFactor组合进一步提效，且增益随数据减少而递增"
+   ],
+   "benchmarks": [
+    "GLUE",
+    "SuperGLUE",
+    "SQuAD",
+    "ScienceQA",
+    "PDEBench (DarcyFlow, 1D/2D CFD)"
+   ]
+  }
+ }
 }

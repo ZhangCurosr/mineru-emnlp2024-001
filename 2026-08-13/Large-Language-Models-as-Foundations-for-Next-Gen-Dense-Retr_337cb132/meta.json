@@ -4,5 +4,31 @@
  "title": "Large-Language-Models-as-Foundations-for-Next-Gen-Dense-Retr",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 05:39:32",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/05730640-7d13-4ba4-b23f-9d4eeed0be56.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/05730640-7d13-4ba4-b23f-9d4eeed0be56.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:09:57",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "密集检索",
+    "大型语言模型",
+    "零样本泛化",
+    "长文本检索",
+    "指令式检索",
+    "多任务学习"
+   ],
+   "field": "信息检索与嵌入学习",
+   "innovations": [
+    "系统评估LLM不同配置对密集检索多维度能力的影响",
+    "发现Base LLM与Chat LLM在检索任务上性能相当",
+    "证明LLM可在短文本训练后泛化至长文本检索"
+   ],
+   "benchmarks": [
+    "MS MARCO",
+    "BEIR",
+    "NarrativeQA"
+   ]
+  }
+ }
 }

@@ -4,5 +4,32 @@
  "title": "Evaluating-Psychological-Safety-of-Large-Language-Models",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:19",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2de2fb8b-529e-48e9-9f66-673eaaf266c2.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2de2fb8b-529e-48e9-9f66-673eaaf266c2.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:09:30",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM安全评估",
+    "心理毒性",
+    "黑暗三联征",
+    "人格评估",
+    "DPO微调",
+    "心理测量学"
+   ],
+   "field": "大语言模型安全与对齐",
+   "innovations": [
+    "首次将标准心理量表系统迁移至LLM心理毒性评估，定义并量化隐性心理安全风险",
+    "揭示安全微调与黑暗人格特征的正相关悖论，挑战现有安全对齐有效性假设",
+    "提出基于DPO的心理学导向微调方法，有效降低LLM黑暗人格得分"
+   ],
+   "benchmarks": [
+    "SD-3",
+    "BFI",
+    "Flourishing Scale (FS)",
+    "Satisfaction With Life Scale (SWLS)"
+   ]
+  }
+ }
 }

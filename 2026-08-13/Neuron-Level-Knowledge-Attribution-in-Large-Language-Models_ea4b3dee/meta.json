@@ -4,5 +4,31 @@
  "title": "Neuron-Level-Knowledge-Attribution-in-Large-Language-Models",
  "token": "sk-JMLCbBCEj...",
  "created_at": "2026-08-13 05:39:50",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/553e2987-ba97-4b31-b4ed-583c0ff38db1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/553e2987-ba97-4b31-b4ed-583c0ff38db1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:50",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "neuron-level attribution",
+    "knowledge localization",
+    "mechanistic interpretability",
+    "value neurons",
+    "query neurons",
+    "log probability increase",
+    "LLM interpretability"
+   ],
+   "field": "大语言模型机制可解释性",
+   "innovations": [
+    "提出log probability increase作为静态神经元级归因评分，同时考虑神经元特征和输入上下文",
+    "区分并定位value neurons和query neurons，揭示知识存储的信息流模式"
+   ],
+   "benchmarks": [
+    "TriviaQA",
+    "GPT2-large",
+    "Llama-7B"
+   ]
+  }
+ }
 }

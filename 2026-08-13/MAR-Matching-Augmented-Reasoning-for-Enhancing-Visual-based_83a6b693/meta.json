@@ -4,5 +4,32 @@
  "title": "MAR-Matching-Augmented-Reasoning-for-Enhancing-Visual-based",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:11",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e44a0cf0-1584-4988-bc13-7c71e8572946.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e44a0cf0-1584-4988-bc13-7c71e8572946.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:10:42",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "VEQA",
+    "Matching-Augmented Reasoning",
+    "Multimodal Large Language Model",
+    "Retrieval-Augmented Generation",
+    "Visual Question Answering",
+    "Entity Recognition",
+    "NewsPersonQA"
+   ],
+   "field": "多模态实体问答",
+   "innovations": [
+    "提出匹配图（matching graph）刻画跨多图相同实体关系，支持不确定命名与迭代扩图",
+    "提出 MAR 规则化推理框架（加权投票+答案聚合），在 Single/Group-VEQA 上超越 GPT-4V+FRAG",
+    "构建 NewsPersonQA 基准（23.5万图、6k QA），按数据库分组评测零样本检索式个人实体问答"
+   ],
+   "benchmarks": [
+    "NewsPersonQA",
+    "Single-VEQA Acc=39.09% Acc^hit=79.65%",
+    "Group-VEQA Recall=70.85%"
+   ]
+  }
+ }
 }

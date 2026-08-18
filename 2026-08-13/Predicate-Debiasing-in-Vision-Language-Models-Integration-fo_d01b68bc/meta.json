@@ -4,5 +4,30 @@
  "title": "Predicate-Debiasing-in-Vision-Language-Models-Integration-fo",
  "token": "sk-OZiRtsQic...",
  "created_at": "2026-08-13 04:49:35",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e56bdffd-e91f-4c5f-b9d2-01b3fb196551.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e56bdffd-e91f-4c5f-b9d2-01b3fb196551.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:15:04",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Scene Graph Generation",
+    "Predicate Debiasing",
+    "Vision-Language Models",
+    "Label Shift",
+    "Logits Adjustment",
+    "Long-tail Learning",
+    "Model Ensemble"
+   ],
+   "field": "视觉-语言多模态学习",
+   "innovations": [
+    "提出LM Estimation通过约束优化估计预训练模型不可达的谓词分布",
+    "设计certainty-aware动态集成策略融合零样本VLM与SGG模型",
+    "首次系统解决预训练VLM在SGG中的predicate bias问题"
+   ],
+   "benchmarks": [
+    "Visual Genome"
+   ]
+  }
+ }
 }

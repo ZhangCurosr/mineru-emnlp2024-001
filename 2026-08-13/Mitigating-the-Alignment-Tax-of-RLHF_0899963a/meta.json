@@ -4,5 +4,38 @@
  "title": "Mitigating-the-Alignment-Tax-of-RLHF",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:40:03",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e4b8474b-ec6b-40f4-b0bc-d6c2b0a03115.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e4b8474b-ec6b-40f4-b0bc-d6c2b0a03115.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:12:20",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "RLHF",
+    "Alignment Tax",
+    "Model Averaging",
+    "Catastrophic Forgetting",
+    "HMA",
+    "LLM Alignment"
+   ],
+   "field": "大语言模型对齐与持续学习",
+   "innovations": [
+    "提出异构模型平均HMA方法，为Transformer不同层分配差异化平均比率以优化对齐-遗忘Pareto前沿",
+    "从特征多样性理论解释模型平均为何能缓解对齐税，并证明低层平均效果最佳",
+    "系统性对比多种遗忘缓解方法，发现简单模型平均在对齐税场景下优于正则化/回放/LoRA等复杂方案"
+   ],
+   "benchmarks": [
+    "OpenLLaMA-3B",
+    "Mistral-7B",
+    "Zephyr-7B",
+    "ARC",
+    "Race",
+    "PIQA",
+    "SQuAD",
+    "DROP",
+    "WMT2014 FR-EN",
+    "AlpacaEval 2.0"
+   ]
+  }
+ }
 }

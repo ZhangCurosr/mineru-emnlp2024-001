@@ -4,5 +4,32 @@
  "title": "Noise-Novels-Numbers-A-Framework-for-Detecting-and-Categoriz",
  "token": "sk-JMLCbBCEj...",
  "created_at": "2026-08-13 05:39:53",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8cf8ab59-39af-4345-bb7c-ee65cdcf8ff6.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8cf8ab59-39af-4345-bb7c-ee65cdcf8ff6.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:13:25",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "噪音检测",
+    "文学分析",
+    "主题建模",
+    "BERTopic",
+    "历史文本",
+    "音景研究",
+    "Scandinavian literature"
+   ],
+   "field": "数字人文与自然语言处理交叉",
+   "innovations": [
+    "提出主题建模筛选+微调BERT的噪音检测框架，实现19世纪北欧文学的大规模音景分析",
+    "构建首个丹麦/挪威小说噪音标注数据集，含二元分类与四类声源细粒度标注",
+    "首次在实证层面量化追踪19世纪末文学中噪音感知的历时演变趋势"
+   ],
+   "benchmarks": [
+    "MeMo Corpus",
+    "ScandEval",
+    "DanskBERT Benchmark"
+   ]
+  }
+ }
 }

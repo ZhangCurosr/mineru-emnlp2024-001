@@ -4,5 +4,30 @@
  "title": "Large-Language-Model-as-an-Assignment-Evaluator-Insights-Fee",
  "token": "sk-zybFjYcVd...",
  "created_at": "2026-08-13 05:39:38",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e4f7b5f3-9797-4d99-8bab-d40329cc398e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e4f7b5f3-9797-4d99-8bab-d40329cc398e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:10:04",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM-based Evaluator",
+    "Prompt Hacking",
+    "Automated Grading",
+    "Education AI",
+    "Instruction Following",
+    "Goal Hijacking"
+   ],
+   "field": "LLM评估与教育应用",
+   "innovations": [
+    "首次千人大规模LLM评分器真实课堂部署实证",
+    "系统性揭示学生群体中的prompt hacking行为及检测方法",
+    "四种LLM TA部署方案的系统对比与可接受性调查"
+   ],
+   "benchmarks": [
+    "LLM TA学生 survey (N=838)",
+    "Six-course real-world assignment evaluation"
+   ]
+  }
+ }
 }
