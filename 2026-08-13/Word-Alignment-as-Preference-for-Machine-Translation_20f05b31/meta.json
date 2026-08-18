@@ -4,5 +4,29 @@
  "title": "Word-Alignment-as-Preference-for-Machine-Translation",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 07:10:23",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/3fc34165-c80c-4577-a2de-cbb32746b022.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/3fc34165-c80c-4577-a2de-cbb32746b022.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:56:42",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "机器翻译",
+    "幻觉",
+    "遗漏",
+    "词对齐",
+    "偏好优化",
+    "DPO"
+   ],
+   "field": "机器翻译",
+   "innovations": [
+    "利用词对齐覆盖率自动构建偏好数据并通过DPO优化MT模型",
+    "提出多维度评测方案（硬实例选择+GPT-4评估器+人工评测）评估幻觉/遗漏减轻效果"
+   ],
+   "benchmarks": [
+    "WMT22",
+    "HalOmi"
+   ]
+  }
+ }
 }

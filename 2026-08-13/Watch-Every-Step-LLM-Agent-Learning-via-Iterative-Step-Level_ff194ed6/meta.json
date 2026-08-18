@@ -4,5 +4,33 @@
  "title": "Watch-Every-Step-LLM-Agent-Learning-via-Iterative-Step-Level",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 03:39:09",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/afd91f05-21ca-4eb2-997f-0f8fecaf58c5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/afd91f05-21ca-4eb2-997f-0f8fecaf58c5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:55:39",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM Agent",
+    "过程监督",
+    "步骤级奖励",
+    "直接偏好优化",
+    "蒙特卡洛采样",
+    "迭代训练",
+    "WebShop",
+    "ALFWorld"
+   ],
+   "field": "LLM Agent训练与优化",
+   "innovations": [
+    "首次将步骤级过程监督引入LLM Agent训练，提出IPR框架实现细粒度过程指导",
+    "基于蒙特卡洛采样的自动化步骤奖励估计方法，无需人工标注即可构建过程监督信号",
+    "混合轨迹优化策略（o-DPO+s-DPO+SFT），兼顾结果级偏好与步骤级过程偏好学习"
+   ],
+   "benchmarks": [
+    "WebShop",
+    "InterCodeSQL",
+    "ALFWorld"
+   ]
+  }
+ }
 }

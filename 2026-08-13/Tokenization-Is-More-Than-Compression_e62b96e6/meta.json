@@ -4,5 +4,38 @@
  "title": "Tokenization-Is-More-Than-Compression",
  "token": "sk-dQ65jxzP4...",
  "created_at": "2026-08-13 14:54:55",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec31585f-9fd6-4402-8ec2-4aa2321fafc1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec31585f-9fd6-4402-8ec2-4aa2321fafc1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:53:51",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "tokenization",
+    "BPE",
+    "language model pretraining",
+    "subword tokenization",
+    "corpus token count",
+    "PATHPIECE"
+   ],
+   "field": "NLP分词与语言模型预训练",
+   "innovations": [
+    "提出PATHPIECE分词器，通过DAG最短路径实现最优压缩分割，用于检验CTC假设",
+    "系统消融3个分词阶段发现CTC与下游性能无明确正相关（Pearson r=0.241）",
+    "发现BPE初始化词表对top-down方法有显著优势，预处理（FirstSpace）是关键设计因素"
+   ],
+   "benchmarks": [
+    "arc_easy",
+    "copa",
+    "mathqa",
+    "piqa",
+    "race",
+    "sciq",
+    "wsc273",
+    "qa4mre_2013",
+    "hendrycksTests-marketing",
+    "hendrycksTests-sociology"
+   ]
+  }
+ }
 }

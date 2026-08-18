@@ -4,5 +4,31 @@
  "title": "We-Demand-Justice-Towards-Social-Context-Grounding-of-Politi",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 03:38:42",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:55:58",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "社会语境接地",
+    "政治文本理解",
+    "话语语境化",
+    "语用推理",
+    "模糊文本消歧",
+    "政治立场分析",
+    "图神经网络"
+   ],
+   "field": "社会计算与自然语言处理",
+   "innovations": [
+    "首次将社会语境接地形式化为可评测的语用理解任务",
+    "提出两个面向政治话语的社会语境数据集（目标实体情感检测与模糊文本消歧）",
+    "证明结构化图模型（DCF）在社会语境建模上显著优于大型LLM和文本拼接方法"
+   ],
+   "benchmarks": [
+    "Target Entity and Sentiment Detection",
+    "Vague Text Disambiguation"
+   ]
+  }
+ }
 }

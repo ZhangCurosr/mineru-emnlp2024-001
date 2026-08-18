@@ -4,5 +4,33 @@
  "title": "RoseLoRA-Row-and-Column-wise-Sparse-Low-rank-Adaptation-of-P",
  "token": "sk-ZHrWl9Czg...",
  "created_at": "2026-08-13 14:54:57",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8097754a-9754-41f1-b174-6338e6f97843.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8097754a-9754-41f1-b174-6338e6f97843.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:53:46",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "参数高效微调",
+    "低秩适配",
+    "稀疏更新",
+    "知识编辑",
+    "行列稀疏",
+    "大语言模型"
+   ],
+   "field": "参数高效微调与知识编辑",
+   "innovations": [
+    "提出行列稀疏低秩适配方法 RoseLoRA，实现选择性参数更新",
+    "理论证明行列稀疏约束对矩阵乘积稀疏性的下界保证",
+    "在知识编辑和通用微调任务上均优于现有基线方法"
+   ],
+   "benchmarks": [
+    "WikiData",
+    "ZsRE",
+    "GLUE",
+    "Alpaca-Eval",
+    "Commonsense170K"
+   ]
+  }
+ }
 }

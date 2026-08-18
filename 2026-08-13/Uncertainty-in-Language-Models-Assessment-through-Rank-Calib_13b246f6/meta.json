@@ -4,5 +4,32 @@
  "title": "Uncertainty-in-Language-Models-Assessment-through-Rank-Calib",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 06:51:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/beff3299-a6f4-48a6-93d5-7502e6a6b247.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/beff3299-a6f4-48a6-93d5-7502e6a6b247.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:54:30",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "不确定性量化",
+    "语言模型校准",
+    "Rank-Calibration",
+    "RCE",
+    "语义熵",
+    "自然语言生成"
+   ],
+   "field": "语言模型不确定性评估",
+   "innovations": [
+    "提出 Rank-Calibration 框架与 RCE 度量，无需阈值即可统一评估任意取值范围的不确定性/置信度",
+    "引入 Indication Diagram 可视化 rank-miscalibration，支持细粒度诊断",
+    "证明 RCE 与 ECE 统计独立，并提供后验重校准提升策略"
+   ],
+   "benchmarks": [
+    "TriviaQA",
+    "NQ-open",
+    "SQuAD-1",
+    "Meadow"
+   ]
+  }
+ }
 }

@@ -4,5 +4,28 @@
  "title": "Whispers-that-Shake-Foundations-Analyzing-and-Mitigating-Fal",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 07:10:21",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2d08c1e9-a50b-43c6-8efd-23a532c29f63.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2d08c1e9-a50b-43c6-8efd-23a532c29f63.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:56:32",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "虚假前提幻觉",
+    "注意力头机制解释",
+    "大语言模型幻觉缓解",
+    "推理时干预",
+    "mechanistic interpretability"
+   ],
+   "field": "大语言模型幻觉分析与缓解",
+   "innovations": [
+    "首次从机制层面揭示虚假前提幻觉源于浅层少量注意力头的干扰",
+    "提出 FAITH 方法通过推理时约束约1%的虚假前提头实现准确率提升近20%"
+   ],
+   "benchmarks": [
+    "Prize",
+    "Movie"
+   ]
+  }
+ }
 }

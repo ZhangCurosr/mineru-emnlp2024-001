@@ -4,5 +4,31 @@
  "title": "Watch-Every-Step-LLM-Agent-Learning-via-Iterative-Step-Level",
  "token": "sk-F7cBp1IrI...",
  "created_at": "2026-08-13 14:54:58",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/afd91f05-21ca-4eb2-997f-0f8fecaf58c5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/afd91f05-21ca-4eb2-997f-0f8fecaf58c5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:55:22",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM Agent",
+    "step-level process supervision",
+    "preference optimization",
+    "DPO",
+    "self-improvement",
+    "Monte Carlo reward estimation",
+    "iterative training"
+   ],
+   "field": "大语言模型Agent训练",
+   "innovations": [
+    "首次将步级过程监督引入LLM Agent训练，通过MC采样自动估计步级奖励",
+    "沿专家轨迹构建对比动作对并结合o-DPO、s-DPO与SFT的混合损失进行迭代优化"
+   ],
+   "benchmarks": [
+    "WebShop",
+    "InterCodeSQL",
+    "ALFWorld"
+   ]
+  }
+ }
 }

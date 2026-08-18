@@ -4,5 +4,31 @@
  "title": "When-LLMs-Meet-Acoustic-Landmarks-An-Efficient-Approach-to-I",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 06:51:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/f884c7aa-95cb-4e9b-bae6-0efd1b66ecc0.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/f884c7aa-95cb-4e9b-bae6-0efd1b66ecc0.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:56:14",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "抑郁检测",
+    "声学地标",
+    "大型语言模型",
+    "多模态融合",
+    "参数高效微调",
+    "DAIC-WOZ",
+    "跨模态指令微调",
+    "P-tuning"
+   ],
+   "field": "多模态心理健康计算",
+   "innovations": [
+    "首次将声学地标与LLM结合用于抑郁症检测",
+    "提出两阶段高效跨模态指令微调与P-tuning训练策略",
+    "通过LoRA贡献度分析揭示LLM学习语音离散表示的机制"
+   ],
+   "benchmarks": [
+    "DAIC-WOZ"
+   ]
+  }
+ }
 }

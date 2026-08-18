@@ -4,5 +4,34 @@
  "title": "Thinking-Fair-and-Slow-On-the-Efficacy-of-Structured-Prompts",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 03:38:39",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab4967d2-4aac-4b14-abf0-bcd46cca0947.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab4967d2-4aac-4b14-abf0-bcd46cca0947.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:53:42",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM去偏",
+    "Prompt工程",
+    "公平性",
+    "结构化提示",
+    "System 2思维",
+    "StereoSet",
+    "Regard"
+   ],
+   "field": "语言模型公平性与可控生成",
+   "innovations": [
+    "提出基于System 2思维的三步迭代prompt去偏框架（PP/SR/IP）",
+    "首次系统验证Implication Prompting在无需模型内部访问下的有效去偏能力",
+    "发现Role-based prompt显著优于Instruction-based且向下兼容多模型多基准"
+   ],
+   "benchmarks": [
+    "StereoSet",
+    "Regard",
+    "RealToxicityPrompts",
+    "TruthfulQA",
+    "BoolQ"
+   ]
+  }
+ }
 }

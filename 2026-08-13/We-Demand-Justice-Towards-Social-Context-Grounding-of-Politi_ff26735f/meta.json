@@ -4,5 +4,30 @@
  "title": "We-Demand-Justice-Towards-Social-Context-Grounding-of-Politi",
  "token": "sk-xjs1Z4GZW...",
  "created_at": "2026-08-13 14:54:56",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:55:49",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "社会语境Grounding",
+    "语用理解",
+    "政治文本分析",
+    "图神经网络",
+    "模糊文本消歧",
+    "目标情感检测"
+   ],
+   "field": "社会计算与自然语言处理",
+   "innovations": [
+    "首次将社会语境Grounding操作化为可计算的语用理解任务并提出两个数据集",
+    "证明DCF图方法在语用任务上显著优于文本拼接和LLM基线",
+    "揭示人类与模型在语用推理上的巨大性能鸿沟"
+   ],
+   "benchmarks": [
+    "Target Entity and Sentiment Detection",
+    "Vague Text Disambiguation"
+   ]
+  }
+ }
 }

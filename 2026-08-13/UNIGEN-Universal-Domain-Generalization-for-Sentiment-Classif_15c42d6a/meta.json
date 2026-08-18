@@ -4,5 +4,37 @@
  "title": "UNIGEN-Universal-Domain-Generalization-for-Sentiment-Classif",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 03:38:32",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6a902be4-7f1f-4c0d-85d5-76d981c60464.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6a902be4-7f1f-4c0d-85d5-76d981c60464.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 16:54:13",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "零样本学习",
+    "域泛化",
+    "数据集生成",
+    "情感分类",
+    "对比学习",
+    "去噪记忆库",
+    "轻量模型"
+   ],
+   "field": "自然语言处理-领域泛化与零样本学习",
+   "innovations": [
+    "使用通用提示词生成域不变合成数据实现零样本域泛化",
+    "提出软标签伪重标记机制缓解PLM生成数据的噪声问题",
+    "结合去噪记忆库与监督对比学习蒸馏PLM跨域泛化能力到小模型"
+   ],
+   "benchmarks": [
+    "SST-2",
+    "IMDB",
+    "Rotten Tomatoes",
+    "Amazon",
+    "Yelp",
+    "CR",
+    "Tweet",
+    "Amazon Review (29 domains)"
+   ]
+  }
+ }
 }
