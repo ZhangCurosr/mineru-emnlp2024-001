@@ -4,5 +4,34 @@
  "title": "CHIQ-Contextual-History-Enhancement-for-Improving-Query-Rewr",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:40:27",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/547c4d2f-b408-4cb0-865c-eadb77e81f2f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/547c4d2f-b408-4cb0-865c-eadb77e81f2f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:28:41",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "对话搜索",
+    "查询重写",
+    "历史增强",
+    "开源LLM",
+    "伪监督",
+    "TopiOCQA",
+    "QReCC"
+   ],
+   "field": "对话信息检索",
+   "innovations": [
+    "两步法：先利用开源LLM增强对话历史（消歧/扩展/伪响应/主题切换/摘要），再基于增强历史重写查询",
+    "设计五种历史增强提示策略并系统评估各自贡献",
+    "提出即席重写、搜索导向微调与结果级融合三种集成方式，在多数设置下达SOTA"
+   ],
+   "benchmarks": [
+    "TopiOCQA",
+    "QReCC",
+    "CAsT‑19",
+    "CAsT‑20",
+    "CAsT‑21"
+   ]
+  }
+ }
 }

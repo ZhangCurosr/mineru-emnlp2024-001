@@ -4,5 +4,10 @@
  "title": "Calibrating-the-Confidence-of-Large-Language-Models-by-Elici",
  "token": "sk-nY8L7ieIq...",
  "created_at": "2026-08-13 05:39:46",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4fc1861e-6ea2-4979-ae62-37659ac7f15a.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4fc1861e-6ea2-4979-ae62-37659ac7f15a.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:30:00",
+  "chunks": 1
+ }
 }

@@ -4,5 +4,31 @@
  "title": "Autoregressive-Pre-Training-on-Pixels-and-Texts",
  "token": "sk-OZiRtsQic...",
  "created_at": "2026-08-13 05:39:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/515d840d-d65d-4bbb-8460-f630c8193994.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/515d840d-d65d-4bbb-8460-f630c8193994.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:27:49",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "pixel-based language modeling",
+    "autoregressive pre-training",
+    "multimodal pre-training",
+    "cross-lingual understanding",
+    "RGB text rendering",
+    "vocabulary bottleneck"
+   ],
+   "field": "多模态语言模型",
+   "innovations": [
+    "提出 PixelGPT：首次在自回归 decoder-only 架构上对 24-bit RGB 文本图像进行纯视觉预训练",
+    "提出 DualGPT：通过图像-文本配对数据实现视觉与文本双模态联合预训练，缓解模态冲突",
+    "系统验证 RGB 渲染在保留颜色语义（如 emoji）及跨字体迁移鲁棒性方面的优势"
+   ],
+   "benchmarks": [
+    "GLUE",
+    "XNLI",
+    "HatemojiBuild"
+   ]
+  }
+ }
 }

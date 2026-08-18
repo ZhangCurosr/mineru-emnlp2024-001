@@ -3,5 +3,31 @@
  "batch_id": "5277275c-73e6-4b75-8f0a-1a899604bf98",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 01:41:32",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:24:12",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "KBQA",
+    "LLM-based Agent",
+    "Multi-role Agent",
+    "SPARQL Generation",
+    "URI Linking",
+    "In-context Learning"
+   ],
+   "field": "知识图谱问答",
+   "innovations": [
+    "提出首个覆盖KBQA全四阶段的multi-role LLM agent统一框架Triad",
+    "设计G-Agent/D-Agent/A-Agent三种角色分工实现子任务解耦协作",
+    "few-shot agent框架在LC-QuAD和YAGO-QA上分别以11.8%和20.7%绝对提升超越全训练SOTA系统"
+   ],
+   "benchmarks": [
+    "LC-QuAD 1.0",
+    "QALD-9",
+    "YAGO-QA"
+   ]
+  }
+ }
 }

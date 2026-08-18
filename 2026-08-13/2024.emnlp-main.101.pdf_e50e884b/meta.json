@@ -3,5 +3,31 @@
  "batch_id": "e50e884b-2e39-40d6-a0d8-fabccd638d3e",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 02:59:10",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:24:05",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "KBQA",
+    "LLM-based Agent",
+    "multi-role agent",
+    "SPARQL",
+    "knowledge graph",
+    "few-shot learning"
+   ],
+   "field": "知识图谱问答",
+   "innovations": [
+    "首个覆盖KBQA全部四个阶段的LLM-based多角色Agent框架",
+    "三角色（泛化者/决策者/顾问）协作机制实现任务分解",
+    "few-shot Agent框架匹敌甚至超越全监督传统KBQA系统"
+   ],
+   "benchmarks": [
+    "LC-QuAD 1.0",
+    "YAGO-QA",
+    "QALD-9"
+   ]
+  }
+ }
 }

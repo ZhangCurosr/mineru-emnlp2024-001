@@ -4,5 +4,31 @@
  "title": "Can-Large-Language-Models-Always-Solve-Easy-Problems-if-They",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:14",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/3a167b90-7e53-43b7-bbba-37cfc7eef8b5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/3a167b90-7e53-43b7-bbba-37cfc7eef8b5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:29:12",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "一致性评估",
+    "难到易不一致",
+    "大语言模型",
+    "基准构建",
+    "条件概率",
+    "难到易一致性"
+   ],
+   "field": "大语言模型评估与可靠性",
+   "innovations": [
+    "首次系统研究LLM难到易不一致现象并提出ConsisEval基准",
+    "基于条件概率定义一致性评分CS和相对一致性评分RCS",
+    "揭示难数据微调/ICL可提升一致性并找到80:20最优配比"
+   ],
+   "benchmarks": [
+    "GSM8K",
+    "HumanEval",
+    "IFEval"
+   ]
+  }
+ }
 }

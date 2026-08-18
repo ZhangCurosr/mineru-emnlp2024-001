@@ -4,5 +4,32 @@
  "title": "Advancing-Process-Verification-for-Large-Language-Models-via",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:40:21",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b1e2f716-491c-47a4-a9a0-ca6a7f9182d2.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b1e2f716-491c-47a4-a9a0-ca6a7f9182d2.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:25:36",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "process verification",
+    "preference learning",
+    "reasoning tree",
+    "best-of-N decoding",
+    "step-level reward",
+    "large language models"
+   ],
+   "field": "大语言模型推理验证",
+   "innovations": [
+    "提出Tree-PLV，首次将步骤级偏好学习引入验证器训练，替代二元分类",
+    "设计基于look-ahead的奖励函数，通过后续轨迹成功率评估步骤质量",
+    "利用最佳优先搜索构建推理树，高效收集步骤级配对数据进行排名训练"
+   ],
+   "benchmarks": [
+    "GSM8K",
+    "MATH500",
+    "CSQA",
+    "StrategyQA"
+   ]
+  }
+ }
 }

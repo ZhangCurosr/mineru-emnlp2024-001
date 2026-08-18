@@ -4,5 +4,30 @@
  "title": "Direct-Multi-Turn-Preference-Optimization-for-Language-Agent",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:40:30",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/3a6caadd-d4b2-4d91-b849-0414c02bcd15.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/3a6caadd-d4b2-4d91-b849-0414c02bcd15.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:32:45",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "多轮偏好优化",
+    "语言智能体",
+    "直接偏好优化",
+    "累积误差缓解",
+    "状态-动作占据测度",
+    "长度归一化"
+   ],
+   "field": "大语言模型对齐与偏好优化",
+   "innovations": [
+    "提出DMPO损失函数，通过SAOM约束和长度归一化将DPO扩展至多轮智能体任务",
+    "从理论上解释了长度归一化在多轮偏好优化中消去配分函数的作用"
+   ],
+   "benchmarks": [
+    "WebShop",
+    "ScienceWorld",
+    "ALFWorld"
+   ]
+  }
+ }
 }

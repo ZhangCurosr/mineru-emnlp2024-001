@@ -4,5 +4,37 @@
  "title": "DecorateLM-Data-Engineering-through-Corpus-Rating-Tagging-an",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 05:39:33",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d55ffb7b-f212-40f6-b4c6-11c6953ccfc3.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d55ffb7b-f212-40f6-b4c6-11c6953ccfc3.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:32:20",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "数据工程",
+    "预训练语料优化",
+    "语言模型蒸馏",
+    "数据质量评分",
+    "层次化标签"
+   ],
+   "field": "大模型训练数据工程",
+   "innovations": [
+    "提出Rating-Tagging-Editing三阶段数据工程框架并蒸馏至1.2B小模型",
+    "基于Bradley-Terry pairwise比较的8维质量评估体系",
+    "三层层次化标签体系配合多级归一化采样策略实现领域均衡"
+   ],
+   "benchmarks": [
+    "C-Eval",
+    "CMMLU",
+    "MMLU",
+    "AGI-Eval",
+    "HumanEval",
+    "MBPP",
+    "GSM8K",
+    "MATH",
+    "BBH",
+    "Domain Coverage"
+   ]
+  }
+ }
 }

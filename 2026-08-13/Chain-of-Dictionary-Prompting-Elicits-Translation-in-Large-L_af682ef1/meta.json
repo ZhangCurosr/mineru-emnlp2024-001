@@ -4,5 +4,29 @@
  "title": "Chain-of-Dictionary-Prompting-Elicits-Translation-in-Large-L",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:26",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/1e2a24d4-2c88-4748-8cf5-5e5469c7d2b5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/1e2a24d4-2c88-4748-8cf5-5e5469c7d2b5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:29:43",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "machine translation",
+    "large language models",
+    "low-resource languages",
+    "prompting",
+    "multilingual dictionaries",
+    "zero-shot translation"
+   ],
+   "field": "多语言机器翻译",
+   "innovations": [
+    "提出COD框架，将链式多语言词典引入LLM零样本翻译提示",
+    "系统评估200种语言的LLM翻译能力并揭示低资源语言瓶颈",
+    "证明词典链式注入在低资源场景下超越few-shot ICL并超越NLLB 3.3B"
+   ],
+   "benchmarks": [
+    "FLORES-200 full devtest"
+   ]
+  }
+ }
 }

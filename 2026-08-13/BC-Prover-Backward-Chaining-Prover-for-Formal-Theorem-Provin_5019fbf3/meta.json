@@ -4,5 +4,30 @@
  "title": "BC-Prover-Backward-Chaining-Prover-for-Formal-Theorem-Provin",
  "token": "sk-OZiRtsQic...",
  "created_at": "2026-08-13 05:39:47",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/bcded5fb-c104-4583-9b05-3f680c6f6ad5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/bcded5fb-c104-4583-9b05-3f680c6f6ad5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:27:17",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "interactive theorem proving",
+    "backward chaining",
+    "formal verification",
+    "large language models",
+    "miniF2F",
+    "Lean"
+   ],
+   "field": "形式化定理证明",
+   "innovations": [
+    "首次将后向链式策略系统引入Lean ITP，通过伪步骤引导LLM从目标逆向推导子目标",
+    "提出伪步骤+步骤规划的双层引导机制，桥接非形式化与形式化证明的语义鸿沟",
+    "设计可与已有微调prover无缝协作的插件式框架，显著提升搜索效率"
+   ],
+   "benchmarks": [
+    "miniF2F-valid",
+    "miniF2F-test"
+   ]
+  }
+ }
 }

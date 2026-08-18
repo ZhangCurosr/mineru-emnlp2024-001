@@ -4,5 +4,33 @@
  "title": "ChatRetriever-Adapting-Large-Language-Models-for-Generalized",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:39:30",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/a4e8c906-0c33-4acb-9bdd-c876e78d61fa.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/a4e8c906-0c33-4acb-9bdd-c876e78d61fa.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:30:00",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "对话检索",
+    "密集检索",
+    "大语言模型",
+    "指令调优",
+    "表示学习",
+    "对话搜索"
+   ],
+   "field": "对话信息检索",
+   "innovations": [
+    "提出CSIT双学习框架适配LLM为对话密集检索器",
+    "会话掩码指令调优强制表征学习复杂对话上下文",
+    "设计两类上下文扰动鲁棒性评估方法"
+   ],
+   "benchmarks": [
+    "QReCC",
+    "TopiOCQA",
+    "CAsT-19",
+    "CAsT-20",
+    "CAsT-21"
+   ]
+  }
+ }
 }

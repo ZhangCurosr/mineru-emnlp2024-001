@@ -4,5 +4,31 @@
  "title": "BlendFilter-Advancing-Retrieval-Augmented-Large-Language-Mod",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:27",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/1715f2b4-7fc8-4387-91dc-20ea7ecced3e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/1715f2b4-7fc8-4387-91dc-20ea7ecced3e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:27:26",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "检索增强生成",
+    "RAG",
+    "查询融合",
+    "知识过滤",
+    "多跳问答",
+    "Large Language Models"
+   ],
+   "field": "检索增强大语言模型",
+   "innovations": [
+    "多源查询生成融合（外部知识+内部知识+原始查询）",
+    "利用LLM自身作为知识过滤器，无需额外训练模型",
+    "先过滤后合并的检索知识处理策略"
+   ],
+   "benchmarks": [
+    "HotPotQA",
+    "2WikiMultiHopQA",
+    "StrategyQA"
+   ]
+  }
+ }
 }

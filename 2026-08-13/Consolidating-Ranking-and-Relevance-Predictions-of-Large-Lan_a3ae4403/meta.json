@@ -4,5 +4,34 @@
  "title": "Consolidating-Ranking-and-Relevance-Predictions-of-Large-Lan",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:56",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8ac2fbd3-85f1-4035-81fa-090485dfb018.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8ac2fbd3-85f1-4035-81fa-090485dfb018.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:30:37",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Large Language Models",
+    "Information Retrieval",
+    "Pairwise Ranking",
+    "Post-processing",
+    "Constrained Regression",
+    "Relevance Prediction",
+    "Re-ranking"
+   ],
+   "field": "LLM-based Information Retrieval",
+   "innovations": [
+    "提出约束回归后处理方法，将LLM点式评分与成对排序偏好统一融合",
+    "设计SlideWin和TopAll两种O(kn)高效近似变体，显著降低LLM调用成本",
+    "首次系统性地揭示并量化LLM排序与相关性预测之间的帕累托权衡"
+   ],
+   "benchmarks": [
+    "TREC-DL 2019",
+    "TREC-DL 2020",
+    "TREC-Covid",
+    "DBPedia",
+    "Robust04"
+   ]
+  }
+ }
 }

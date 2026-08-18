@@ -4,5 +4,32 @@
  "title": "By-My-Eyes-Grounding-Multimodal-Large-Language-Models-with-S",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:40:28",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/dc1cb9c5-89ea-4ea5-b5cc-f73f3ae809c5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/dc1cb9c5-89ea-4ea5-b5cc-f73f3ae809c5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:28:02",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "视觉提示",
+    "多模态大语言模型",
+    "传感器数据",
+    "可视化生成",
+    "少样本学习",
+    "MaaS"
+   ],
+   "field": "多模态大语言模型应用",
+   "innovations": [
+    "将传感器数据以可视化图像形式输入MLLM的视觉提示方法，平均提升10%准确率并降低15.8倍token成本",
+    "设计两阶段自动化可视化生成器（工具过滤+图像评估选择），无需领域先验知识"
+   ],
+   "benchmarks": [
+    "HHAR",
+    "UTD-MHAD",
+    "PTB-XL",
+    "WESAD",
+    "Swim"
+   ]
+  }
+ }
 }

@@ -4,5 +4,31 @@
  "title": "CryptoTrade-A-Reflective-LLM-based-Agent-to-Guide-Zero-shot",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:39:27",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/65c88817-07ed-4051-8cc2-79e6e581c812.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/65c88817-07ed-4051-8cc2-79e6e581c812.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:31:43",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Cryptocurrency Trading",
+    "Large Language Models",
+    "On-chain Data",
+    "Reflective Agent",
+    "Zero-shot",
+    "Multi-agent System",
+    "Financial Decision Making"
+   ],
+   "field": "加密货币量化交易与大模型Agent",
+   "innovations": [
+    "首个整合链上与链下多源数据的LLM加密货币交易agent，突破单一价格序列限制",
+    "多智能体分工+自反思迭代机制，实现零样本条件下可持续策略优化",
+    "实证揭示链上统计数据对交易决策具有独立显著贡献（移除后回报下降约16%）"
+   ],
+   "benchmarks": [
+    "BTC/ETH/SOL日频交易基准（牛/横/熊市三分割）",
+    "SMA/SLMA/MACD/Bollinger Bands/LSTM/Informer/AutoFormer/TimesNet/PatchTST/Buy and Hold"
+   ]
+  }
+ }
 }

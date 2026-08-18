@@ -4,5 +4,32 @@
  "title": "DocHieNet-A-Large-and-Diverse-Dataset-for-Document-Hierarchy",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:39:29",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/1711f14f-084a-4720-aa54-fa866df82498.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/1711f14f-084a-4720-aa54-fa866df82498.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:33:12",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Document Hierarchy Parsing",
+    "DocHieNet",
+    "DHFormer",
+    "Long-document Transformer",
+    "Layout-aware LM",
+    "Multi-page document understanding"
+   ],
+   "field": "文档理解",
+   "innovations": [
+    "提出DocHieNet大规模多页多领域双语DHP数据集",
+    "设计DHFormer结合稀疏编码与全局解码处理多页多层级解析",
+    "引入页面嵌入与内部布局位置嵌入增强跨页关系建模"
+   ],
+   "benchmarks": [
+    "arXivdocs",
+    "HRDoc (HRDS/HRDH)",
+    "E-Periodica",
+    "DocHieNet"
+   ]
+  }
+ }
 }

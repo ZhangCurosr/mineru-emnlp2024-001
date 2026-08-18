@@ -4,5 +4,31 @@
  "title": "Bridging-Cultures-in-the-Kitchen-A-Framework-and-Benchmark-f",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:39:27",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ebb080e1-4f2c-4fed-964d-fb8b89a08fc9.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ebb080e1-4f2c-4fed-964d-fb8b89a08fc9.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:28:32",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "跨文化食谱检索",
+    "信息检索",
+    "大语言模型",
+    "查询重写",
+    "重排序",
+    "文化适配",
+    "基准数据集"
+   ],
+   "field": "跨文化信息检索",
+   "innovations": [
+    "首次定义跨文化食谱检索任务并提供三级相关性评估指南",
+    "提出CARROT即插即用框架，通过LLM查询重写和文化感知重排序提升跨文化检索性能",
+    "构建首个中文-英文跨文化食谱检索基准数据集，采用多方法深度池化与人工标注"
+   ],
+   "benchmarks": [
+    "Cross-Cultural Recipe Retrieval Dataset",
+    "CulturalRecipes (Cao et al. 2024)"
+   ]
+  }
+ }
 }

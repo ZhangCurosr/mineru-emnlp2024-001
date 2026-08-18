@@ -4,5 +4,30 @@
  "title": "Do-We-Need-Language-Specific-Fact-Checking-Models-The-Case-o",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:39:35",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2cf6fe28-ddc2-420d-ba6f-35a82baf7822.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2cf6fe28-ddc2-420d-ba6f-35a82baf7822.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:33:29",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "自动事实验证",
+    "中文自然语言处理",
+    "证据检索",
+    "对抗数据集",
+    "语言特定模型",
+    "偏见分析"
+   ],
+   "field": "跨语言/低资源自然语言处理",
+   "innovations": [
+    "提出文档级证据检索器DLR，大幅提升中文证据检索召回率",
+    "构建中文事实核查对抗数据集以揭示模型表层偏见",
+    "系统证明语言特定模型优于翻译与多语言基线"
+   ],
+   "benchmarks": [
+    "CHEF",
+    "Adversarial CHEF"
+   ]
+  }
+ }
 }

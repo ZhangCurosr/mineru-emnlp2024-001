@@ -4,5 +4,31 @@
  "title": "Cross-lingual-Transfer-for-Automatic-Question-Generation-by",
  "token": "sk-OZiRtsQic...",
  "created_at": "2026-08-13 05:39:49",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/71a6c2ee-9a19-49f3-b3c1-e1900628f91c.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/71a6c2ee-9a19-49f3-b3c1-e1900628f91c.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:31:56",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "跨语言问题生成",
+    "自动问答",
+    "低资源语言",
+    "跨语言迁移",
+    "疑问结构",
+    "数据增强"
+   ],
+   "field": "多语种自然语言生成",
+   "innovations": [
+    "仅用英语训练、推理时引入目标语言示例实现跨语言问题生成",
+    "两阶段QTC+QG框架解决疑问结构语码转换问题"
+   ],
+   "benchmarks": [
+    "SQuAD 1.1",
+    "TyDiQA",
+    "XQuAD",
+    "MLQA"
+   ]
+  }
+ }
 }

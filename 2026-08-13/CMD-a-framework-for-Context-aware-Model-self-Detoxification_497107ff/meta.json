@@ -4,5 +4,32 @@
  "title": "CMD-a-framework-for-Context-aware-Model-self-Detoxification",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:39:35",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7e88eea5-2e89-4126-979e-38961ff7a315.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7e88eea5-2e89-4126-979e-38961ff7a315.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:28:41",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Text Detoxification",
+    "Large Language Models",
+    "Context-aware Generation",
+    "Self-Detoxification",
+    "Contrastive Learning",
+    "Parameter-Efficient Fine-tuning"
+   ],
+   "field": "大模型安全与对齐",
+   "innovations": [
+    "提出CMD框架，通过先上下文去毒再安全生成来平衡去毒效果与文本质量",
+    "设计细粒度上下文去毒数据合成流程与毒性格对比损失",
+    "通过LoRA微调使开源LLM获得高效的自去毒能力"
+   ],
+   "benchmarks": [
+    "REALTOXICPROMPTS (RTP)",
+    "JigSaw TOXIC COMMENT",
+    "ParaDetox",
+    "APPDIA"
+   ]
+  }
+ }
 }

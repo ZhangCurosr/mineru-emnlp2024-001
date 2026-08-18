@@ -4,5 +4,30 @@
  "title": "Decoding-the-Echoes-of-Vision-from-fMRI-Memory-Disentangling",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 05:39:37",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec50f406-ea14-4022-8f52-180c76503fe4.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec50f406-ea14-4022-8f52-180c76503fe4.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:32:37",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "fMRI解码",
+    "连续视觉刺激",
+    "工作记忆",
+    "解耦对比学习",
+    "近端干扰",
+    "CLIPCap",
+    "神经解码"
+   ],
+   "field": "脑机接口与神经解码",
+   "innovations": [
+    "提出Memory Disentangling任务，从fMRI中解耦并解码过去语义记忆",
+    "设计受近端干扰理论启发的解耦对比学习机制，分离脑信号中的当前与过去分量"
+   ],
+   "benchmarks": [
+    "NSD",
+    "CIDEr/METEOR/SPICE"
+   ]
+  }
+ }
 }

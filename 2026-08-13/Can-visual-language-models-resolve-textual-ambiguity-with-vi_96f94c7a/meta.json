@@ -4,5 +4,31 @@
  "title": "Can-visual-language-models-resolve-textual-ambiguity-with-vi",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 05:40:35",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/376e0950-1964-49b8-8279-adf92647d40b.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/376e0950-1964-49b8-8279-adf92647d40b.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:29:37",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "多模态素养",
+    "视觉语言模型",
+    "双关语理解",
+    "歧义消解",
+    "多模态机器翻译"
+   ],
+   "field": "多模态自然语言处理",
+   "innovations": [
+    "提出 UNPIE 基准测试评估视觉语言模型通过图像解决文本歧义的能力",
+    "设计了双关语定位、消歧和重建三个递进任务",
+    "揭示了标准 MMT 微调可能对复杂多模态理解任务产生负面影响"
+   ],
+   "benchmarks": [
+    "UNPIE",
+    "SemEval 2017 Task 7",
+    "Multi30k",
+    "CoMMuTE"
+   ]
+  }
+ }
 }

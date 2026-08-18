@@ -4,5 +4,30 @@
  "title": "Advancing-Event-Causality-Identification-via-Heuristic-Seman",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:08",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/04bd761e-56db-47c8-a8de-15f1f2e22c47.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/04bd761e-56db-47c8-a8de-15f1f2e22c47.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:24:41",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Event Causality Identification",
+    "Semantic Dependency Inquiry",
+    "Cloze Test",
+    "Pre-trained Language Models",
+    "Context-dependent Reasoning"
+   ],
+   "field": "事件因果识别",
+   "innovations": [
+    "将ECI任务重新建模为语义依赖探究任务，通过Cloze填空生成填充token进行因果查询",
+    "提出轻量级SemDI框架（368M参数），无需外部知识即超越LLaMA2-7B等大模型性能",
+    "在ESC/ESC*/CTB三个基准上分别取得4.1/7.4/8.7的F1提升"
+   ],
+   "benchmarks": [
+    "ESC",
+    "ESC*",
+    "CTB"
+   ]
+  }
+ }
 }

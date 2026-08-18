@@ -4,5 +4,29 @@
  "title": "Cross-domain-NER-with-Generated-Task-Oriented-Knowledge-An-E",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:14",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/dcf41216-e62f-49e5-ac5d-19cdf09da856.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/dcf41216-e62f-49e5-ac5d-19cdf09da856.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:31:11",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "跨域命名实体识别",
+    "任务导向知识生成",
+    "均匀信息密度",
+    "大语言模型",
+    "文本生成"
+   ],
+   "field": "跨域命名实体识别",
+   "innovations": [
+    "首次用LLM自动生成任务导向知识语料（GTOK）替代手工收集的DAPT语料",
+    "首次引入UID理论量化评估预训练语料的信息分布均匀性",
+    "将CD-NER reformulate为text-to-text生成任务，超越CP-NER等SOTA方法"
+   ],
+   "benchmarks": [
+    "CrossNER",
+    "CoNLL2003"
+   ]
+  }
+ }
 }
