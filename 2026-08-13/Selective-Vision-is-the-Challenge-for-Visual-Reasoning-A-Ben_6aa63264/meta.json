@@ -4,5 +4,42 @@
  "title": "Selective-Vision-is-the-Challenge-for-Visual-Reasoning-A-Ben",
  "token": "sk-owp49a3rO...",
  "created_at": "2026-08-13 03:49:59",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/12473799-3318-4dba-bb66-2a1ae4683f5f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/12473799-3318-4dba-bb66-2a1ae4683f5f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:30:09",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "视觉论证",
+    "多模态推理",
+    "选择性视觉",
+    "视觉前提定位",
+    "论证结构理解",
+    "基准评测"
+   ],
+   "field": "多模态理解与推理",
+   "innovations": [
+    "提出首个系统标注视觉论证结构的VisArgs数据集，含5,112个带区域的视觉前提及推理树",
+    "定义三任务递进评测体系定位机器理解视觉论证的具体瓶颈",
+    "发现选择性视觉是当前AI理解视觉论证的核心瓶颈，机器区分图像内局部负样本能力显著弱于全局负样本"
+   ],
+   "benchmarks": [
+    "VisArgs",
+    "CLIP",
+    "LLaVA-1.5",
+    "LLaVA-NeXT",
+    "GPT-4-O",
+    "Qwen-VL-Chat",
+    "CogVLM",
+    "Idefics2",
+    "InstructBLIP",
+    "Unified-IO-2",
+    "OFA",
+    "MM-G-DINO",
+    "LISA",
+    "UNINEXT-H"
+   ]
+  }
+ }
 }

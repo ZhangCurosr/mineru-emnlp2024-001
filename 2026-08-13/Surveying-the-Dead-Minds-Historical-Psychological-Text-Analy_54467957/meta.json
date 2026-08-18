@@ -4,5 +4,10 @@
  "title": "Surveying-the-Dead-Minds-Historical-Psychological-Text-Analy",
  "token": "sk-owp49a3rO...",
  "created_at": "2026-08-13 03:49:51",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/16890463-6d6f-4a12-aa03-ccf04dc26022.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/16890463-6d6f-4a12-aa03-ccf04dc26022.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:31:55",
+  "chunks": 1
+ }
 }

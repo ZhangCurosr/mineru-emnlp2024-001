@@ -4,5 +4,33 @@
  "title": "Towards-Tool-Use-Alignment-of-Large-Language-Models",
  "token": "sk-LV19Ft0NN...",
  "created_at": "2026-08-13 03:39:02",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/06601731-e096-4d55-840c-4d848bb1a401.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/06601731-e096-4d55-840c-4d848bb1a401.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:34:38",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "工具使用对齐",
+    "H2A原则",
+    "有害性对齐",
+    "自主性",
+    "偏好优化",
+    "DPO",
+    "大语言模型",
+    "ToolAlign"
+   ],
+   "field": "大语言模型工具使用对齐",
+   "innovations": [
+    "提出H2A三维度对齐原则（有用性-无害性-自主性）",
+    "构建ToolAlign多维度对齐数据集（46k指令+10k偏好）",
+    "验证SFT+DPO两阶段训练在工具对齐中的有效性"
+   ],
+   "benchmarks": [
+    "ToolBench",
+    "ToolSword",
+    "MetaTool"
+   ]
+  }
+ }
 }

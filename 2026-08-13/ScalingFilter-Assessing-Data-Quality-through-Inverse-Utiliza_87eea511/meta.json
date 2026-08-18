@@ -4,5 +4,35 @@
  "title": "ScalingFilter-Assessing-Data-Quality-through-Inverse-Utiliza",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 07:10:23",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/77c11770-4279-4d58-99db-ca9b4f66b067.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/77c11770-4279-4d58-99db-ca9b4f66b067.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:29:53",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "data quality filtering",
+    "scaling laws",
+    "perplexity",
+    "language model pretraining",
+    "semantic diversity",
+    "reference-free filtering"
+   ],
+   "field": "语言模型预训练数据工程",
+   "innovations": [
+    "提出质量因子（大小模型困惑度比）作为数据质量的可计算代理指标，理论证明与缩放指数正相关",
+    "ScalingFilter 通过逆用缩放定律实现参考无关数据过滤，同时提升下游性能与语义多样性",
+    "引入 Vendi Score 式的语义多样性度量用于数据工程场景的数据质量评估"
+   ],
+   "benchmarks": [
+    "Hellaswag",
+    "LAMBADA",
+    "Winogrande",
+    "PIQA",
+    "ARC",
+    "OpenbookQA",
+    "BoolQ"
+   ]
+  }
+ }
 }

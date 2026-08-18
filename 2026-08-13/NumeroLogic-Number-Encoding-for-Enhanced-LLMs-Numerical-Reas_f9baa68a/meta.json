@@ -4,5 +4,30 @@
  "title": "NumeroLogic-Number-Encoding-for-Enhanced-LLMs-Numerical-Reas",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 04:50:50",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/c4dfb9c2-6a78-4452-9fed-ea29772beac5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/c4dfb9c2-6a78-4452-9fed-ea29772beac5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:28:20",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "数值推理",
+    "语言模型",
+    "数字编码",
+    "Chain of Thought",
+    "低秩自适应"
+   ],
+   "field": "数值推理增强",
+   "innovations": [
+    "位数前缀编码（NumeroLogic）提升LLM位值理解",
+    "隐式CoT：位数预测作为生成前的推理步骤",
+    "零架构修改的正则前后处理方案"
+   ],
+   "benchmarks": [
+    "MMLU",
+    "NanoGPT算术任务",
+    "Llama2-7B算术任务"
+   ]
+  }
+ }
 }

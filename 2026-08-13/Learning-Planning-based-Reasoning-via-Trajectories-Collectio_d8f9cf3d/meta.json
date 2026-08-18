@@ -4,5 +4,33 @@
  "title": "Learning-Planning-based-Reasoning-via-Trajectories-Collectio",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:56",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7d2b58e9-c6d5-4e83-90e3-8ce03cfc057f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7d2b58e9-c6d5-4e83-90e3-8ce03cfc057f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:28:26",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "过程奖励模型",
+    "DPO",
+    "推理-as-规划",
+    "离线模拟",
+    "偏好优化",
+    "大语言模型推理",
+    "逻辑推理"
+   ],
+   "field": "大语言模型推理与强化学习",
+   "innovations": [
+    "提出离线模拟合成过程奖励的框架，将规划式推理转化为可学习的偏好优化问题",
+    "设计PRM训练流程，通过结果监督信号估计中间状态价值，避免人工标注和在线搜索开销",
+    "构建pDPO方法，在双正确轨迹间利用过程奖励差值构造偏好对，提升推理过程质量"
+   ],
+   "benchmarks": [
+    "LogiQA-v2",
+    "ReClor",
+    "GSM8K",
+    "MATH"
+   ]
+  }
+ }
 }

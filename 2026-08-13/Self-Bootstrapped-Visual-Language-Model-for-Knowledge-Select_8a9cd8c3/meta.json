@@ -4,5 +4,32 @@
  "title": "Self-Bootstrapped-Visual-Language-Model-for-Knowledge-Select",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 03:49:40",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/15ceb284-8938-4e45-b145-05297ca99cd5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/15ceb284-8938-4e45-b145-05297ca99cd5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:31:18",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Knowledge-based VQA",
+    "Visual Question Answering",
+    "Large Vision-Language Models",
+    "Retrieval-Augmented Generation",
+    "Parameter-Efficient Fine-tuning",
+    "Self-Bootstrapping",
+    "OK-VQA"
+   ],
+   "field": "多模态知识型视觉问答",
+   "innovations": [
+    "提出基于大视觉语言模型的自引导循环训练框架，协同优化知识选择与问题回答",
+    "设计结合模型预测与弱监督的伪标签生成策略以训练知识选择器",
+    "仅微调0.16%参数即在OK-VQA上达到62.83%的最优准确率"
+   ],
+   "benchmarks": [
+    "OK-VQA",
+    "FVQA",
+    "A-OKVQA"
+   ]
+  }
+ }
 }

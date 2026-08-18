@@ -4,5 +4,29 @@
  "title": "Reuse-Your-Rewards-Reward-Model-Transfer-for-Zero-Shot-Cross",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 03:49:34",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0066cde0-f569-4202-bc5b-683f3a72fe85.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/0066cde0-f569-4202-bc5b-683f3a72fe85.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:29:18",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Reward Model Transfer",
+    "Cross-lingual Alignment",
+    "Zero-shot Learning",
+    "RLHF",
+    "Multilingual LM"
+   ],
+   "field": "多语言语言模型对齐",
+   "innovations": [
+    "提出零样本跨语言奖励模型迁移框架，直接用源语言RM对齐目标语言模型",
+    "发现跨语言RM有时优于同语言RM，归因于减少语言特定过拟合的正则化效应",
+    "系统验证英语RM作为通用源语言的优越性和无SFT数据时的最佳实践"
+   ],
+   "benchmarks": [
+    "Seahorse",
+    "OpenAssistant"
+   ]
+  }
+ }
 }

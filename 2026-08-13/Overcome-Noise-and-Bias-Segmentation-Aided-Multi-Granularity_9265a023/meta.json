@@ -4,5 +4,31 @@
  "title": "Overcome-Noise-and-Bias-Segmentation-Aided-Multi-Granularity",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:08",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/f93d1991-71fb-4e9d-b0d5-e733ff0e9e75.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/f93d1991-71fb-4e9d-b0d5-e733ff0e9e75.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:28:33",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "DiaASQ",
+    "aspect-based sentiment analysis",
+    "quadruple extraction",
+    "noise reduction",
+    "order bias",
+    "dialogue segmentation",
+    "generative extraction"
+   ],
+   "field": "情感分析/信息抽取",
+   "innovations": [
+    "从理论推导揭示顺序偏差成因（理想/实际训练目标Gap）",
+    "多粒度去噪生成（MGDG）将词级标注和话语级主题分割融入Denoised Attention",
+    "分段辅助顺序偏差缓解（SOBM）利用对话结构增强实现数据级去偏"
+   ],
+   "benchmarks": [
+    "DiaASQ (EN)",
+    "DiaASQ (ZH)"
+   ]
+  }
+ }
 }

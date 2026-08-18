@@ -4,5 +4,33 @@
  "title": "SHIELD-Evaluation-and-Defense-Strategies-for-Copyright-Compl",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 03:49:36",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d245bda2-126e-4d3f-9cb1-e9243c10cf0a.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d245bda2-126e-4d3f-9cb1-e9243c10cf0a.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:29:25",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM版权合规",
+    "jailbreaking攻击",
+    "防御机制",
+    "Agent-based防御",
+    "版权评估基准",
+    "拒绝率"
+   ],
+   "field": "大语言模型安全与合规",
+   "innovations": [
+    "首次系统性评估jailbreaking攻击对LLM版权防护的绕过效果",
+    "提出轻量级Agent-based实时防御机制无需修改模型参数",
+    "构建覆盖多版权状态的五维数据集及拒绝率综合评测协议"
+   ],
+   "benchmarks": [
+    "BS-C",
+    "BS-PC",
+    "BS-NC",
+    "SSRL",
+    "BEP"
+   ]
+  }
+ }
 }

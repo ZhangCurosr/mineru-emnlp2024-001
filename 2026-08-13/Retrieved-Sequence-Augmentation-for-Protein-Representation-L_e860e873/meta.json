@@ -4,5 +4,34 @@
  "title": "Retrieved-Sequence-Augmentation-for-Protein-Representation-L",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 03:49:39",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/47bab82d-06f4-4319-a3bf-2f324f234331.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/47bab82d-06f4-4319-a3bf-2f324f234331.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:28:46",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Protein Language Models",
+    "Retrieval-Augmented Generation",
+    "Multiple Sequence Alignment",
+    "Protein Representation Learning",
+    "ESM",
+    "De Novo Protein Prediction"
+   ],
+   "field": "蛋白质表示学习与计算生物学",
+   "innovations": [
+    "提出RSA框架，将MSA重新形式化为无对齐的检索增强方法",
+    "理论证明强蛋白语言模型无需显式对齐即可捕获共进化知识",
+    "首次将密集检索器集成至GPT-4作为蛋白质理解工具"
+   ],
+   "benchmarks": [
+    "CASP14",
+    "ProteinNet",
+    "NetSurfP-2.0",
+    "Deepsf",
+    "DeepLoc",
+    "Pfam-A"
+   ]
+  }
+ }
 }

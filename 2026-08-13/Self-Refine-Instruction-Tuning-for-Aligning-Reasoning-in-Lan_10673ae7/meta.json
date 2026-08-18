@@ -4,5 +4,36 @@
  "title": "Self-Refine-Instruction-Tuning-for-Aligning-Reasoning-in-Lan",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 03:49:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/84155eca-3198-42cf-96fa-324413082365.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/84155eca-3198-42cf-96fa-324413082365.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:30:32",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Chain-of-Thought",
+    "Instruction-Tuning",
+    "Direct Preference Optimization",
+    "Small Language Models",
+    "Teacher-Student Alignment",
+    "Reasoning Transfer"
+   ],
+   "field": "语言模型推理能力对齐",
+   "innovations": [
+    "提出两阶段Self-refine Instruction-tuning框架：Instruction-tuning初始化+DPO自我精炼",
+    "设计DPO_CoT自生成偏好机制，无需独立Reward Model即可优化CoT推理风格",
+    "系统性对比in-family与out-family对齐，揭示跨族教师在低资源场景下的泛化优势"
+   ],
+   "benchmarks": [
+    "GSM8K",
+    "MultiArith",
+    "OBQA",
+    "CSQA",
+    "PIQA",
+    "SIQA",
+    "MATH",
+    "MMLU"
+   ]
+  }
+ }
 }

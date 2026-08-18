@@ -4,5 +4,34 @@
  "title": "Scaling-Properties-of-Speech-Language-Models",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 06:51:49",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7dd719d4-ace1-435a-b203-cbfb65462fef.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7dd719d4-ace1-435a-b203-cbfb65462fef.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:30:16",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Speech Language Models",
+    "Scaling Laws",
+    "Generative Spoken Language Modeling",
+    "GSLM",
+    "Low-resource NLP",
+    "Textless NLP",
+    "Speech Tokenization"
+   ],
+   "field": "语音语言模型与缩放规律",
+   "innovations": [
+    "首次为SLM建立预训练损失与下游句法/语义性能的缩放幂律模型，量化SLM比LLM慢最多三个数量级的缩放效率",
+    "提出STINYSTORIES合成语音数据集，显著提升SLM语义理解能力（包括跨说话人场景）",
+    "揭示coarser unigram语音分词虽改善上游loss缩放但损害下游语言性能的反直觉现象"
+   ],
+   "benchmarks": [
+    "BLIMP",
+    "tStoryCloze",
+    "sStoryCloze",
+    "LibriSpeech",
+    "LibriLight"
+   ]
+  }
+ }
 }

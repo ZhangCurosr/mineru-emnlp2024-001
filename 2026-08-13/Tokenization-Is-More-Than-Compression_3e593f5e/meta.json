@@ -4,5 +4,39 @@
  "title": "Tokenization-Is-More-Than-Compression",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 03:38:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec31585f-9fd6-4402-8ec2-4aa2321fafc1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec31585f-9fd6-4402-8ec2-4aa2321fafc1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:33:56",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "tokenization",
+    "Byte-Pair Encoding",
+    "language model pretraining",
+    "subword segmentation",
+    "corpus token count",
+    "pre-tokenization",
+    "vocabulary construction"
+   ],
+   "field": "自然语言处理基础组件",
+   "innovations": [
+    "提出 PATHPIECE 分词器以最小化语料词数，系统检验压缩假说",
+    "证明预分词策略和词表初始化方法对下游性能影响显著，且多个主流分词器表现相当无统计显著差异"
+   ],
+   "benchmarks": [
+    "lm-evaluation-harness",
+    "arc_easy",
+    "copa",
+    "mathqa",
+    "piqa",
+    "wsc273",
+    "race",
+    "qa4mre_2013",
+    "sciq",
+    "hendrycksTests-marketing",
+    "hendrycksTests-sociology"
+   ]
+  }
+ }
 }

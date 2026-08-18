@@ -4,5 +4,31 @@
  "title": "SEER-Self-Aligned-Evidence-Extraction-for-Retrieval-Augmente",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 07:10:23",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e815205b-6ec5-40a1-a00b-774540c80d66.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e815205b-6ec5-40a1-a00b-774540c80d66.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:29:26",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "RAG",
+    "证据提取",
+    "自对齐",
+    "偏好优化",
+    "信息检索",
+    "大语言模型"
+   ],
+   "field": "检索增强生成",
+   "innovations": [
+    "提出SEER自对齐证据提取框架，避免手工规则依赖",
+    "设计三专家评估体系与平滑CoV加权融合机制",
+    "提出列表感知LPO方法，将MRR排名信号融入DPO"
+   ],
+   "benchmarks": [
+    "NQ",
+    "TQA",
+    "HotpotQA"
+   ]
+  }
+ }
 }

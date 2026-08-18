@@ -4,5 +4,31 @@
  "title": "Seemingly-Plausible-Distractors-in-Multi-Hop-Reasoning-Are-L",
  "token": "sk-owp49a3rO...",
  "created_at": "2026-08-13 03:49:48",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7c436ec5-54ff-4c21-9dbf-0bfaa0deaa37.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7c436ec5-54ff-4c21-9dbf-0bfaa0deaa37.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:29:53",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "multi-hop reasoning",
+    "adversarial evaluation",
+    "large language models",
+    "reasoning shortcuts",
+    "question answering",
+    "benchmark"
+   ],
+   "field": "多跳推理与大语言模型评估",
+   "innovations": [
+    "提出生成连贯替代推理链的对抗性评测方法",
+    "揭示LLM推理捷径的微妙性区别于微调PLM",
+    "系统分析干扰项参数对LLM性能的定量影响"
+   ],
+   "benchmarks": [
+    "HotpotQA",
+    "SubQA",
+    "DiRe"
+   ]
+  }
+ }
 }

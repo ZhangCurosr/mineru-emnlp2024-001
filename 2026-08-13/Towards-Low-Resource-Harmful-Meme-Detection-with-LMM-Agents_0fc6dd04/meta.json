@@ -4,5 +4,31 @@
  "title": "Towards-Low-Resource-Harmful-Meme-Detection-with-LMM-Agents",
  "token": "sk-LV19Ft0NN...",
  "created_at": "2026-08-13 03:39:24",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:34:01",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "low-resource harmful meme detection",
+    "LMM Agent",
+    "retrieval-augmented generation",
+    "in-context learning",
+    "gradient-free learning",
+    "multimodal reasoning"
+   ],
+   "field": "多模态内容安全与有害信息检测",
+   "innovations": [
+    "提出无梯度双向增强框架LOREHM，结合向外检索标签先验与向内错误反思提取洞察",
+    "首次将LMM作为Agent用于低资源有害模因检测而非仅做few-shot分类",
+    "设计结构化洞察集管理机制(ADD/UPVOTE/DOWNVOTE/EDIT)实现知识累积式自我改进"
+   ],
+   "benchmarks": [
+    "HarM",
+    "FHM (Hateful Memes Challenge)",
+    "MAMI"
+   ]
+  }
+ }
 }

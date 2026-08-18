@@ -4,5 +4,30 @@
  "title": "Successfully-Guiding-Humans-with-Imperfect-Instructions-by-H",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 03:38:55",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7a20fe33-1c1e-4acf-9fbf-de653e09f54e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7a20fe33-1c1e-4acf-9fbf-de653e09f54e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:31:31",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "幻觉检测",
+    "不确定性通信",
+    "人机协作",
+    "视觉导航",
+    "长周期决策",
+    "合成数据"
+   ],
+   "field": "人机协作与视觉语言导航",
+   "innovations": [
+    "首次将不确定性通信应用于长周期视觉导航任务并验证增益",
+    "提出端到端的幻觉检测与修正建议框架（检测+分类+排名）",
+    "结合规则与LLM的合成数据构造方法解决训练数据稀缺问题"
+   ],
+   "benchmarks": [
+    "R2R (Room-to-Room)",
+    "Matterport3D"
+   ]
+  }
+ }
 }

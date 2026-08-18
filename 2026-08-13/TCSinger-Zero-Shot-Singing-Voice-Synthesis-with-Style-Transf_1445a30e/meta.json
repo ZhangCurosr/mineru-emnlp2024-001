@@ -4,5 +4,33 @@
  "title": "TCSinger-Zero-Shot-Singing-Voice-Synthesis-with-Style-Transf",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 03:49:42",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4821fc73-9cac-410b-ab3a-fda1833855eb.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4821fc73-9cac-410b-ab3a-fda1833855eb.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:32:23",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "零样本歌唱语音合成",
+    "风格迁移",
+    "多层级风格控制",
+    "聚类向量量化",
+    "扩散解码器",
+    "跨语言合成"
+   ],
+   "field": "歌唱语音合成与风格控制",
+   "innovations": [
+    "首个支持跨语言语音/歌唱风格迁移与多层级风格控制的零样本SVS模型",
+    "首次在歌唱领域引入CVQ聚类向量量化稳定提取多维风格并防止码本坍缩",
+    "提出mel风格自适应归一化扩散解码器，实现解耦风格信息对频谱的精细化调制"
+   ],
+   "benchmarks": [
+    "GTSinger",
+    "M4Singer",
+    "OpenSinger",
+    "AISHELL-3",
+    "PopBuTFy"
+   ]
+  }
+ }
 }

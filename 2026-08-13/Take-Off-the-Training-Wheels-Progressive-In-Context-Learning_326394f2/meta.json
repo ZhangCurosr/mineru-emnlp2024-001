@@ -4,5 +4,30 @@
  "title": "Take-Off-the-Training-Wheels-Progressive-In-Context-Learning",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 03:49:56",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d96c8319-7c42-48f7-b656-68c9f63fe134.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d96c8319-7c42-48f7-b656-68c9f63fe134.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:33:37",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "In-Context Learning",
+    "LLM Alignment",
+    "Progressive Generation",
+    "ICL Vector",
+    "Training-free Method",
+    "Token Representation"
+   ],
+   "field": "大语言模型对齐与上下文学习",
+   "innovations": [
+    "提出两阶段渐进式生成策略，在few-shot阶段生成prior tokens后切换至zero-shot阶段",
+    "从多层separator token隐藏状态提取ICL向量，在zero-shot阶段引导生成",
+    "揭示demonstrations在复杂对齐任务中仅对prior response tokens起关键作用"
+   ],
+   "benchmarks": [
+    "Alpaca-eval 2.0",
+    "Just-eval"
+   ]
+  }
+ }
 }

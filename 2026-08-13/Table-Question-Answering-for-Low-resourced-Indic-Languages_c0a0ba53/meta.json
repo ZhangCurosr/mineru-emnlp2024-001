@@ -4,5 +4,33 @@
  "title": "Table-Question-Answering-for-Low-resourced-Indic-Languages",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 03:49:28",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2dc6b852-1f3e-4fa7-b51a-e126e81d523c.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2dc6b852-1f3e-4fa7-b51a-e126e81d523c.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:32:13",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "TableQA",
+    "低资源语言",
+    "数据生成",
+    "孟加拉语",
+    "印地语",
+    "跨语言迁移"
+   ],
+   "field": "低资源多语言表格问答",
+   "innovations": [
+    "提出面向低资源语言的大规模 TableQA 自动数据生成流水线，从维基百科直接抽取表格并以代码混合 SQL 模板生成查询与问题",
+    "微调 LaBSE 为 SQL2NQSim 模型，解决低资源语言代码混合 SQL-NQ 对的语义相似度评估难题",
+    "在孟加拉语训练集上训练的模型超越 GPT-4 基线，并验证了零样本跨语言迁移能力"
+   ],
+   "benchmarks": [
+    "BanglaTabQA",
+    "HindiTabQA",
+    "GPT-4 2-shot ICL",
+    "OdiaG",
+    "OpenHathi"
+   ]
+  }
+ }
 }

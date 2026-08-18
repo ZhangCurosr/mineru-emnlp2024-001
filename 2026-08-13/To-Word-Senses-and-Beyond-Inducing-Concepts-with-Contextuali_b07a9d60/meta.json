@@ -4,5 +4,32 @@
  "title": "To-Word-Senses-and-Beyond-Inducing-Concepts-with-Contextuali",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-13 03:49:52",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/334312c5-d830-4d7d-b87f-c5893d7f3427.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/334312c5-d830-4d7d-b87f-c5893d7f3427.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:33:28",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Concept Induction",
+    "Word Sense Induction",
+    "polysemy",
+    "synonymy",
+    "contextualized language models",
+    "soft clustering",
+    "Bi-level clustering",
+    "SemCor"
+   ],
+   "field": "词汇语义学与无监督词义 induction",
+   "innovations": [
+    "定义Concept Induction无监督学习任务，从原始语料学习跨词概念软聚类",
+    "提出双向聚类框架，局部lemma-centric与全局cross-lexicon两级互益",
+    "构建轻量级概念感知静态嵌入，在WiC上以少数据接近SotA"
+   ],
+   "benchmarks": [
+    "SemCor 3.0",
+    "Word-in-Context (WiC) nouns subset"
+   ]
+  }
+ }
 }

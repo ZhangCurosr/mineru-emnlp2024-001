@@ -4,5 +4,35 @@
  "title": "Reusing-Transferable-Weight-Increments-for-Low-resource-Styl",
  "token": "sk-owp49a3rO...",
  "created_at": "2026-08-13 03:49:50",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/05a96b8b-ceea-4ff0-96c9-c74a75260522.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/05a96b8b-ceea-4ff0-96c9-c74a75260522.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:28:52",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Text Style Transfer",
+    "LoRA",
+    "Weight Increment",
+    "Low-resource Learning",
+    "SVD",
+    "Parameter-Efficient Fine-tuning",
+    "Memory Network"
+   ],
+   "field": "低资源文本风格迁移",
+   "innovations": [
+    "首次探索从多源风格LoRA权重增量中提取可迁移知识用于目标风格初始化",
+    "设计多键记忆网络实现任务级与实例级双层自适应检索",
+    "引入SVD稀疏化融合策略缓解多源权重合并时的参数干扰"
+   ],
+   "benchmarks": [
+    "YELP",
+    "GYAFC",
+    "Shakespeare",
+    "Genshin",
+    "T5-Large",
+    "LLaMA-2-7B"
+   ]
+  }
+ }
 }

@@ -4,5 +4,37 @@
  "title": "Let-the-Expert-Stick-to-His-Last-Expert-Specialized-Fine-Tun",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:40:18",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/fd439bd2-30b4-469a-9546-20995d3b10f6.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/fd439bd2-30b4-469a-9546-20995d3b10f6.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:28:16",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "MoE",
+    "Parameter-Efficient Fine-Tuning",
+    "Expert Specialization",
+    "Sparse LLMs",
+    "PEFT"
+   ],
+   "field": "大语言模型高效微调",
+   "innovations": [
+    "提出ESFT方法，仅微调与任务相关的专家子集",
+    "发现MoE专家路由的任务特异性分布",
+    "揭示训练共享参数会降低通用能力的现象"
+   ],
+   "benchmarks": [
+    "GSM8K",
+    "MATH",
+    "HumanEval",
+    "MBPP",
+    "MMLU",
+    "CEval",
+    "IFEval",
+    "TriviaQA",
+    "HellaSwag",
+    "ARC"
+   ]
+  }
+ }
 }

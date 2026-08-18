@@ -4,5 +4,31 @@
  "title": "Towards-Low-Resource-Harmful-Meme-Detection-with-LMM-Agents",
  "token": "sk-twhrLv2pG...",
  "created_at": "2026-08-13 14:55:47",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:34:22",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "有害模因检测",
+    "低资源学习",
+    "大语言模型",
+    "多模态智能体",
+    "少样本推理",
+    "检索增强"
+   ],
+   "field": "多模态内容安全与低资源学习",
+   "innovations": [
+    "首次提出无梯度智能体驱动的少样本有害模因检测框架",
+    "设计向外检索辅助+向内知识修订的双重增强策略实现正交互补",
+    "在 50-shot 设置下超越 GPT-4o 基线达 4.4% Macro-F1 提升"
+   ],
+   "benchmarks": [
+    "HarM",
+    "FHM",
+    "MAMI"
+   ]
+  }
+ }
 }

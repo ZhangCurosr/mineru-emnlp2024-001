@@ -4,5 +4,32 @@
  "title": "Tracking-the-perspectives-of-interacting-language-models",
  "token": "sk-Yw2JG3IRJ...",
  "created_at": "2026-08-13 14:54:58",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4e0da6d7-420f-4a66-9cde-da3bbadef882.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4e0da6d7-420f-4a66-9cde-da3bbadef882.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:34:55",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM交互系统",
+    "视角空间",
+    "信息扩散",
+    "模型演化",
+    "对抗性视角",
+    "极化",
+    "图神经网络",
+    "surrogate data kernel"
+   ],
+   "field": "多Agent语言模型系统",
+   "innovations": [
+    "提出视角空间方法定量追踪多LLM交互系统的信息扩散",
+    "将LLM系统建模为通信图网络并研究拓扑结构对演化的影响",
+    "设计iso-mirror和polarization等系统级动力学分析指标"
+   ],
+   "benchmarks": [
+    "Yahoo! Answers",
+    "Databricks Dolly 15k"
+   ]
+  }
+ }
 }

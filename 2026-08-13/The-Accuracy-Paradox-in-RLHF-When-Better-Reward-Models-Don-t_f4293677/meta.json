@@ -4,5 +4,29 @@
  "title": "The-Accuracy-Paradox-in-RLHF-When-Better-Reward-Models-Don-t",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 07:10:23",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/bc18c850-6d06-4dac-a1cf-0f35477b9bd5.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/bc18c850-6d06-4dac-a1cf-0f35477b9bd5.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 15:32:44",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "RLHF",
+    "Reward Model",
+    "KL Divergence",
+    "Language Model Alignment",
+    "Reinforcement Learning"
+   ],
+   "field": "语言模型对齐与偏好学习",
+   "innovations": [
+    "揭示RLHF中奖励模型准确率悖论：中等准确率模型优于高准确率模型",
+    "建立KL散度分析框架解释奖励动态与训练稳定性关系",
+    "提出任务适配的奖励模型选择原则而非单一追求分类准确率"
+   ],
+   "benchmarks": [
+    "QA-FEEDBACK",
+    "ASQA"
+   ]
+  }
+ }
 }
