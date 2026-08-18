@@ -4,5 +4,32 @@
  "title": "UniFashion-A-Unified-Vision-Language-Model-for-Multimodal-Fa",
  "token": "sk-AsgiqoBdE...",
  "created_at": "2026-08-13 14:54:57",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/02009b4f-1692-4ab2-a625-1460c4ef6aea.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/02009b4f-1692-4ab2-a625-1460c4ef6aea.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 17:27:30",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "多模态检索",
+    "组合图像检索",
+    "时尚图像生成",
+    "统一框架",
+    "扩散模型",
+    "大语言模型"
+   ],
+   "field": "多模态检索与生成",
+   "innovations": [
+    "首次统一建模时尚领域跨模态检索与生成任务",
+    "两阶段训练策略实现生成-检索任务相互增强",
+    "引入描述生成辅助组合图像检索"
+   ],
+   "benchmarks": [
+    "FashionGen",
+    "Fashion-IQ",
+    "VITON-HD",
+    "MGD"
+   ]
+  }
+ }
 }

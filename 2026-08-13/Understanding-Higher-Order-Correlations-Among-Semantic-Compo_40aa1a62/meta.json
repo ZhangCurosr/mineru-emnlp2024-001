@@ -4,5 +4,34 @@
  "title": "Understanding-Higher-Order-Correlations-Among-Semantic-Compo",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 07:10:23",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6fbc0994-e78c-4fa0-aafc-8ed7e461c9d4.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6fbc0994-e78c-4fa0-aafc-8ed7e461c9d4.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 17:27:25",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "ICA",
+    "词嵌入可解释性",
+    "高阶相关性",
+    "语义分解",
+    "最大生成树",
+    "嵌入降维"
+   ],
+   "field": "词嵌入可解释性分析",
+   "innovations": [
+    "提出用二阶矩高阶相关系数量化ICA分量的残余非独立性并证明其语义关联含义",
+    "构建最大生成树可视化ICA语义组件间的关联拓扑结构",
+    "基于MST谱聚类的降维方法优于随机/PCA基线"
+   ],
+   "benchmarks": [
+    "MEN",
+    "WS353",
+    "MTurk",
+    "RW",
+    "SimLex-999",
+    "SimVerb-3500"
+   ]
+  }
+ }
 }
