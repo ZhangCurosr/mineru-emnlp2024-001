@@ -3,5 +3,33 @@
  "batch_id": "0157ebc2-3d8b-4b89-91b8-10fa32f936a9",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 02:33:12",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2126e5a2-f67f-417e-b535-f1ef45aef90a.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2126e5a2-f67f-417e-b535-f1ef45aef90a.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:05:19",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "vision-language model",
+    "efficient transfer learning",
+    "prompt tuning",
+    "adapter tuning",
+    "domain generalization",
+    "few-shot classification",
+    "visual prompt",
+    "adaptive ensemble"
+   ],
+   "field": "视觉-语言模型的高效微调与领域自适应",
+   "innovations": [
+    "系统刻画 VPT/TPT/TA 在迁移难度维度的行为差异并提出模态差异化配置",
+    "基于预训练文本空间类间距离的自适应集成系数实现难度无关的推理调节",
+    "线性低秩文本适配器在极少参数下达到或超越非线性瓶颈结构"
+   ],
+   "benchmarks": [
+    "base-to-novel generalization on 11 datasets",
+    "cross-dataset evaluation (ImageNet→10 targets)",
+    "domain generalization on ImageNet-A/V2/Sketch-R"
+   ]
+  }
+ }
 }

@@ -4,5 +4,31 @@
  "title": "AdaZeta-Adaptive-Zeroth-Order-Tensor-Train-Adaption-for-Memo",
  "token": "sk-45Ifw5Iq3...",
  "created_at": "2026-08-13 05:39:26",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/56f28025-2236-4f76-9aa3-4bf2873aeeab.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/56f28025-2236-4f76-9aa3-4bf2873aeeab.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:13:10",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "zeroth-order fine-tuning",
+    "tensor-train decomposition",
+    "parameter-efficient fine-tuning",
+    "memory-efficient LLM",
+    "gradient-free optimization",
+    "convergence analysis"
+   ],
+   "field": "大模型高效微调与零阶优化",
+   "innovations": [
+    "提出AdaZeta框架，将TT张量适配器与亚线性自适应查询调度结合以同时提升ZO微调精度与稳定性",
+    "设计并行收缩TT因子策略，解决顺序收缩在前向耗时上的瓶颈以适配ZO双前向需求",
+    "给出非凸ZO优化的收敛上界，显式揭示维度d与查询调度对收敛速率的影响机制"
+   ],
+   "benchmarks": [
+    "GLUE (SST-2/5, QNLI, MNLI, SNLI, RTE, MR)",
+    "SuperGLUE (CB, BoolQ, WSC, WIC, COPA, ReCoRD)",
+    "SQuAD"
+   ]
+  }
+ }
 }

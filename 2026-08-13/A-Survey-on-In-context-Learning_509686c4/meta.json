@@ -4,5 +4,32 @@
  "title": "A-Survey-on-In-context-Learning",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 05:39:29",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d2161406-f6c9-4aa6-8b52-3cbdf7c19b0d.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/d2161406-f6c9-4aa6-8b52-3cbdf7c19b0d.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:11:08",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "上下文学习",
+    "大语言模型",
+    "少样本学习",
+    "提示工程",
+    "机制分析"
+   ],
+   "field": "自然语言处理",
+   "innovations": [
+    "首次提供ICL全面分类体系与技术研究路线图",
+    "系统分析ICL影响因素与学习机制的理论解释",
+    "评估不同演示选择与评分函数的效率稳定性权衡"
+   ],
+   "benchmarks": [
+    "SuperGLUE",
+    "BIG-Bench",
+    "BBH",
+    "SST2/SST5",
+    "Commonsense QA"
+   ]
+  }
+ }
 }

@@ -3,5 +3,30 @@
  "batch_id": "c010469e-81d5-4bb5-8a97-83144762157f",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 02:59:01",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4e0da6d7-420f-4a66-9cde-da3bbadef882.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/4e0da6d7-420f-4a66-9cde-da3bbadef882.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:10:36",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "语言模型交互系统",
+    "视角空间",
+    "信息扩散",
+    "多智能体仿真",
+    "模型演化追踪",
+    "communication network",
+    "perspective space"
+   ],
+   "field": "大语言模型评估与社会影响",
+   "innovations": [
+    "提出基于surrogate data kernel与CMDS的视角空间方法，实现多LLM响应差异的定量连续追踪",
+    "将LLM交互系统建模为时变图，系统研究不同通信拓扑对信息扩散的影响",
+    "设计iso-mirror、polarization与聚类稳定性等指标组合，实现多模型系统动力学的全方位监控"
+   ],
+   "benchmarks": [
+    "Yahoo! Answers"
+   ]
+  }
+ }
 }

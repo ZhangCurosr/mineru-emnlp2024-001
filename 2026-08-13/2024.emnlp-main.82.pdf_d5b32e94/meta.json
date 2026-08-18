@@ -3,5 +3,33 @@
  "batch_id": "d5b32e94-e793-4096-88f2-715073e79a37",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 02:59:08",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/06601731-e096-4d55-840c-4d848bb1a401.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/06601731-e096-4d55-840c-4d848bb1a401.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:10:27",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Tool Use Alignment",
+    "H2A Principle",
+    "ToolAlign",
+    "DPO",
+    "LLM Safety",
+    "Tool Learning",
+    "Autonomy"
+   ],
+   "field": "大语言模型工具使用对齐",
+   "innovations": [
+    "提出H2A三维度对齐原则统一框架",
+    "构建覆盖有用性/无害性/自主性的ToolAlign数据集",
+    "SFT+DPO两阶段训练显著提升工具场景多目标对齐效果"
+   ],
+   "benchmarks": [
+    "ToolAlign",
+    "ToolSword",
+    "MetaTool",
+    "ToolBench"
+   ]
+  }
+ }
 }

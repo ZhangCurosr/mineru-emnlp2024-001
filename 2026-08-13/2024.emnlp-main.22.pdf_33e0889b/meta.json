@@ -3,5 +3,30 @@
  "batch_id": "33e0889b-ac16-4d6f-b44a-db31cd15e32a",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 02:58:49",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:08:35",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Social Context Grounding",
+    "Political Text Understanding",
+    "Discourse Contextualization",
+    "Pragmatic NLU",
+    "Graph Neural Networks",
+    "Stance Detection"
+   ],
+   "field": "社会计算与自然语言处理",
+   "innovations": [
+    "首次定义社会上下文Grounding任务并提出两个政治文本数据集",
+    "证明显式图结构建模(DCF)优于大型PLM/LLM进行语用理解",
+    "揭示上下文concatenation与显式建模的本质差异"
+   ],
+   "benchmarks": [
+    "Target Entity and Sentiment Detection",
+    "Vague Text Disambiguation"
+   ]
+  }
+ }
 }

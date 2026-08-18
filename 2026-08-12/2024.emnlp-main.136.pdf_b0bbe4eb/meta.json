@@ -3,5 +3,31 @@
  "batch_id": "b0bbe4eb-6818-43ab-a2b2-75f179d6a0e2",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-12 16:09:01",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:03:47",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "有害模因检测",
+    "低资源学习",
+    "多模态大模型",
+    "智能体框架",
+    "检索增强生成",
+    "知识修正"
+   ],
+   "field": "多模态内容安全检测",
+   "innovations": [
+    "首个梯度自由的低资源有害模因检测框架，通过检索增强与知识修正双路策略增强LMM智能体",
+    "提出模因洞察增强机制，从模型错误轨迹中迭代提取通用有害性洞察",
+    "向外检索与向内反思的互补设计，显著提升few-shot场景下的检测性能"
+   ],
+   "benchmarks": [
+    "HarM",
+    "FHM",
+    "MAMI"
+   ]
+  }
+ }
 }

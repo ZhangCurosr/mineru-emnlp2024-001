@@ -3,5 +3,36 @@
  "batch_id": "6afecbcb-d868-401a-9887-a8639655806c",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 02:45:28",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6a902be4-7f1f-4c0d-85d5-76d981c60464.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/6a902be4-7f1f-4c0d-85d5-76d981c60464.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:04:05",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "零样本数据集生成",
+    "领域泛化",
+    "监督对比学习",
+    "伪标签重标记",
+    "去噪记忆银行",
+    "轻量级任务模型"
+   ],
+   "field": "低资源自然语言处理",
+   "innovations": [
+    "通用提示词驱动零样本跨域数据集生成",
+    "基于伪标签软重标记的生成阶段去噪方法",
+    "结合样本权重的去噪记忆银行机制"
+   ],
+   "benchmarks": [
+    "SST-2",
+    "IMDB",
+    "Rotten Tomatoes",
+    "Amazon",
+    "Yelp",
+    "CR",
+    "Tweet",
+    "Amazon Review 29-domain"
+   ]
+  }
+ }
 }

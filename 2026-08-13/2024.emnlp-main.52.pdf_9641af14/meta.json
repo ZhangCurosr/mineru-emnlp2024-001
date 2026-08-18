@@ -3,5 +3,31 @@
  "batch_id": "9641af14-577b-4680-b062-ed74fc95b521",
  "token": "sk-owp49a3rO...",
  "created_at": "2026-08-13 02:58:56",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8b0cafdd-7efb-4da9-a83b-8988ac67a3af.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8b0cafdd-7efb-4da9-a83b-8988ac67a3af.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:09:39",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "context-dependent paraphrase",
+    "dialog paraphrase detection",
+    "in-context learning",
+    "token classification",
+    "annotation quality",
+    "plausible label variation",
+    "news interview"
+   ],
+   "field": "对话理解与语义等价检测",
+   "innovations": [
+    "首次定义并操作化对话中的上下文依赖释义概念",
+    "提出基于熵阈值的动态标注分配策略与可扩展的众包培训方案",
+    "构建ContextDeP数据集并建立ICL与token分类器的双重基线"
+   ],
+   "benchmarks": [
+    "ContextDeP",
+    "MediaSum"
+   ]
+  }
+ }
 }

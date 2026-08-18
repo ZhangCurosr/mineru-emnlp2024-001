@@ -3,5 +3,32 @@
  "batch_id": "4eea9b56-4768-4427-aab9-6a02ff1e5ca4",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 02:58:47",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab315c60-4e84-4b74-a8ea-2d94377e5902.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab315c60-4e84-4b74-a8ea-2d94377e5902.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:07:14",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM Simulation",
+    "Political Bias",
+    "Multi-Agent Debate",
+    "Self-Fine-Tuning",
+    "Echo Chamber",
+    "Attitude Change",
+    "QLoRA",
+    "DPO"
+   ],
+   "field": "多智能体仿真与AI对齐",
+   "innovations": [
+    "发现LLM辩论智能体系统性收敛于基座模型内在偏见而非党派身份",
+    "提出自生成数据驱动的自动政治立场微调方法（self-fine-tuning）",
+    "首次用受控实验证伪LLM模拟中的回声室效应"
+   ],
+   "benchmarks": [
+    "MMLU",
+    "Hellaswag"
+   ]
+  }
+ }
 }

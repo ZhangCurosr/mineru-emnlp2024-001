@@ -3,5 +3,32 @@
  "batch_id": "6da88a79-a13f-48f0-968c-fc3983ada04b",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 01:41:41",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2126e5a2-f67f-417e-b535-f1ef45aef90a.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2126e5a2-f67f-417e-b535-f1ef45aef90a.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:05:41",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Vision-Language Models",
+    "Efficient Transfer Learning",
+    "Prompt Tuning",
+    "Adapter Tuning",
+    "Domain Generalization",
+    "Few-shot Classification",
+    "Transfer Difficulty"
+   ],
+   "field": "视觉-语言模型高效微调",
+   "innovations": [
+    "提出基于相对迁移难度(RTD)的VPT+TA组合分析与自适应集成方法APEX",
+    "利用类距离驱动预/后适配器特征集成系数，实现难度无关的统一适配",
+    "揭示视觉特征类可分性决定TPT过拟合风险，提出线性文本适配器优于瓶颈结构的经验发现"
+   ],
+   "benchmarks": [
+    "Base-to-Novel 11 datasets",
+    "Cross-dataset (ImageNet→10 targets)",
+    "Domain Generalization (ImageNet-A/R/Sketch/V2)"
+   ]
+  }
+ }
 }

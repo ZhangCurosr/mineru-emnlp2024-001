@@ -3,5 +3,31 @@
  "batch_id": "5f313ecc-de4a-421f-ae7a-d637e516a702",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 02:45:37",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2fb2d10e-c168-4cf6-9d37-6d2a3ef9481e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:07:45",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "social context grounding",
+    "political discourse",
+    "pragmatic understanding",
+    "discourse contextualization",
+    "stance-like tasks",
+    "LLM evaluation",
+    "vague text disambiguation"
+   ],
+   "field": "语用理解与政治NLP",
+   "innovations": [
+    "将社会语境grounding操作化为Target Entity-Sentiment与Vague Text Disambiguation两类语用任务并提供benchmark",
+    "证明显式图结构模型（DCF）优于文本拼接与LLM上下文学习但远逊于人类",
+    "构造hard negative与unseen party/event分裂以严格检验语用泛化"
+   ],
+   "benchmarks": [
+    "Target Entity and Sentiment Detection",
+    "Vague Text Disambiguation"
+   ]
+  }
+ }
 }

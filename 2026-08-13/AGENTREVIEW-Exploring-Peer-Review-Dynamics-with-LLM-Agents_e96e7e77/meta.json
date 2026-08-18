@@ -4,5 +4,28 @@
  "title": "AGENTREVIEW-Exploring-Peer-Review-Dynamics-with-LLM-Agents",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 05:39:29",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b7a6e970-34cf-49a8-a16d-a7170a7d95a9.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/b7a6e970-34cf-49a8-a16d-a7170a7d95a9.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:11:26",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "peer review simulation",
+    "LLM agents",
+    "bias quantification",
+    "multi-agent modeling",
+    "academic publishing"
+   ],
+   "field": "学术评审机制仿真",
+   "innovations": [
+    "首个 LLM 驱动的同行评审多智能体仿真框架",
+    "量化五大社会学偏见在评审中的传导效应",
+    "生成大规模可控变量评审数据集"
+   ],
+   "benchmarks": [
+    "ICLR 2020-2023 submissions"
+   ]
+  }
+ }
 }

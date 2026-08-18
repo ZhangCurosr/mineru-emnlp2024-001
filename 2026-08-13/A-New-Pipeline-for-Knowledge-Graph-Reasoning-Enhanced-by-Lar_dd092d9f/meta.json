@@ -4,5 +4,29 @@
  "title": "A-New-Pipeline-for-Knowledge-Graph-Reasoning-Enhanced-by-Lar",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 05:39:32",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/337a3d82-5b8e-4d7e-ab60-c88b53bcac2e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/337a3d82-5b8e-4d7e-ab60-c88b53bcac2e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:10:43",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Knowledge Graph Reasoning",
+    "Large Language Models",
+    "Knowledge Alignment",
+    "Zero-shot/Fine-tuning-free",
+    "Entity Reranking"
+   ],
+   "field": "知识图谱推理与大型语言模型融合",
+   "innovations": [
+    "提出无需微调LLM的三阶段流水线（知识对齐-推理-重排序）以增强传统KGR",
+    "设计封闭式、开放式、半封闭式三种知识对齐策略以适应不同KG特性",
+    "通过案例分析揭示LLM细粒度语义如何被KGR模型嵌入空间捕获并提升性能"
+   ],
+   "benchmarks": [
+    "WN18RR",
+    "FB15K-237"
+   ]
+  }
+ }
 }

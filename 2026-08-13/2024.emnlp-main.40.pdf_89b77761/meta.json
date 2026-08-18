@@ -3,5 +3,36 @@
  "batch_id": "89b77761-6833-4d02-95be-62d05b1a6fd2",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 02:58:53",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec31585f-9fd6-4402-8ec2-4aa2321fafc1.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ec31585f-9fd6-4402-8ec2-4aa2321fafc1.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:08:16",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "tokenization",
+    "language modeling",
+    "byte-pair encoding",
+    "subword tokenization",
+    "compression",
+    "token count"
+   ],
+   "field": "分词与语言表示",
+   "innovations": [
+    "提出PATHPIECE分词器实现最优分割以控制CTC变量",
+    "系统分解分词三阶段并验证压缩假说不成立"
+   ],
+   "benchmarks": [
+    "lm-evaluation-harness",
+    "arc_easy",
+    "copa",
+    "piqa",
+    "mathqa",
+    "sciq",
+    "race",
+    "qa4mre",
+    "wsc273"
+   ]
+  }
+ }
 }

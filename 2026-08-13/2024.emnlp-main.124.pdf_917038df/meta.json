@@ -3,5 +3,41 @@
  "batch_id": "917038df-5304-47a2-9a33-7437cc3b7aa9",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 02:59:17",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2126e5a2-f67f-417e-b535-f1ef45aef90a.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/2126e5a2-f67f-417e-b535-f1ef45aef90a.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:05:45",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "Vision-Language Models",
+    "Efficient Transfer Learning",
+    "Prompt Tuning",
+    "Adapter Tuning",
+    "Domain Adaptation",
+    "CLIP",
+    "Few-shot Classification"
+   ],
+   "field": "视觉-语言模型高效微调",
+   "innovations": [
+    "提出APEX，结合VPT与TA实现对不同迁移难度域的自适应适配",
+    "基于预训练类中心距离的自监督自适应ensemble系数，无需额外标注",
+    "首次系统分析prompt/adapter在不同RTD域上的行为差异并给出设计原则"
+   ],
+   "benchmarks": [
+    "ImageNet",
+    "EuroSAT",
+    "DTD",
+    "FGVC Aircraft",
+    "SUN397",
+    "Stanford Cars",
+    "Caltech101",
+    "OxfordPets",
+    "Flowers102",
+    "Food101",
+    "UCF101",
+    "ImageNet-A/V2/R/Sketch"
+   ]
+  }
+ }
 }

@@ -3,5 +3,32 @@
  "batch_id": "0af7858e-773d-48d3-9f12-dcc863e6df06",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 01:41:43",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:06:35",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "有害梗图检测",
+    "低资源学习",
+    "多模态大模型",
+    "代理",
+    "检索增强生成",
+    "思维链",
+    "few-shot"
+   ],
+   "field": "多模态有害内容检测",
+   "innovations": [
+    "无梯度低资源代理框架LOREHM，首次从gradient-free视角解决有害梗图检测",
+    "外向外向检索投票与内向外向知识修订双轨互补策略",
+    "错误驱动的动态洞察集管理（ADD/DOWNVOTE/UPVOTE/EDIT四操作）"
+   ],
+   "benchmarks": [
+    "HarM",
+    "FHM (Hateful Memes Challenge)",
+    "MAMI"
+   ]
+  }
+ }
 }

@@ -3,5 +3,31 @@
  "batch_id": "26581034-793a-49ff-a25b-daa6c222db78",
  "token": "sk-LV19Ft0NN...",
  "created_at": "2026-08-13 02:46:08",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:05:43",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "KBQA",
+    "LLM Agent",
+    "SPARQL",
+    "多角色协作",
+    "少样本学习",
+    "知识图谱问答"
+   ],
+   "field": "知识图谱问答",
+   "innovations": [
+    "首次提出多角色LLM Agent协作框架完成KBQA全流程四阶段",
+    "设计通用者-决策者-顾问三角色分工机制解耦复杂子任务",
+    "提出模板生成+URI候选填充策略提升SPARQL生成稳定性"
+   ],
+   "benchmarks": [
+    "LC-QuAD 1.0",
+    "QALD-9",
+    "YAGO-QA"
+   ]
+  }
+ }
 }

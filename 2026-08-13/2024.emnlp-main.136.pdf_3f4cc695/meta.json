@@ -3,5 +3,31 @@
  "batch_id": "3f4cc695-7bd8-458b-9004-bd18c712c285",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 02:46:29",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:06:40",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "有害模因检测",
+    "低资源学习",
+    "多模态大模型",
+    "Agent",
+    "检索增强生成",
+    "少样本学习"
+   ],
+   "field": "多模态内容安全与有害信息检测",
+   "innovations": [
+    "首次从gradient-free视角利用LMM agent解决低资源有害模因检测",
+    "提出RSA+MIA双轨agent框架实现向外检索与向内知识修正的互补增强",
+    "在三个基准数据集上超越现有SOTA方法，显著提升few-shot检测性能"
+   ],
+   "benchmarks": [
+    "HarM",
+    "FHM",
+    "MAMI"
+   ]
+  }
+ }
 }

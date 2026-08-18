@@ -3,5 +3,34 @@
  "batch_id": "2fa59ce6-eaf5-4b98-a9b6-4924781c1847",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 02:45:31",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab4967d2-4aac-4b14-abf0-bcd46cca0947.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab4967d2-4aac-4b14-abf0-bcd46cca0947.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:06:06",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "大语言模型去偏",
+    "提示工程",
+    "系统2思维",
+    "黑盒对齐",
+    "StereoSet",
+    "Regard",
+    "公平性评估"
+   ],
+   "field": "大语言模型公平性与提示工程",
+   "innovations": [
+    "提出面向终端用户的迭代提示去偏框架，无需访问模型内部即可显著降低偏见",
+    "首创蕴含提示机制，让模型自主推断偏见含义再重写无偏文本",
+    "系统验证PP/SR/IP三类策略在多LLM与多基准上的公平-性能权衡"
+   ],
+   "benchmarks": [
+    "StereoSet",
+    "Regard",
+    "RealToxicityPrompts",
+    "TruthfulQA",
+    "BoolQ"
+   ]
+  }
+ }
 }

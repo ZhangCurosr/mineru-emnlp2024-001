@@ -3,5 +3,31 @@
  "batch_id": "d66b3f71-f005-4394-8c25-f6ee02dc8712",
  "token": "sk-Ar06zcDAy...",
  "created_at": "2026-08-12 16:05:27",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/401ade03-abb2-4b5f-93bb-17a76f21becd.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:04:11",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "KBQA",
+    "LLM Agent",
+    "Multi-Role",
+    "Knowledge Graph",
+    "SPARQL",
+    "Few-Shot Learning"
+   ],
+   "field": "知识图谱问答",
+   "innovations": [
+    "首个多角色LLM代理统一框架覆盖KBQA全流程四阶段，无需训练任务特定模型",
+    "将知识图谱作为代理长期记忆模块，结合少样本提示实现高精度实体/关系链接",
+    "通过executor预过滤+LLM选择两级策略降低SPARQL候选搜索空间"
+   ],
+   "benchmarks": [
+    "LC-QuAD 1.0",
+    "QALD-9",
+    "YAGO-QA"
+   ]
+  }
+ }
 }

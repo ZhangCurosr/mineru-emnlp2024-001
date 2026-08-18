@@ -3,5 +3,30 @@
  "batch_id": "de38f261-064f-4023-b04e-50964487c687",
  "token": "sk-n7iJ0Z1Ol...",
  "created_at": "2026-08-13 02:45:35",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab315c60-4e84-4b74-a8ea-2d94377e5902.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/ab315c60-4e84-4b74-a8ea-2d94377e5902.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:07:32",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "LLM仿真",
+    "政治偏见",
+    "多智能体辩论",
+    "自我微调",
+    "回声室效应",
+    "DPO"
+   ],
+   "field": "LLM行为偏差与仿真可信度",
+   "innovations": [
+    "发现LLM辩论代理系统性趋同于基座模型政治偏见，违背人类回声室效应",
+    "提出仅用自生成数据的QLoRA轻量微调方法定向操纵LLM立场",
+    "引入DPO增强微调实现强立场偏移同时保持通用基准性能"
+   ],
+   "benchmarks": [
+    "MMLU",
+    "HellaSwag"
+   ]
+  }
+ }
 }

@@ -3,5 +3,30 @@
  "batch_id": "8562c3b4-3608-4834-b46f-ba56a1c554d3",
  "token": "sk-9BdnpHblK...",
  "created_at": "2026-08-13 02:45:50",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7a20fe33-1c1e-4acf-9fbf-de653e09f54e.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/7a20fe33-1c1e-4acf-9fbf-de653e09f54e.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:08:43",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "hallucination detection",
+    "vision-language navigation",
+    "uncertainty communication",
+    "human-AI collaboration",
+    "grounded instruction generation",
+    "synthetic data generation"
+   ],
+   "field": "视觉-语言导航与人机协作",
+   "innovations": [
+    "首次证明长程任务中语言型不确定性沟通（错误高亮+修正建议）可显著提升人类导航表现",
+    "提出双模型级联的幻觉检测与类型分类架构，结合对比学习与合成数据",
+    "设计按需揭示候选修正的交互界面，避免概率数值的误读与信息过载"
+   ],
+   "benchmarks": [
+    "R2R",
+    "Matterport3D"
+   ]
+  }
+ }
 }

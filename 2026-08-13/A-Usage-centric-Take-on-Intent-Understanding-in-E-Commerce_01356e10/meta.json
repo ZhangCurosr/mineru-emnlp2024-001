@@ -4,5 +4,31 @@
  "title": "A-Usage-centric-Take-on-Intent-Understanding-in-E-Commerce",
  "token": "sk-Ir4JqYCnj...",
  "created_at": "2026-08-13 04:50:54",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e3217c8c-0222-49f7-b481-0f8cc28b1ea8.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/e3217c8c-0222-49f7-b481-0f8cc28b1ea8.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:12:13",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "意图理解",
+    "知识图谱",
+    "电子商务",
+    "用途为中心",
+    "FolkScope",
+    "Product Recovery Benchmark"
+   ],
+   "field": "电商意图理解与知识图谱",
+   "innovations": [
+    "提出用途为中心意图理解范式，将意图定义为独立于产品本体的述谓短语",
+    "引入Product Recovery Benchmark及MRR_max评估框架，隔离产品特定混淆因素",
+    "发现并量化FolkScope的属性歧义性和类别刚性两个关键弱点"
+   ],
+   "benchmarks": [
+    "Product Recovery Benchmark",
+    "bought-product-recovery",
+    "co-bought-product-recovery"
+   ]
+  }
+ }
 }

@@ -3,5 +3,30 @@
  "batch_id": "aa995928-2653-46f8-a1ec-0f3549f072aa",
  "token": "sk-7NOZt17oN...",
  "created_at": "2026-08-13 02:59:39",
- "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip"
+ "result_url": "https://cdn-mineru.openxlab.org.cn/pdf/2026-08-13/8553e32f-6295-4bab-8555-27a6d626e11f.zip",
+ "summarized": {
+  "model": "agnes-2.5-flash",
+  "at": "2026-08-18 06:07:00",
+  "chunks": 1,
+  "meta": {
+   "keywords": [
+    "低资源有害meme检测",
+    "多模态大模型agent",
+    "检索增强生成",
+    "思维链推理",
+    "无梯度学习"
+   ],
+   "field": "多模态内容安全检测",
+   "innovations": [
+    "首次提出无梯度agent驱动的低资源有害meme检测框架LOREHM",
+    "设计RSA与MIA双向增强策略实现向外检索与向内知识修正的结合",
+    "通过错误轨迹驱动的洞察提取机制提升few-shot场景下的有害性判断能力"
+   ],
+   "benchmarks": [
+    "HarM",
+    "FHM",
+    "MAMI"
+   ]
+  }
+ }
 }
